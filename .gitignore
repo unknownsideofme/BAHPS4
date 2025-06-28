@@ -1,0 +1,15 @@
+.venv/
+*.tif
+*.shp
+*.geojson
+*/cache
+*/__pycache__
+*.env
+
+**/.env
+*/.env
+./testing_lib/credentials.json
+*credentials.json
+./testing_lib/token.pickle
+*token.pickle
+

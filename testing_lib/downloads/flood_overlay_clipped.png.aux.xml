@@ -1,0 +1,38 @@
+<PAMDataset>
+  <Metadata>
+    <MDI key="Software">Matplotlib version3.8.4, https://matplotlib.org/</MDI>
+  </Metadata>
+  <Metadata domain="IMAGE_STRUCTURE">
+    <MDI key="INTERLEAVE">PIXEL</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">49</MDI>
+      <MDI key="STATISTICS_MAXIMUM">254</MDI>
+      <MDI key="STATISTICS_MEAN">210.91395579836</MDI>
+      <MDI key="STATISTICS_STDDEV">83.466268635429</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">51.92</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="2">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_MAXIMUM">254</MDI>
+      <MDI key="STATISTICS_MEAN">211.80916314875</MDI>
+      <MDI key="STATISTICS_STDDEV">81.675413628752</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">51.92</MDI>
+    </Metadata>
+  </PAMRasterBand>
+  <PAMRasterBand band="3">
+    <Metadata>
+      <MDI key="STATISTICS_APPROXIMATE">YES</MDI>
+      <MDI key="STATISTICS_MINIMUM">38</MDI>
+      <MDI key="STATISTICS_MAXIMUM">190</MDI>
+      <MDI key="STATISTICS_MEAN">181.25782220015</MDI>
+      <MDI key="STATISTICS_STDDEV">17.25442160252</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">51.92</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
