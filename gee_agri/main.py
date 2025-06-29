@@ -323,7 +323,7 @@ plt.show()
 
 # # ---------------- Step 1: Authenticate & Initialize ----------------
 # ee.Authenticate()
-# ee.Initialize(project='ee-harshita200525') 
+# ee.Initialize() 
 
 # # ---------------- Step 2: Load State Boundary ----------------
 # # GEE GAUL Level 1 = States
