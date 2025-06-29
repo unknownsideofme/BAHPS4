@@ -1,22 +1,22 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[112]:
+
+
 import os
-import time
-import io
-import pickle
-
-import numpy as np
-import matplotlib.pyplot as plt
-import rasterio
-from rasterio.warp import reproject, Resampling
-
+import json
+import geopandas as gpd
+import requests
+import osmnx as ox
+from dotenv import load_dotenv
+from sentinelsat import geojson_to_wkt
+from oauthlib.oauth2 import BackendApplicationClient
+from requests_oauthlib import OAuth2Session
 from pydantic import BaseModel
-import osmnx as ox    
-import ee
 
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaIoBaseDownload
 
+# In[113]:
 
 
 class ExtractBox(BaseModel):
@@ -43,8 +43,32 @@ def extract_bbox(**kwargs):
         "file_path": filepath,
         "bbox": [minx, miny, maxx, maxy]
     }
-    
 
+
+# In[114]:
+
+
+bbox = extract_bbox(location="Uttarakhand", distance=1000, filepath="uttarakhand_.geojson")["bbox"]
+
+
+# In[115]:
+
+
+bbox
+
+
+# In[116]:
+
+
+import ee
+ee.Authenticate(scopes=['https://www.googleapis.com/auth/drive',
+                        'https://www.googleapis.com/auth/earthengine'])
+
+
+# In[117]:
+
+
+import time
 def task_status_view(task):
     
     # Monitor task state every 10 seconds
@@ -58,18 +82,33 @@ def task_status_view(task):
         return True
     else:
         return False
-    
 
 
-#Authenticate and initialize
+# In[118]:
+
+
+import ee
+
+# Step 1: Authenticate and initialize
 def ee_auth():
     ee.Authenticate(scopes=[
         'https://www.googleapis.com/auth/drive',
         'https://www.googleapis.com/auth/earthengine'
     ])
     ee.Initialize()
-    
 
+
+# In[119]:
+
+
+import os
+import io
+import time
+import pickle
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 
 # 🔐 Step 1: One-time login + token reuse
 def get_drive_service(
@@ -202,6 +241,9 @@ def download_from_drive(
             raise FileNotFoundError(f"❌ File '{filename}' not found in Drive after {retries} attempts.")
 
 
+# In[120]:
+
+
 class GetData( BaseModel ):
     bbox: list
     filepath: str
@@ -246,6 +288,15 @@ def get_srtm_dem( **kwargs):
 
 
 
+# In[121]:
+
+
+file1 = get_srtm_dem(bbox=bbox, filepath="uttarakhand_dem")["filepath"]
+
+
+# In[122]:
+
+
 def get_landcover(**kwargs):
     input = GetData(**kwargs)
     bbox = input.bbox
@@ -277,6 +328,37 @@ def get_landcover(**kwargs):
         
     return {"filepath": filepath}
 
+
+
+# In[123]:
+
+
+bbox
+
+
+# In[124]:
+
+
+file2 = get_landcover(bbox=bbox, filepath="uttarakhand_lulc")["filepath"]
+
+
+# In[125]:
+
+
+import rasterio
+def print_raster_info(path, name):
+    with rasterio.open(path) as src:
+        print(f"{name}:")
+        print("  CRS:", src.crs)
+        print("  Bounds:", src.bounds)
+        print("  Resolution:", src.res)
+        print("  Shape:", src.width, "x", src.height)
+        print()
+        
+print_raster_info(file2 , "LULC")
+
+
+# In[126]:
 
 
 def get_ndvi_data(**kwargs):
@@ -315,6 +397,14 @@ def get_ndvi_data(**kwargs):
     return {"filepath": filepath}
 
 
+# In[127]:
+
+
+get_ndvi_data(bbox=bbox, filepath="uttarakhand_ndvi")["filepath"]
+
+
+# In[128]:
+
 
 def get_rainfall( **kwargs):
     input = GetData(**kwargs)
@@ -336,9 +426,9 @@ def get_rainfall( **kwargs):
     # Export to Google Drive
     task = ee.batch.Export.image.toDrive(
         image=total_rainfall.clip(bbox_geom),
-        description=filepath,
+        description='uttarakhand_rainfall',
         folder='earthengine',
-        fileNamePrefix=filepath,
+        fileNamePrefix='uttarakhand_rainfall',
         scale=500,
         region=bbox,
         maxPixels=1e9
@@ -352,6 +442,19 @@ def get_rainfall( **kwargs):
         filepath = os.path.join(base_name, filepath + ".tif")
         
     return {"filepath": filepath}
+
+
+# In[129]:
+
+
+file3 = get_rainfall(bbox=bbox, filepath="uttarakhand_rainfall")["filepath"]
+
+
+# In[180]:
+
+
+import os
+import rasterio
 
 def export_classified_raster(classified_array, reference_meta, output_path):
     """
@@ -380,6 +483,14 @@ def export_classified_raster(classified_array, reference_meta, output_path):
     print(f"✅ Exported classified raster to {output_path}")
 
 
+# In[181]:
+
+
+import rasterio
+from rasterio.warp import reproject, Resampling
+import numpy as np
+import matplotlib.pyplot as plt
+
 class GenerateFloodRiskMapInput(BaseModel):
     dem_path: str
     ndvi_path: str
@@ -392,10 +503,10 @@ def generate_flood_risk_map(
     **kwargs
 ):
     input = GenerateFloodRiskMapInput(**kwargs)
-    dem_path = input.dem_path+".tif"
-    ndvi_path = input.ndvi_path+".tif"
-    rainfall_path = input.rainfall_path+".tif"
-    lulc_path = input.lulc_path+".tif"
+    dem_path = input.dem_path
+    ndvi_path = input.ndvi_path
+    rainfall_path = input.rainfall_path
+    lulc_path = input.lulc_path
     classification_bins = input.classification_bins
     plot = input.plot
     
@@ -474,6 +585,20 @@ def generate_flood_risk_map(
     return {"classified_raster": os.path.join(base_output, "output.tif")}
 
 
+# In[182]:
+
+
+path = generate_flood_risk_map(
+    dem_path="downloads/uttarakhand_dem.tif",
+    ndvi_path="downloads/uttarakhand_ndvi.tif",
+    rainfall_path="downloads/uttarakhand_rainfall.tif",
+    lulc_path="downloads/uttarakhand_lulc.tif"
+)
+
+
+# In[183]:
+
+
 import rasterio
 from rasterio.mask import mask
 from rasterio.transform import array_bounds
@@ -496,9 +621,7 @@ def visualize_flood_risk_folium(
     **kwargs
 ):
     input = VisualizeFloodRiskInput(**kwargs)
-    if not raster_path.lower().endswith('.tif'):
-        raster_path = raster_path + '.tif'
-
+    raster_path = input.raster_path
     boundary_geojson_path = input.boundary_geojson_path
     output_png_path = input.output_png_path
     output_html_path = input.output_html_path
@@ -549,3 +672,40 @@ def visualize_flood_risk_folium(
     m.save(output_html_path)
 
     print(f"✅ Map created: {output_html_path}")
+
+
+# In[185]:
+
+
+visualize_flood_risk_folium(
+    raster_path="./outputs/output.tif",
+    boundary_geojson_path="./uttarakhand_.geojson",
+    output_png_path="./outputs/flood_overlay_clipped.png",
+    output_html_path="./outputs/flood_map_osm.html"
+)
+
+
+# In[188]:
+
+
+get_ipython().system('pip freeze --exclude-editable > requirement.txt')
+
+
+# In[191]:
+
+
+get_ipython().system('pip install pipreqs')
+
+
+
+# In[195]:
+
+
+get_ipython().system('jupyter nbconvert --to script test3.ipynb')
+
+
+# In[ ]:
+
+
+
+
