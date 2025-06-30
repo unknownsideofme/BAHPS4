@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0914b2486b21fc6429552d365adc2b12 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    
+            
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_0914b2486b21fc6429552d365adc2b12" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0914b2486b21fc6429552d365adc2b12 = L.map(
+                "map_0914b2486b21fc6429552d365adc2b12",
+                {
+                    center: [25.372915199955884, 82.92572966528334],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f446a13b6c4e41615d1666e7fb1872af = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f446a13b6c4e41615d1666e7fb1872af.addTo(map_0914b2486b21fc6429552d365adc2b12);
+        
+    
+            var image_overlay_2e3cf118c5cbb77251e66ecf8adb8ce2 = L.imageOverlay(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAABeCAYAAAAdb1tJAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjguNCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8fJSN1AAAACXBIWXMAAA9hAAAPYQGoP6dpAAAE2klEQVR4nO2dS24bMQyGaaFnCdB1gMBr3yLIBQx00YvkALlA4Ft4XRQoujTQw4y7COQoMjWinqQ0/FYxnBlz9IukRGlmABSFm2U5X5flfOW2QzKG24BcuIW1nYvbDoxv3AbUgtK4xhx2LX5rWc7XWueugRhDMGzj2Qar5RWlAmB2SBJ1iPArNcy5SLJvmvBbG18kiidiYdiPNj1gETXUq4057Hr0+JwcWJo3e+bd4vBbMzRKCmEYqdeKDajqW3VPtqeuGRzqkdJFA6hnI+e1ZnlqzOARxGuFhEFdcoxPNbj2dKQWWDRpZWPv6U7zgZI0MS0co9JeZF2QVKGkQxlrpHayd3i4AgC8wL/bcVk5dcbe3QOKM1D/Z1nOVyuojxYfBBKb0/rjlJM5fvm+aDKde+zWSRmkxaIi1gHUU4XgCuMKjIl9Mkd4Xt5uf9+dK8cA9dIybPvlrMliIvoki6qC1iFUkYu1r/XQ0GeAxJyqgsoDy7lDrKcqn9jw+7i/BAdR6qkDEhsRJ3mqFh34oWig89RBSHGo7JxqzGGnniuT4oGSCtue1DYuLj5oGG5LjtOQD1DxeMgRVeepgslNbSRR1UvHQosPwmmaU11U3L50Gf0qfUl1ItL9IfnmKC2wi+RJBX0Vcix8cVXUyTDmsCPn1Mf9paUtSgVO5gjv8HAli/rn1/eW9igV0fA7GUnhVxkHVFRdThsTu38p6Km6CD4u0fCrwo4HKaeqsGOhA6WJsPeo6g1SCGs3IGG3OUiDJKqdtz7uL1MXIayAVOFcwbnFdlPkpnPqyRyjd5H5YlHuOuNmVVT3NruZar++mNjn2PEA/N4JgNsa9MDZS4WlHufnXE6Bo0tvs4tpaRFGuYT1Rb0Lv63zZ2oYbxX2n5c3EeGzBeRVmtlHvpYcD5YUegESig81BZU86HI9WLo36x6lAije21v81ecshQ6okVspHinZawE+q0tromHf2euy0yVsymTbOXlfb+T/VytKPZ6U7YZ1zrztlgZLsY1uPJd5MQf0b/cYS+7DsgCIO/S3EI59UakDptennwAA8Pf3jyazhpynnaqogNdwKaK+Pv1sJmYJm9+hn1uEkCooQCSnziRozRUVyYICrMxTZxIUALLyZQjJggJsbJEcy5c1xZbCZrezUNZSQ0h4o8UamxXVUuKdrriSRN68qDUKDpIEBcgQVXpZrwclobsHN1Hdp0RL63kpUIvvKUUG7HjJoM9tT8Wv2Y649oqJu7bpLPSd+34YLqrkVF9A//OMuxGxVRcpHtxknjqSiDVy4/PydjuPhNeNBUWt9YK70fJzyNsw8X0PdVd6OF8+f/fGxDVDUgSivI2RuobYmlp1YWxNlkPYLwOlXAMo7++OdRxOj6YMkkrOvfbMoxZU+yGKaCO/AXmNx/1FVJG/WkXpcwuHLC/sgbTpW9Uy4Uij3pnpUvuNDZpG7wzS7O9W0J/lwSB+7VtiDZi9kUfNt7YUKrGjshs0qqgA8sKuhX09VWrDAMgMrRS6i4p5Zg1h3SkV9Xy+aNSHdkgfH3Q1rGWoDb3+GeBDLAlLYr3ofqG1hHWnSaEasmRvasnwoir3dM+pVDF0L1Q+rL3dDZ2pHqyeGoZtSoMt11GFUkHXYRE1ZeFcSYdF1JhX5n6nfMBaUVKBFIXIf7uGCHCiPQAvAAAAAElFTkSuQmCC",
+                [[25.1618111081878, 82.66297244467837], [25.584019291723973, 83.1884868858883]],
+                {
+  "opacity": 0.6,
+  "interactive": true,
+  "crossOrigin": false,
+  "zindex": 1,
+}
+            );
+        
+    
+            image_overlay_2e3cf118c5cbb77251e66ecf8adb8ce2.addTo(map_0914b2486b21fc6429552d365adc2b12);
+        
+    
+            var layer_control_952d813ec8f56c98edb8a8a4ad16c85a_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_f446a13b6c4e41615d1666e7fb1872af,
+                },
+                overlays :  {
+                    "Flood Risk (Clipped)" : image_overlay_2e3cf118c5cbb77251e66ecf8adb8ce2,
+                },
+            };
+            let layer_control_952d813ec8f56c98edb8a8a4ad16c85a = L.control.layers(
+                layer_control_952d813ec8f56c98edb8a8a4ad16c85a_layers.base_layers,
+                layer_control_952d813ec8f56c98edb8a8a4ad16c85a_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_0914b2486b21fc6429552d365adc2b12);
+
+        
+</script>
+</html>
