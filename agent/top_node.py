@@ -2,7 +2,7 @@ from typing import Literal, Union
 from langchain_core.runnables import Runnable
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI  # ✅ Updated import
 
 # Load both existing agents
 from agent import agent as tool_agent
@@ -11,10 +11,10 @@ from workflow_agent import chain as reasoning_graph_chain
 # LLM for router
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
-# ✳️ Classification logic
+# ✳ Classification logic
 def classify_query(query: str) -> Literal["tools", "reasoning"]:
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "You are a router that classifies geospatial queries. Respond with only one word: `tools` or `reasoning`."),
+        ("system", "You are a router that classifies geospatial queries. Respond with only one word: tools or reasoning."),
 
         ("user", "Query: I want to download the NDVI for Karnataka."),
         ("assistant", "tools"),
@@ -53,7 +53,7 @@ def router_agent(query: str) -> str:
         raise ValueError(f"Unknown route: {route}")
 
 # ✅ Final: Run
-if __name__ == "__main__":
-    query = input("Enter your geospatial query: ")
-    answer = router_agent(query)
-    print("\n[ANSWER]\n", answer)
+# if _name_ == "_main_":
+#     query = input("Enter your geospatial query: ")
+#     answer = router_agent(query)
+#     print("\n[ANSWER]\n", answer)
