@@ -1,0 +1,61 @@
+3.
+Module: Classifying Vector Data
+
+Classifying vector data allows you to assign different symbols to features
+(different objects in the same layer), depending on their attributes. This
+allows someone who uses the map to easily see the attributes of various
+features.
+3.1. Lesson: Vector Attribute Data
+3.1.1.
+★☆☆
+Follow Along: Viewing Layer Attributes
+3.1.2.
+★☆☆
+Try Yourself: Exploring Vector Data Attributes
+3.1.3. In Conclusion
+3.1.4. What’s Next?
+3.2. Lesson: Labels
+3.2.1.
+★☆☆
+Follow Along: Using Labels
+3.2.2.
+★☆☆
+Follow Along: Changing Label Options
+3.2.3.
+★★☆
+Follow Along: Using Labels Instead of Layer Symbology
+3.2.4.
+★★☆
+Try Yourself: Customize the Labels
+3.2.5.
+★★☆
+Follow Along: Labeling Lines
+3.2.6.
+★★★
+Follow Along: Data Defined Settings
+3.2.7.
+★★★
+Try Yourself: Using Data Defined Settings
+3.2.8.
+★★★
+Further Possibilities With Labeling
+3.2.9. In Conclusion
+3.2.10. What’s Next?
+3.3. Lesson: Classification
+3.3.1.
+★☆☆
+Follow Along: Classifying Nominal Data
+3.3.2.
+★☆☆
+Try Yourself: More Classification
+3.3.3.
+★★☆
+Follow Along: Ratio Classification
+3.3.4.
+★★☆
+Try Yourself: Refine the Classification
+3.3.5.
+★★★
+Follow Along: Rule-based Classification
+3.3.6. In Conclusion
+3.3.7. What’s Next?

@@ -1,0 +1,44 @@
+4.
+Module: Laying out the Maps
+
+In this module, you’ll learn how to use the QGIS print layout to produce
+quality maps with all the requisite map components.
+4.1. Lesson: Using Print Layout
+4.1.1.
+★☆☆
+Follow Along: The Layout Manager
+4.1.2.
+★☆☆
+Follow Along: Basic Map Composition
+4.1.3.
+★☆☆
+Follow Along: Adding a Title
+4.1.4.
+★☆☆
+Follow Along: Adding a Legend
+4.1.5.
+★★☆
+Follow Along: Customizing Legend Items
+4.1.6.
+★☆☆
+Follow Along: Exporting Your Map
+4.1.7. In Conclusion
+4.2. Lesson: Creating a Dynamic Print Layout
+4.2.1.
+★★☆
+Follow Along: Creating the dynamic map canvas
+4.2.2.
+★★☆
+Follow Along: Creating the dynamic header
+4.2.3.
+★★☆
+Follow Along: Creating labels for the dynamic header
+4.2.4.
+★★☆
+Follow Along: Adding pictures to the dynamic header
+4.2.5.
+★★☆
+Follow Along: Creating the scalebar of the dynamic header
+4.2.6. What’s Next?
+4.3. Assignment 1
+4.3.1. In Conclusion

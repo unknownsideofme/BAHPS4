@@ -1,0 +1,131 @@
+QGIS Training Manual
+
+1. Course Introduction
+1.1. Foreword
+1.2. About the exercises
+2. Module: Creating and Exploring a Basic Map
+2.1. Lesson: An Overview of the Interface
+2.2. Lesson: Adding your first layers
+2.3. Lesson: Navigating the Map Canvas
+2.4. Lesson: Symbology
+3. Module: Classifying Vector Data
+3.1. Lesson: Vector Attribute Data
+3.2. Lesson: Labels
+3.3. Lesson: Classification
+4. Module: Laying out the Maps
+4.1. Lesson: Using Print Layout
+4.2. Lesson: Creating a Dynamic Print Layout
+4.3. Assignment 1
+5. Module: Creating Vector Data
+5.1. Lesson: Creating a New Vector Dataset
+5.2. Lesson: Feature Topology
+5.3. Lesson: Forms
+5.4. Lesson: Actions
+6. Module: Vector Analysis
+6.1. Lesson: Reprojecting and Transforming Data
+6.2. Lesson: Vector Analysis
+6.3. Lesson: Network Analysis
+6.4. Lesson: Spatial Statistics
+7. Module: Rasters
+7.1. Lesson: Working with Raster Data
+7.2. Lesson: Changing Raster Symbology
+7.3. Lesson: Terrain Analysis
+8. Module: Completing the Analysis
+8.1. Lesson: Raster to Vector Conversion
+8.2. Lesson: Combining the Analyses
+8.3. Assignment
+8.4. Lesson: Supplementary Exercise
+9. Module: Plugins
+9.1. Lesson: Installing and Managing Plugins
+9.2. Lesson: Useful QGIS Plugins
+10. Module: Online Resources
+10.1. Lesson: Web Mapping Services
+10.2. Lesson: Web Feature Services
+11. Module: QGIS Server
+11.1. Lesson: Install QGIS Server
+11.2. Lesson: Serving WMS
+12. Module: GRASS
+12.1. Lesson: GRASS Setup
+12.2. Lesson: GRASS Tools
+13. Module: Assessment
+13.1. Create a base map
+13.2. Analyze the data
+13.3. Final Map
+14. Module: Forestry Application
+14.1. Lesson: Forestry Module Presentation
+14.2. Lesson: Georeferencing a Map
+14.3. Lesson: Digitizing Forest Stands
+14.4. Lesson: Updating Forest Stands
+14.5. Lesson: Systematic Sampling Design
+14.6. Lesson: Creating Detailed Maps with the Atlas Tool
+14.7. Lesson: Calculating the Forest Parameters
+14.8. Lesson: DEM from LiDAR Data
+14.9. Lesson: Map Presentation
+15. Module: Database Concepts with PostgreSQL
+15.1. Lesson: Introduction to Databases
+15.2. Lesson: Implementing the Data Model
+15.3. Lesson: Adding Data to the Model
+15.4. Lesson: Queries
+15.5. Lesson: Views
+15.6. Lesson: Rules
+16. Module: Spatial Database Concepts with PostGIS
+16.1. Lesson: PostGIS Setup
+16.2. Lesson: Simple Feature Model
+16.3. Lesson: Import and Export
+16.4. Lesson: Spatial Queries
+16.5. Lesson: Geometry Construction
+17. The QGIS processing guide
+17.1. Introduction
+17.2. An important warning before starting
+17.3. Setting-up the processing framework
+17.4. Running our first algorithm. The  toolbox
+17.5. More algorithms and data types
+17.6. CRSs. Reprojecting
+17.7. Selection
+17.8. Running an external algorithm
+17.9. The processing log
+17.10. The raster calculator. No-data values
+17.11. Vector calculator
+17.12. Defining extents
+17.13. HTML outputs
+17.14. First analysis example
+17.15. Clipping and merging raster layers
+17.16. Hydrological analysis
+17.17. Starting with the model designer
+17.18. More complex models
+17.19. Numeric calculations in the modeler
+17.20. A model within a model
+17.21. Using modeler-only tools for creating a model
+17.22. Interpolation
+17.23. More interpolation
+17.24. Iterative execution of algorithms
+17.25. More iterative execution of algorithms
+17.26. The batch processing interface
+17.27. Models in the batch processing interface
+17.28. Pre- and post-execution script hooks
+17.29. Other programs
+17.30. Interpolation and contouring
+17.31. Vector simplification and smoothing
+17.32. Planning a solar farm
+17.33. Use R scripts in Processing
+17.34. Predicting landslides
+18. Module: Using Spatial Databases in QGIS
+18.1. Lesson: Working with Databases in the QGIS Browser
+18.2. Lesson: Using DB Manager to work with Spatial Databases in QGIS
+18.3. Lesson: Working with SpatiaLite databases in QGIS
+19. Appendix: Contributing To This Manual
+19.1. Downloading Resources
+19.2. Manual Format
+19.3. Adding a Module
+19.4. Adding a Lesson
+19.5. Adding a Section
+19.6. Add a Conclusion
+19.7. Add a Further Reading Section
+19.8. Add a What’s Next Section
+19.9. Using Markup
+19.10. Thank You!
+20. Preparing Exercise Data
+20.1. Create OSM based vector files
+20.2. Create SRTM DEM tiff files
+20.3. Create imagery tiff files
+20.4. Replace tokens

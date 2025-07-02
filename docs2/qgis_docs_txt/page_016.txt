@@ -1,0 +1,19 @@
+10.
+The Style Library
+
+10.1. The Style Manager
+10.1.1. The Style Manager dialog
+10.1.2. Setting a Color Ramp
+10.1.3. Creating a Legend Patch Shape
+10.2. The Symbol Selector
+10.2.1. The symbol layer tree
+10.2.2. Configuring a symbol
+10.3. Setting a label
+10.3.1. Formatting the label text
+10.3.2. Configuring interaction with labels
+10.4. Creating 3D Symbols
+10.4.1. Point Layers
+10.4.2. Line layers
+10.4.3. Polygon Layers
+10.4.4. Shading the texture
+10.4.5. Application example

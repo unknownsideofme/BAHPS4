@@ -1,0 +1,68 @@
+7.
+Module: Rasters
+
+We’ve used rasters for digitizing before, but raster data can also be used
+directly. In this module, you’ll see how it’s done in QGIS.
+7.1. Lesson: Working with Raster Data
+7.1.1.
+★☆☆
+Follow Along: Loading Raster Data
+7.1.2.
+★☆☆
+Follow Along: Create a Virtual Raster
+7.1.3.
+★★★
+Transforming Raster Data
+7.1.4. In Conclusion
+7.1.5. What’s Next?
+7.2. Lesson: Changing Raster Symbology
+7.2.1.
+★☆☆
+Try Yourself:
+7.2.2.
+★☆☆
+Follow Along: Changing Raster Layer Symbology
+7.2.3.
+★☆☆
+Follow Along: Singleband gray
+7.2.4.
+★☆☆
+Follow Along: Singleband pseudocolor
+7.2.5. Follow Along: Changing the transparency
+7.2.6. In Conclusion
+7.2.7. Reference
+7.2.8. What’s Next?
+7.3. Lesson: Terrain Analysis
+7.3.1.
+★☆☆
+Follow Along: Calculating a Hillshade
+7.3.2.
+★☆☆
+Follow Along: Using a Hillshade as an Overlay
+7.3.3. Follow Along: Finding the best areas
+7.3.4.
+★★☆
+Follow Along: Calculating the Slope
+7.3.5.
+★★☆
+Try Yourself: Calculating the aspect
+7.3.6.
+★★☆
+Follow Along: Finding the north-facing aspect
+7.3.7.
+★★☆
+Try Yourself: More criteria
+7.3.8.
+★★☆
+Follow Along: Combining Raster Analysis Results
+7.3.9.
+★★☆
+Follow Along: Simplifying the Raster
+7.3.10.
+★★☆
+Follow Along: Reclassifying the Raster
+7.3.11.
+★☆☆
+Follow Along: Querying the raster
+7.3.12. In Conclusion
+7.3.13. What’s Next?

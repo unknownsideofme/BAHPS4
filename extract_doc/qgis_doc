@@ -1,0 +1,67 @@
+import asyncio
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+from playwright.async_api import async_playwright
+import aiohttp
+import os
+
+# Updated QGIS Training Manual base URL
+BASE_URL = "https://docs.qgis.org/3.40/en/docs/training_manual/"
+DOCS_DIR = "qgis_docs_2"
+
+os.makedirs(DOCS_DIR, exist_ok=True)
+
+async def fetch_doc_links(page):
+    await page.goto(BASE_URL)
+    await page.wait_for_selector('ul.current')
+    content = await page.content()
+    soup = BeautifulSoup(content, "html.parser")
+
+    ul = soup.find("ul", class_="current")
+    links = []
+
+    if not ul:
+        print("No <ul class='current'> found.")
+        return links
+
+    for li in ul.find_all("li"):
+        a_tag = li.find("a")
+        if a_tag and a_tag.has_attr("href"):
+            href = urljoin(BASE_URL, a_tag['href'])
+            links.append(href)
+
+    return list(set(links))  # Remove duplicates
+
+async def fetch_and_save_text(session, url, index):
+    try:
+        async with session.get(url) as response:
+            html = await response.text()
+            soup = BeautifulSoup(html, "html.parser")
+            main_content = soup.find("div", role="main")
+
+            if main_content:
+                text = main_content.get_text(separator="\n", strip=True)
+                filename = os.path.join(DOCS_DIR, f"page_{index:03}.txt")
+                with open(filename, "w", encoding="utf-8") as f:
+                    f.write(text)
+                print(f"✅ Saved: {filename}")
+            else:
+                print(f"⚠️ No main content at {url}")
+    except Exception as e:
+        print(f"❌ Error at {url}: {e}")
+
+async def main():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+        links = await fetch_doc_links(page)
+        await browser.close()
+
+        print(f"🔗 Found {len(links)} links")
+
+        async with aiohttp.ClientSession() as session:
+            tasks = [fetch_and_save_text(session, url, i) for i, url in enumerate(links)]
+            await asyncio.gather(*tasks)
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -1,0 +1,11 @@
+20.
+Working with GPS Data
+
+20.1. Introducing GNSS/GPS Data
+20.1.1. What is GPS?
+20.1.2. Transferring or loading GPS data
+20.2. Live GPS tracking
+20.2.1. GPS toolbar
+20.2.2. GPS Information Panel
+20.2.3. Connect to a Bluetooth GPS for live tracking
+20.2.4. Examples of GPS devices connection in QGIS

@@ -1,0 +1,92 @@
+2.
+Module: Creating and Exploring a Basic Map
+
+In this module, you will create a basic map which will be used later as a basis
+for further demonstrations of QGIS functionality.
+2.1. Lesson: An Overview of the Interface
+2.1.1.
+★☆☆
+Try Yourself: The Basics
+2.1.2.
+★☆☆
+Try Yourself: 1
+2.1.3.
+★☆☆
+Try Yourself: 2
+2.1.4. What’s Next?
+2.2. Lesson: Adding your first layers
+2.2.1.
+★☆☆
+Follow Along: Prepare a map
+2.2.2.
+★☆☆
+Try Yourself:
+2.2.3.
+★☆☆
+Follow Along: Loading vector data from a GeoPackage Database
+2.2.4.
+★☆☆
+Follow Along: Loading vector data from a SpatiaLite Database with the Browser
+2.2.5.
+★★☆
+Try Yourself: Load More Vector Data
+2.2.6. Follow Along: Reordering the Layers
+2.2.7. In Conclusion
+2.2.8. What’s Next?
+2.3. Lesson: Navigating the Map Canvas
+2.3.1.
+★☆☆
+Follow Along: Basic Navigation Tools
+2.3.2. In Conclusion
+2.4. Lesson: Symbology
+2.4.1.
+★☆☆
+Follow Along: Changing Colors
+2.4.2.
+★☆☆
+Try Yourself:
+2.4.3.
+★☆☆
+Follow Along: Changing Symbol Structure
+2.4.4.
+★☆☆
+Try Yourself:
+2.4.5.
+★★☆
+Follow Along: Scale-Based Visibility
+2.4.6.
+★★☆
+Follow Along: Adding Symbol Layers
+2.4.7.
+★★☆
+Try Yourself:
+2.4.8.
+★★☆
+Follow Along: Ordering Symbol Levels
+2.4.9.
+★★☆
+Try Yourself:
+2.4.10.
+★★★
+Try Yourself:
+2.4.11.
+★★☆
+Follow Along: Symbol layer types
+2.4.12.
+★★☆
+Try Yourself:
+2.4.13.
+★★★
+Follow Along: Geometry generator symbology
+2.4.14.
+★★★
+Follow Along: Creating a Custom SVG Fill
+2.4.15.
+★★☆
+Follow Along: Masking
+2.4.16.
+★★☆
+Follow Along: Masking using points symbols
+2.4.17. In Conclusion
+2.4.18. Further Reading
+2.4.19. What’s Next?

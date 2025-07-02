@@ -1,0 +1,55 @@
+17.
+The QGIS processing guide
+
+This module contributed by Victor Olaya and Paolo Cavallini.
+Contents:
+17.1. Introduction
+17.2. An important warning before starting
+17.3. Setting-up the processing framework
+17.4. Running our first algorithm. The  toolbox
+17.5. More algorithms and data types
+17.6. CRSs. Reprojecting
+17.7. Selection
+17.8. Running an external algorithm
+17.9. The processing log
+17.9.1.
+★☆☆
+Follow Along
+17.9.2.
+★★☆
+Follow Along
+17.10. The raster calculator. No-data values
+17.11. Vector calculator
+17.12. Defining extents
+17.13. HTML outputs
+17.14. First analysis example
+17.15. Clipping and merging raster layers
+17.16. Hydrological analysis
+17.17. Starting with the model designer
+17.18. More complex models
+17.19. Numeric calculations in the modeler
+17.20. A model within a model
+17.21. Using modeler-only tools for creating a model
+17.22. Interpolation
+17.23. More interpolation
+17.24. Iterative execution of algorithms
+17.25. More iterative execution of algorithms
+17.26. The batch processing interface
+17.27. Models in the batch processing interface
+17.28. Pre- and post-execution script hooks
+17.29. Other programs
+17.29.1. GRASS
+17.29.2. R
+17.29.3. Others
+17.29.4. Comparison among backends
+17.30. Interpolation and contouring
+17.30.1. Interpolation
+17.30.2. Contour
+17.31. Vector simplification and smoothing
+17.32. Planning a solar farm
+17.33. Use R scripts in Processing
+17.33.1. Adding scripts
+17.33.2. Creating plots
+17.33.3. Create a vector
+17.33.4. Text and graph output from R - syntax
+17.34. Predicting landslides

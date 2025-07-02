@@ -9,8 +9,9 @@ from langchain.memory import ConversationBufferWindowMemory
 # ✅ Your geetools functions and Pydantic models
 from geetools import (
     ExtractBox, extract_bbox, GetData, get_srtm_dem, get_ndvi_data,
-    get_rainfall, get_landcover, GenerateFloodRiskMapInput, generate_flood_risk_map,
-    VisualizeFloodRiskInput, visualize_flood_risk_folium
+    get_rainfall, get_landcover,VisualiseMap , visualise_map ,
+    Analysis, suitability_analysis
+    
 )
 
 # 🌍 Load environment variables
@@ -49,25 +50,51 @@ tools = [
         args_schema=GetData
     ),
     StructuredTool.from_function(
-        name="generate_flood_risk_map",
-        description="Generate classified flood risk map from raster layers",
-        func=generate_flood_risk_map,
-        args_schema=GenerateFloodRiskMapInput
+        name="visualise_map",
+        description="Visualize a raster map with optional overlays",
+        func=visualise_map,
+        args_schema=VisualiseMap
     ),
     StructuredTool.from_function(
-        name="visualize_flood_risk_folium",
-        description="Visualize flood risk GeoTIFF on interactive Folium map",
-        func=visualize_flood_risk_folium,
-        args_schema=VisualizeFloodRiskInput
+        name="analysis_function",
+        description="Perform analysis based on multiple criteria like flood risk , site suitability",
+        func=suitability_analysis,
+        args_schema=Analysis
     )
 ]
 
 # 🧠 System prompt
 system_prompt = """
 You are a geospatial analysis assistant.
--Do not pass .tif inside the filename as an argument only provide the name
-...
+
+You help select raster layers for environmental suitability or flood risk analysis. Each raster has a `weight` (importance) and an `inverse` flag that indicates whether high values are good or bad for the target.
+
+Use reasoning to decide `inverse`:
+- Set `inverse = true` if higher raster values are bad for the target (e.g., high elevation may mean low flood risk).
+- Set `inverse = false` if higher values are good (e.g., vegetation or NDVI — more is better).
+- Think based on the analysis goal (e.g., flood risk vs site suitability).
+
+Do not ask users to supply `.tif` paths — use previously returned results.
+In the analysis function, filenames must include `.tif`.
+
+**IMPORTANT**
+✅ ALWAYS think step-by-step before using a tool.
+✅ First, explain your plan in detail.
+✅ Then choose the appropriate tool.
+
+Example:
+
+User: I want to analyze flood risk for Delhi.
+
+Assistant:
+Step 1: I will extract the bounding box for Delhi.
+Step 2: I will get the DEM, because elevation affects flood risk.
+Step 3: I will also fetch rainfall and landcover data.
+Step 4: Then I will run the analysis with DEM (.tif), rainfall (.tif), and landcover (.tif), with appropriate weights and inverse values.
+
+Let's begin.
 """
+
 
 # 🧠 Memory
 memory = ConversationBufferWindowMemory(
@@ -95,19 +122,19 @@ agent = initialize_agent(
 )
 
 # 🧪 Debugging run
-def debug_run(user_input: str):
-    print(f"\n🔍 Prompt: {user_input}\n")
-    output = agent.invoke({"input": user_input})
-    print("\n✅ Final Answer:\n", output["output"])
+# def debug_run(user_input: str):
+#     print(f"\n🔍 Prompt: {user_input}\n")
+#     output = agent.invoke({"input": user_input})
+#     print("\n✅ Final Answer:\n", output["output"])
 
-# 🚀 CLI
-if __name__ == "__main__":
-    while True:
-        try:
-            user_input = input("\n🧑 User: ")
-            if user_input.lower() in {"exit", "quit"}:
-                print("👋 Goodbye!")
-                break
-            debug_run(user_input)
-        except Exception as e:
-            print("❌ Error:", e)
+# # 🚀 CLI
+# if __name__ == "__main__":
+#     while True:
+#         try:
+#             user_input = input("\n🧑 User: ")
+#             if user_input.lower() in {"exit", "quit"}:
+#                 print("👋 Goodbye!")
+#                 break
+#             debug_run(user_input)
+#         except Exception as e:
+#             print("❌ Error:", e)

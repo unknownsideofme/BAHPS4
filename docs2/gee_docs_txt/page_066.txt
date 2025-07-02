@@ -1,0 +1,36 @@
+The Earth Engine API is composed of objects and methods. Objects represent data
+types such as raster images, vector features, numbers, and strings.
+Each of these objects belongs to a specific class, and each class has a
+strict set of functions available to it.
+Objects and methods are combined in workflow scripts and sent to Earth Engine
+servers for processing. Learn about common object classes and their methods by
+clicking on the following cards to see example procedures.
+The full list of Earth Engine classes and their methods can be found in the
+Client Libraries
+section of the
+API Reference Guide
+(e.g.
+ee.Image.add
+). The same
+reference information is also available under the JavaScript Code Editor
+Docs
+tab.
+Common Earth Engine object classes
+Image
+The fundamental raster data type in Earth Engine.
+ImageCollection
+A set of images.
+Geometry
+The fundamental vector data type in Earth Engine.
+Feature
+A geometry with attributes.
+FeatureCollection
+A set of features.
+Reducer
+An object used to compute statistics or perform aggregations.
+Join
+Combine datasets (Image or Feature collections) based on time, location, or an attribute property.
+Array
+An object for multi-dimensional analyses.
+Chart
+An object for charting properties and spatiotemporal reductions.

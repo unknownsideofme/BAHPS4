@@ -1,0 +1,93 @@
+Getting image data from Earth Engine
+To get image data from Earth Engine to Google Drive, Cloud Storage, or an Earth Engine asset,
+      you can use
+Export
+and the job
+      is handled entirely by Earth Engine.  If your export jobs have scaling issues (e.g. 
+      take longer than a day, return memory or timeout errors) or you're already familiar 
+      with a framework like
+Apache Beam
+,
+Spark
+or
+Dask
+, 
+      you may prefer the data extraction methods described here.  Workflows implemented in these
+      frameworks can be scaled using Google Cloud tools such as
+Dataflow
+or
+Dataproc
+.
+Specifically, this guide describes methods for manually making requests 
+      for image data using
+getPixels
+or
+computePixels
+.  
+      Here, "image data" means multi-dimensional arrays of pixel values with consistent 
+      scale and projection.  The region, scale, projection and/or dimensions are specified 
+      in the request.  The
+ImageFileFormat page
+lists
+      possible output formats.  Output destinations include Cloud Storage or any locally mounted
+      directory.  Manual requests add complexity, but can scale to larger workloads.
+Getting image data from existing assets
+Use
+getPixels
+to get image data from existing Earth Engine assets.  You
+      pass the asset ID directly to the request, so you can't do any computation on the pixels 
+      prior to extracting them.  A block of pixels in the specified region, scale, projection 
+      and format is returned.  The following example demonstrates getting time series of NDVI
+      from a MODIS image collection using
+getPixels
+.
+Run in Google Colab
+View source on GitHub
+Getting image data from computed images
+Use
+computePixels
+to get image data from a computed image, for example a composite.  With
+computePixels
+, 
+      you pass a computed
+ee.Image
+object through the
+expression
+parameter.  A block of computed pixels in the specified region, scale, projection and
+      format is returned.  The following example shows getting patches of multispectral data 
+      from a cloud-free Sentinel-2 composite.
+Run in Google Colab
+View source on GitHub
+Manual parallelization of requests
+Though you can make requests for any purpose in any volume, you may want to parallelize
+      requests for larger workflows.  To make many such requests in parallel, you should use
+      the
+Earth Engine high volume endpoint
+.  
+      The number of parallel requests you can have is set by your
+concurrent 
+        interactive request quota
+.  See the
+Earth 
+          Engine high volume page
+for details on when to use the high volume endpoint.
+Multi-threading
+You can use threads to make concurrrent requests.  This approach is demonstrated in the
+getPixels
+and
+computePixels
+example notebooks.
+Apache Beam
+You can use
+Apache Beam
+pipelines to parallelize 
+      requests.  These pipelines can be run locally or as Google Dataflow jobs.  For examples, see
+this Geo for Good training
+or
+this People, Planet and AI demonstration
+.  Alternatively, other parallelization
+      libraries include
+Dask
+and
+Apache Spark
+.

@@ -1,0 +1,39 @@
+18.
+Module: Using Spatial Databases in QGIS
+
+In this module you will learn about how to use Spatial Databases with QGIS to
+manage, display and manipulate data in the database as well as performing
+analysis by querying. We will primarily use PostgreSQL and PostGIS (which were
+covered in previous sections), but the same concepts are applicable to other
+spatial database implementations including SpatiaLite.
+18.1. Lesson: Working with Databases in the QGIS Browser
+18.1.1.
+★☆☆
+Follow Along: Adding Database Tables to QGIS using the Browser
+18.1.2.
+★☆☆
+Follow Along: Adding a filtered set of records as a Layer
+18.1.3. In Conclusion
+18.1.4. What’s Next?
+18.2. Lesson: Using DB Manager to work with Spatial Databases in QGIS
+18.2.1.
+★☆☆
+Follow Along: Managing PostGIS Databases with DB Manager
+18.2.2.
+★☆☆
+Follow Along: Creating a New Table
+18.2.3.
+★☆☆
+Follow Along: Basic Database Administration
+18.2.4.
+★☆☆
+Follow Along: Executing SQL Queries with DB Manager
+18.2.5. Importing Data into a Database with DB Manager
+18.2.6. Exporting Data from a Database with DB Manager
+18.2.7. In Conclusion
+18.2.8. What’s Next?
+18.3. Lesson: Working with SpatiaLite databases in QGIS
+18.3.1.
+★☆☆
+Follow Along: Creating a SpatiaLite database with the Browser
+18.3.2. In Conclusion

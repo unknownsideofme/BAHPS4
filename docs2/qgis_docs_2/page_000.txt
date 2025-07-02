@@ -1,0 +1,139 @@
+QGIS User Guide
+
+1. Getting Started
+1.1. Installing QGIS
+1.2. Starting and stopping QGIS
+1.3. Sample Session: Loading raster and vector layers
+2. Working with Project Files
+2.1. Introducing QGIS projects
+2.2. Handling broken file paths
+2.3. Generating output
+3. QGIS GUI
+3.1. Menu Bar
+3.2. Panels and Toolbars
+3.3. Status Bar
+4. The Browser panel
+4.1. Resources that can be opened / run from the Browser
+4.2. Browser panel top-level entries
+4.3. Resources
+5. QGIS Configuration
+5.1. Options
+5.2. Working with User Profiles
+5.3. Project Properties
+5.4. Customization
+5.5. Keyboard shortcuts
+5.6. Running QGIS with advanced settings
+6. Working with Projections
+6.1. Overview of Projection Support
+6.2. Layer Coordinate Reference Systems
+6.3. Project Coordinate Reference Systems
+6.4. Coordinate Reference System Selector
+6.5. Custom Coordinate Reference System
+6.6. Datum Transformations
+7. Visualizing Maps
+7.1. 2D Map View
+7.2. 3D Map View
+7.3. Elevation Profile View
+8. General Tools
+8.1. Context help
+8.2. Panels
+8.3. Embedding layers from external projects
+8.4. Interacting with features
+8.5. Save and Share Layer Properties
+8.6. Documenting your data
+8.7. Storing values in Variables
+8.8. Authentication
+8.9. Common widgets
+9. Level up with Expressions
+9.1. Expressions
+9.2. List of functions
+10. The Style Library
+10.1. The Style Manager
+10.2. The Symbol Selector
+10.3. Setting a label
+10.4. Creating 3D Symbols
+11. Managing Data Source
+11.1. Opening Data
+11.2. Creating Layers
+11.3. Georeferencer
+11.4. Exploring Data Formats and Fields
+12. Working with Vector Data
+12.1. The Vector Properties Dialog
+12.2. Working with the Attribute Table
+12.3. Editing
+12.4. Connecting and Editing Data Across Layers
+13. Working with Raster Data
+13.1. Raster Properties Dialog
+13.2. Raster Analysis
+14. Working with Mesh Data
+14.1. What’s a mesh?
+14.2. Supported formats
+14.3. Mesh Dataset Properties
+14.4. Editing a mesh layer
+14.5. Mesh Calculator
+15. Working with Vector Tiles
+15.1. What are Vector Tiles?
+15.2. Supported Formats
+15.3. Vector Tiles Dataset Properties
+16. Working with Point Clouds
+16.1. Introduction to Point Clouds
+16.2. Point Clouds Properties
+16.3. Virtual point cloud
+17. Working with 3D Tiles
+17.1. What are 3D Tiles?
+17.2. 3D Tiles Properties
+18. Laying out the maps
+18.1. Overview of the Print Layout
+18.2. Layout Items
+18.3. Creating an Output
+18.4. Creating a Report
+19. Working with OGC / ISO protocols
+19.1. WMS/WMTS Client
+19.2. WCS Client
+19.3. WFS and WFS-T Client
+19.4. SensorThings
+20. Working with GPS Data
+20.1. Introducing GNSS/GPS Data
+20.2. Live GPS tracking
+21. Authentication System
+21.1. Authentication System Overview
+21.2. User Authentication Workflows
+22. GRASS GIS Integration
+22.1. Demo dataset
+22.2. Loading GRASS raster and vector layers
+22.3. Importing data into a GRASS LOCATION via drag and drop
+22.4. Managing GRASS data in QGIS Browser
+22.5. GRASS Options
+22.6. Starting the GRASS plugin
+22.7. Opening GRASS mapset
+22.8. GRASS LOCATION and MAPSET
+22.9. Importing data into a GRASS LOCATION
+22.10. The GRASS vector data model
+22.11. Creating a new GRASS vector layer
+22.12. Digitizing and editing a GRASS vector layer
+22.13. The GRASS region tool
+22.14. The GRASS Toolbox
+23. QGIS processing framework
+23.1. Introduction
+23.2. Configuring the Processing Framework
+23.3. The Toolbox
+23.4. The history manager
+23.5. The model designer
+23.6. The batch processing interface
+23.7. Using processing algorithms from the console
+23.8. Using processing from the command line
+23.9. Writing new Processing algorithms as Python scripts
+23.10. Input and output types for Processing Algorithms
+23.11. Configuring external applications
+24. Processing providers and algorithms
+24.1. QGIS algorithm provider
+24.2. GDAL algorithm provider
+25. Plugins
+25.1. QGIS Plugins
+25.2. Using QGIS Core Plugins
+25.3. QGIS Python console
+26. Appendices
+26.1. Appendix C: QGIS File Formats
+26.2. Appendix D: QGIS R script syntax
+26.3. Appendix E: QGIS Application Network Connections
+27. Literature and Web References

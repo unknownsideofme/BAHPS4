@@ -1,0 +1,214 @@
+17.
+Working with 3D Tiles
+
+What are 3D Tiles?
+3D Tiles Properties
+Information Properties
+Source Properties
+Symbology Properties
+3D View Properties
+Rendering Properties
+Elevation Properties
+Metadata Properties
+17.1.
+What are 3D Tiles?
+
+3D tiles are specification for streaming and rendering large-scale 3D
+geospatial datasets. They use a hierarchical structure to efficiently manage
+and display 3D content, optimising performance by dynamically loading
+appropriate levels of detail. This technology is widely used in urban
+planning, architecture, simulation, gaming, and virtual reality, providing
+a standardised and interoperable solution for visualising complex geographical data.
+Fig. 17.1
+Example of 3D tiles
+
+Currently, QGIS supports two formats of 3D tiles:
+Cesium 3D tiles
+,
+used primarily for complex 3D models of buildings or whole cities.
+Such datasets can be provided by cloud-based platforms such as Cesium Ion
+or Google (
+Photorealistic 3D Tiles
+).
+Quantized Mesh tiles
+,
+used for terrain elevation data.
+See
+Using 3D tiled scene services
+for instructions on how to add these data sources to QGIS.
+17.2.
+3D Tiles Properties
+
+The 3D tiles
+Layer Properties
+dialog provides the following sections:
+Information
+Source
+Symbology
+[1]
+3D View
+[1]
+Rendering
+Elevation
+[1]
+Metadata
+[1]
+Also available in the
+Layer styling panel
+17.2.1.
+Information Properties
+
+The
+Information
+tab is read-only and represents an interesting
+place to quickly grab summarized information and metadata on the current layer.
+Provided information are:
+based on the provider of the layer: name, URL, source type and path, number
+of zoom levels
+custom properties, used to store in the active project additional information about the layer.
+More properties can be created and managed using PyQGIS, specifically through
+the
+setCustomProperty()
+method.
+the Coordinate Reference System: name, units, method, accuracy, reference
+(i.e. whether it’s static or dynamic)
+picked from the
+filled metadata
+: access,
+extents, links, contacts, history…
+17.2.2.
+Source Properties
+
+The
+Source
+tab displays basic information about
+the selected 3D tile, including:
+the
+Layer name
+to display in the
+Layers Panel
+;
+the
+Coordinate Reference System
+:
+Displays the layer’s
+Coordinate Reference System (CRS)
+.
+You can change the layer’s CRS, by selecting a recently used one in
+the drop-down list or clicking on the
+Select CRS
+button (see
+Coordinate Reference System Selector
+).
+Use this process only if the layer CRS is wrong or not specified.
+17.2.3.
+Symbology Properties
+
+Fig. 17.2
+3D Tile Layer Symbology
+
+By default, the layer is styled using texture, but you can change it
+to see the wireframe mesh behind the scene by choosing
+Wireframe
+in the drop-down menu. You can also, change the mesh fill and line symbols
+similar to the vector polygons.
+Checking
+Use texture colors
+will render each mesh element
+with the average value of the full texture.
+This is a good option to try when dealing with a large dataset and
+want to get a quick overview of the data.
+Fig. 17.3
+3D Tiles - textured and wireframe
+
+To view the data you can open
+New 3D map view
+.
+Fig. 17.4
+3D Map View
+
+From the
+Symbology
+tab, you can also set some options that
+invariably act on all features of the layer:
+Maximum error
+: This parameter determines the level of detail
+displayed in the 3D model. Similar to point clouds, 3D tiles
+often contain more information than necessary for visual representation.
+By adjusting this setting, you control the balance between display density
+and rendering speed. A larger value (e.g., 5 mm) may introduce noticeable
+gaps between elements, while a smaller value (e.g., 0.1 mm) could lead to
+the rendering of an excessive number of details, potentially slowing down
+the rendering process. Different units can be selected to tailor the setting
+to your specific needs.
+Opacity
+: Adjust the visibility of the underlying layer on the
+map canvas using this tool. Use slider to tailor the visibility
+of your scene layer according to your preferences. Alternatively, specify the
+exact percentage of visibility through the menu next to the slider.
+Blending mode
+: You can achieve special rendering effects with these tools
+that you may previously only know from graphics programs.
+The pixels of your overlaying and underlaying layers are mixed through the settings
+described in
+Blending Modes
+.
+17.2.4.
+3D View Properties
+
+Maximum screen space error
+determines the threshold for swapping
+terrain tiles with more detailed ones (and vice versa) - i.e. how soon the 3D
+view will use higher quality tiles. Lower numbers mean more details in the
+scene at the expenses of increased rendering complexity.
+Show bounding boxes
+Show 3D bounding boxes of the
+terrain tiles (useful for troubleshooting terrain issues).
+17.2.5.
+Rendering Properties
+
+Under
+Scale dependent visibility
+,
+you can set the
+Maximum (inclusive)
+and
+Minimum (exclusive)
+scales,
+defining a range of scales in which features will be visible.
+Out of this range, they are hidden.
+The
+Set to current canvas scale
+button helps you
+use the current map canvas scale as boundary of the range visibility.
+See
+Visibility Scale Selector
+for more information.
+17.2.6.
+Elevation Properties
+
+The
+Elevation
+tab provides options to control
+the layer elevation properties within a
+3D map view
+.
+Specifically, you can set:
+Elevation Surface
+: how the 3D layer vertices Z values
+should be interpreted as terrain elevation.
+You can apply a
+Scale
+factor and an
+Offset
+.
+17.2.7.
+Metadata Properties
+
+The
+Metadata
+tab provides you with options
+to create and edit a metadata report on your layer.
+See
+Metadata
+for more information.

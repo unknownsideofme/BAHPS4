@@ -1,0 +1,781 @@
+Run in Google Colab
+View source on GitHub
+As mentioned in the
+Get Started
+doc, raster data are represented as
+Image
+objects in Earth Engine. Images are
+      composed of one or more bands and each band has its own name, data type, scale, mask
+      and projection. Each image has metadata stored as a set of properties.
+ee.Image
+constructor
+Images can be loaded by pasting an Earth Engine asset ID into the
+ee.Image
+constructor. You can find image IDs in the
+data catalog
+.
+      For example, to load
+JAXA's ALOS DSM
+:
+Code Editor (JavaScript)
+var
+loadedImage
+=
+ee
+.
+Image
+(
+'JAXA/ALOS/AW3D30/V2_2'
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+loaded_image
+=
+ee
+.
+Image
+(
+'JAXA/ALOS/AW3D30/V2_2'
+)
+Note that finding an image through
+the Code Editor search tool
+is equivalent. When you import the asset, the image construction code is written
+      for you in the
+imports section of the
+      Code Editor
+. You can also use a personal
+asset ID
+as the argument to the
+ee.Image
+constructor.
+Get an
+ee.Image
+from an
+ee.ImageCollection
+The standard way to get an image out of a collection is to filter the collection, with
+      filters in order of decreasing specificity. For example, to get an image out of the
+Sentinel-2 surface reflectance collection
+:
+Code Editor (JavaScript)
+var
+first
+=
+ee
+.
+ImageCollection
+(
+'COPERNICUS/S2_SR'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+(
+-
+70.48
+,
+43.3631
+))
+.
+filterDate
+(
+'2019-01-01'
+,
+'2019-12-31'
+)
+.
+sort
+(
+'CLOUDY_PIXEL_PERCENTAGE'
+)
+.
+first
+();
+Map
+.
+centerObject
+(
+first
+,
+11
+);
+Map
+.
+addLayer
+(
+first
+,
+{
+bands
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+min
+:
+0
+,
+max
+:
+2000
+},
+'first'
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+first
+=
+(
+ee
+.
+ImageCollection
+(
+'COPERNICUS/S2_SR'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+(
+-
+70.48
+,
+43.3631
+))
+.
+filterDate
+(
+'2019-01-01'
+,
+'2019-12-31'
+)
+.
+sort
+(
+'CLOUDY_PIXEL_PERCENTAGE'
+)
+.
+first
+()
+)
+# Define a map centered on southern Maine.
+m
+=
+geemap
+.
+Map
+(
+center
+=
+[
+43.7516
+,
+-
+70.8155
+],
+zoom
+=
+11
+)
+# Add the image layer to the map and display it.
+m
+.
+add_layer
+(
+first
+,
+{
+'bands'
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+'min'
+:
+0
+,
+'max'
+:
+2000
+},
+'first'
+)
+display
+(
+m
+)
+Note that the sort is
+after
+the filters. Avoid sorting the entire collection.
+Images from Cloud GeoTIFFs
+You can use
+ee.Image.loadGeoTIFF()
+to load images from
+Cloud Optimized
+        GeoTIFFs
+in
+Google Cloud Storage
+.
+      For example, the
+public
+        Landsat dataset
+hosted in Google Cloud contains
+this
+      GeoTIFF
+, corresponding to band 5 from a Landsat 8 scene. You can load this image from
+      Cloud Storage using
+ee.Image.loadGeoTIFF()
+:
+Code Editor (JavaScript)
+var
+uri
+=
+'gs://gcp-public-data-landsat/LC08/01/001/002/'
++
+'LC08_L1GT_001002_20160817_20170322_01_T2/'
++
+'LC08_L1GT_001002_20160817_20170322_01_T2_B5.TIF'
+;
+var
+cloudImage
+=
+ee
+.
+Image
+.
+loadGeoTIFF
+(
+uri
+);
+print
+(
+cloudImage
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+uri
+=
+(
+'gs://gcp-public-data-landsat/LC08/01/001/002/'
++
+'LC08_L1GT_001002_20160817_20170322_01_T2/'
++
+'LC08_L1GT_001002_20160817_20170322_01_T2_B5.TIF'
+)
+cloud_image
+=
+ee
+.
+Image
+.
+loadGeoTIFF
+(
+uri
+)
+display
+(
+cloud_image
+)
+Note that if you want to reload a Cloud Optimized GeoTIFF that you
+export from Earth Engine to
+      Cloud Storage
+, when you do the export, set
+cloudOptimized
+to
+true
+as
+      described
+here
+.
+Images from Zarr v2 arrays
+You can use
+ee.Image.loadZarrV2Array()
+to load an image from a
+Zarr v2 array
+in
+Google Cloud Storage
+. For example, the public
+      ERA5 dataset hosted in Google Cloud contains
+this Zarr v2 array
+,
+      corresponding to meters of water that has evaporated from the Earth's surface. You can load
+      this array from Cloud Storage using
+ee.Image.loadZarrV2Array()
+:
+Code Editor (JavaScript)
+var
+timeStart
+=
+1000000
+;
+var
+timeEnd
+=
+1000010
+;
+var
+zarrV2ArrayImage
+=
+ee
+.
+Image
+.
+loadZarrV2Array
+({
+uri
+:
+'gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/evaporation/.zarray'
+,
+proj
+:
+'EPSG:4326'
+,
+starts
+:
+[
+timeStart
+],
+ends
+:
+[
+timeEnd
+]
+});
+print
+(
+zarrV2ArrayImage
+);
+Map
+.
+addLayer
+(
+zarrV2ArrayImage
+,
+{
+min
+:
+-
+0.0001
+,
+max
+:
+0.00005
+},
+'Evaporation'
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+time_start
+=
+1000000
+time_end
+=
+1000010
+zarr_v2_array_image
+=
+ee
+.
+Image
+.
+loadZarrV2Array
+(
+uri
+=
+'gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/evaporation/.zarray'
+,
+proj
+=
+'EPSG:4326'
+,
+starts
+=
+[
+time_start
+],
+ends
+=
+[
+time_end
+],
+)
+display
+(
+zarr_v2_array_image
+)
+m
+.
+add_layer
+(
+zarr_v2_array_image
+,
+{
+'min'
+:
+-
+0.0001
+,
+'max'
+:
+0.00005
+},
+'Evaporation'
+)
+m
+Constant images
+In addition to loading images by ID, you can also create images
+      from constants, lists or other suitable Earth Engine objects. The following illustrates
+      methods for creating images, getting band subsets, and manipulating bands:
+Code Editor (JavaScript)
+// Create a constant image.
+var
+image1
+=
+ee
+.
+Image
+(
+1
+);
+print
+(
+image1
+);
+// Concatenate two images into one multi-band image.
+var
+image2
+=
+ee
+.
+Image
+(
+2
+);
+var
+image3
+=
+ee
+.
+Image
+.
+cat
+([
+image1
+,
+image2
+]);
+print
+(
+image3
+);
+// Create a multi-band image from a list of constants.
+var
+multiband
+=
+ee
+.
+Image
+([
+1
+,
+2
+,
+3
+]);
+print
+(
+multiband
+);
+// Select and (optionally) rename bands.
+var
+renamed
+=
+multiband
+.
+select
+(
+[
+'constant'
+,
+'constant_1'
+,
+'constant_2'
+],
+// old names
+[
+'band1'
+,
+'band2'
+,
+'band3'
+]
+// new names
+);
+print
+(
+renamed
+);
+// Add bands to an image.
+var
+image4
+=
+image3
+.
+addBands
+(
+ee
+.
+Image
+(
+42
+));
+print
+(
+image4
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+# Create a constant image.
+image_1
+=
+ee
+.
+Image
+(
+1
+)
+display
+(
+image_1
+)
+# Concatenate two images into one multi-band image.
+image_2
+=
+ee
+.
+Image
+(
+2
+)
+image_3
+=
+ee
+.
+Image
+.
+cat
+([
+image_1
+,
+image_2
+])
+display
+(
+image_3
+)
+# Create a multi-band image from a list of constants.
+multiband
+=
+ee
+.
+Image
+([
+1
+,
+2
+,
+3
+])
+display
+(
+multiband
+)
+# Select and (optionally) rename bands.
+renamed
+=
+multiband
+.
+select
+(
+[
+'constant'
+,
+'constant_1'
+,
+'constant_2'
+],
+# old names
+[
+'band1'
+,
+'band2'
+,
+'band3'
+],
+# new names
+)
+display
+(
+renamed
+)
+# Add bands to an image.
+image_4
+=
+image_3
+.
+addBands
+(
+ee
+.
+Image
+(
+42
+))
+display
+(
+image_4
+)
+
+
+--- CODE BLOCK ---
+varloadedImage=ee.Image('JAXA/ALOS/AW3D30/V2_2');
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+loaded_image=ee.Image('JAXA/ALOS/AW3D30/V2_2')
+
+
+
+--- CODE BLOCK ---
+varfirst=ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(ee.Geometry.Point(-70.48,43.3631)).filterDate('2019-01-01','2019-12-31').sort('CLOUDY_PIXEL_PERCENTAGE').first();Map.centerObject(first,11);Map.addLayer(first,{bands:['B4','B3','B2'],min:0,max:2000},'first');
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+first=(ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(ee.Geometry.Point(-70.48,43.3631)).filterDate('2019-01-01','2019-12-31').sort('CLOUDY_PIXEL_PERCENTAGE').first())# Define a map centered on southern Maine.m=geemap.Map(center=[43.7516,-70.8155],zoom=11)# Add the image layer to the map and display it.m.add_layer(first,{'bands':['B4','B3','B2'],'min':0,'max':2000},'first')display(m)
+
+
+
+--- CODE BLOCK ---
+varuri='gs://gcp-public-data-landsat/LC08/01/001/002/'+'LC08_L1GT_001002_20160817_20170322_01_T2/'+'LC08_L1GT_001002_20160817_20170322_01_T2_B5.TIF';varcloudImage=ee.Image.loadGeoTIFF(uri);print(cloudImage);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+uri=('gs://gcp-public-data-landsat/LC08/01/001/002/'+'LC08_L1GT_001002_20160817_20170322_01_T2/'+'LC08_L1GT_001002_20160817_20170322_01_T2_B5.TIF')cloud_image=ee.Image.loadGeoTIFF(uri)display(cloud_image)
+
+
+
+--- CODE BLOCK ---
+vartimeStart=1000000;vartimeEnd=1000010;varzarrV2ArrayImage=ee.Image.loadZarrV2Array({uri:'gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/evaporation/.zarray',proj:'EPSG:4326',starts:[timeStart],ends:[timeEnd]});print(zarrV2ArrayImage);Map.addLayer(zarrV2ArrayImage,{min:-0.0001,max:0.00005},'Evaporation');
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+time_start=1000000time_end=1000010zarr_v2_array_image=ee.Image.loadZarrV2Array(uri='gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/evaporation/.zarray',proj='EPSG:4326',starts=[time_start],ends=[time_end],)display(zarr_v2_array_image)m.add_layer(zarr_v2_array_image,{'min':-0.0001,'max':0.00005},'Evaporation')m
+
+
+
+--- CODE BLOCK ---
+// Create a constant image.varimage1=ee.Image(1);print(image1);// Concatenate two images into one multi-band image.varimage2=ee.Image(2);varimage3=ee.Image.cat([image1,image2]);print(image3);// Create a multi-band image from a list of constants.varmultiband=ee.Image([1,2,3]);print(multiband);// Select and (optionally) rename bands.varrenamed=multiband.select(['constant','constant_1','constant_2'],// old names['band1','band2','band3']// new names);print(renamed);// Add bands to an image.varimage4=image3.addBands(ee.Image(42));print(image4);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Create a constant image.image_1=ee.Image(1)display(image_1)# Concatenate two images into one multi-band image.image_2=ee.Image(2)image_3=ee.Image.cat([image_1,image_2])display(image_3)# Create a multi-band image from a list of constants.multiband=ee.Image([1,2,3])display(multiband)# Select and (optionally) rename bands.renamed=multiband.select(['constant','constant_1','constant_2'],# old names['band1','band2','band3'],# new names)display(renamed)# Add bands to an image.image_4=image_3.addBands(ee.Image(42))display(image_4)

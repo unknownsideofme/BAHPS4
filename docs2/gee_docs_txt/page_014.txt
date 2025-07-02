@@ -1,0 +1,194 @@
+Google App Engine
+lets you build
+      and run your own custom applications on Google’s servers.  App Engine applications are easy
+      to create, maintain, and scale as your traffic and data storage needs
+      change. You simply upload your application source code and it’s ready to go.  If you're
+      new to developing for App Engine, be sure to check out the App Engine
+Python
+or
+Node.js
+quickstart before proceeding.
+Earth Engine and App Engine can be used together to build scalable geospatial
+      applications.  Typically, your App Engine code includes the
+Earth
+      Engine Python client library
+and makes requests to the Earth Engine backend using a
+service account
+.  This is advantageous because it allows
+      anyone to use your app without logging in or being a registered Earth Engine user.
+      Note that the standard Earth Engine
+usage limits
+apply to each service
+      account.
+Another development approach is to use
+client-side authentication
+instead of a service account.  With this approach,
+      visitors to your application must be registered for Earth Engine and log in.  The
+      benefit of this approach is that requests to Earth Engine are made using the end user's
+      credentials, so you are less likely to hit usage limits.  The challenge is that your users
+      must signup for Earth Engine and log in before using the application.
+The
+Earth
+      Engine App Engine demos directory
+on GitHub contains a set of useful App
+      Engine examples.  See the
+Example Apps page
+for a brief
+      description of each example.  This doc provides instructions for how to set up and deploy
+      the examples or custom apps you create.
+Deploying App Engine apps with Earth Engine
+The following instructions explain how to deploy the
+demo apps
+.
+      The Python instructions are intended for Mac OS and Linux. If you're using Python on Windows,
+try this
+.
+Enable the Earth Engine API on your Google Cloud project
+Create or select a Google Cloud project and enable the Earth Engine API according to
+these instructions
+.
+Set up credentials
+Service Account
+A
+service account
+may be used to
+        authorize requests to Earth Engine on behalf of whomever is using your app. The
+config.py
+file contains authentication code using the service account
+        email address and a private key file. To set up authentication with a service account,
+        follow
+these instructions
+to create the service account
+        and private key file. Name the key file
+.private-key.json
+and move it
+        into your project directory.
+Python
+If you haven't already, first
+set up the Earth Engine Python
+        API
+.  Test the service account according to
+these instructions
+.
+If the test succeeds, update
+config.py
+(or an equivalent file in your source
+        code) with your service account email address. (The path to the key file should not change
+        since it's in your project directory).
+Node.js
+Install the project's dependencies by running
+npm install
+. The Earth Engine
+        Node.js API and any other dependencies will be copied to a
+./node_modules
+folder in your project directory. If installation fails,
+check that
+        a recent version of Node.js is installed
+.
+const
+ee
+=
+require
+(
+'@google/earthengine'
+);
+ee
+.
+data
+.
+authenticateViaPrivateKey
+(
+'.private-key.json'
+);
+ee
+.
+initialize
+();
+OAuth 2.0 Client ID
+If you want users to authenticate as themselves (rather than using a service account),
+        you need to set up an OAuth Client ID from your Cloud Project.  To do that:
+Set up a client ID according to
+these instructions
+.
+Update
+static/script.js
+(or an equivalent file in your source code)
+          to use your client ID.
+Ensure
+ee_api_js.js
+is available in the
+/static/
+directory (or equivalent).  You can download it
+directly from GitHub
+,
+install it from npm
+, or, if you've already cloned the entire EE API repo, copy it
+            from
+earthengine-api/javascript/build
+on your local filesystem.
+Set up the local development environment
+Python
+Follow the instructions in each example directory on GitHub to download and build the
+        project. If there's a
+build.sh
+file, run it from your application root
+        folder with the command:
+./build.sh
+The setup script will download dependencies and install Google command line tools, if
+        they don't already exist on your system.  The Earth Engine Python API and its
+        dependencies will be copied to a
+./lib
+folder in your project directory.
+Verify that the App Engine command line tools are available by running:
+dev_appserver.py
+If the command is not found, try manually downloading and installing the
+Google
+          App Engine SDK for Python
+. If the command is available, it should fail with
+          "error: too few arguments".
+Node.js
+No setup needed.
+Run locally
+Once your service account is
+registered
+        for Earth Engine access
+, you can use it to authenticate (see
+config.py
+)
+        when you test the examples.  Try testing the examples locally first by going into your
+        project directory and running:
+Python
+dev_appserver.py .
+Node.js
+npm install
+npm start
+Point your browser to
+http://localhost:8080
+to see
+        the app running on a local server.  Any changes you make (and save) will be
+        automatically picked up when you refresh the page.
+
+
+--- CODE BLOCK ---
+constee=require('@google/earthengine');ee.data.authenticateViaPrivateKey('.private-key.json');ee.initialize();
+
+
+
+--- CODE BLOCK ---
+./build.sh
+
+
+
+--- CODE BLOCK ---
+dev_appserver.py
+
+
+
+--- CODE BLOCK ---
+dev_appserver.py .
+
+
+
+--- CODE BLOCK ---
+npm install
+npm start

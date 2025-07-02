@@ -1,0 +1,38 @@
+11.
+Module: QGIS Server
+
+Module contributed by Tudor Bărăscu.
+In this module, we’ll cover how to install and use QGIS Server.
+To learn more about QGIS Server, read the
+QGIS Server Guide/Manual
+.
+11.1. Lesson: Install QGIS Server
+11.1.1.
+★★☆
+Follow Along: Install from packages
+11.1.2.
+★★☆
+Follow Along: QGIS Server Executable
+11.1.3.
+★★★
+HTTP Server Configuration
+11.1.4.
+★★☆
+Follow Along: Create another virtual host
+11.1.5. In Conclusion
+11.1.6. What’s Next?
+11.2. Lesson: Serving WMS
+11.2.1. Logging
+11.2.2. GetMap requests
+11.2.3.
+★★☆
+Try Yourself: Change the Image and Layers parameters
+11.2.4.
+★★☆
+Follow Along: Use Filter, Opacities and Styles parameters
+11.2.5.
+★★☆
+Follow Along: Use Redlining
+11.2.6. GetPrint requests
+11.2.7. In Conclusion
+11.2.8. What’s Next?

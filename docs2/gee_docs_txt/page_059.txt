@@ -1,0 +1,44 @@
+Figure 1. Forest change estimated by Hansen et al. (2013).  Global Change,
+          2000 - 2012 (left); Change in Riau, Indonesia, 2000 - 2012 (center); Change in Paraguay,
+          2000 - 2012 (right)
+Welcome to the Google Earth Engine tutorial for using
+Hansen et al. (2013)
+global
+      forest cover and change data and Forest Monitoring for Action (FORMA,
+Hammer
+        et al. 2009
+) data from
+Global Forest
+      Watch
+. This tutorial provides examples of how to use Earth Engine to visualize these
+      data, how to compute forest change over time and other statistics within a region of
+      interest and how to download both the data and results of analyses.
+License and Attribution
+The data described in this tutorial are licensed under a Creative
+      Commons Attribution 4.0 International License.  Please use the recommended citation on
+      the relevant
+dataset description
+      page
+.
+Prerequisites
+The tutorial assumes no programming background, although it does assume a willingness to
+      learn some programming.  Before proceeding, please make sure to:
+Signup for Earth Engine
+.  Once
+        you have been accepted, you will receive an email with additional information.
+Get familiar with the
+Earth
+        Engine Code Editor
+, the IDE for writing Earth Engine JavaScript code in a web
+        browser.  Learn more about the Code Editor
+here
+.
+If you are unfamiliar with JavaScript, check out the
+JavaScript for Earth Engine tutorial
+.
+If you are unfamiliar with the Earth Engine API, check out the
+Introduction to the Earth Engine API
+tutorial.
+Once you're familiar with JavaScript, the Earth Engine API and Code Editor,
+get started on the tutorial
+!

@@ -1,0 +1,45 @@
+12.
+Module: GRASS
+
+GRASS (Geographic Resources Analysis Support System) is a well-known open
+source GIS with a wide array of useful GIS functions. It was first released in
+1984, and has seen much improvement and additional functionality since then.
+QGIS allows you to make use of GRASS’ powerful GIS tools directly.
+12.1. Lesson: GRASS Setup
+12.1.1.
+★☆☆
+Follow Along: Start a New GRASS Session
+12.1.2.
+★☆☆
+Follow Along: Start a New GRASS Project
+12.1.3.
+★☆☆
+Follow Along: Loading Vector Data into GRASS
+12.1.4.
+★☆☆
+Follow Along: Loading Raster Data into GRASS
+12.1.5.
+★☆☆
+Try Yourself: Add Layers to Mapset
+12.1.6.
+★☆☆
+Open an existing GRASS Mapset
+12.1.7. In Conclusion
+12.1.8. What’s Next?
+12.2. Lesson: GRASS Tools
+12.2.1.
+★☆☆
+Follow Along: Create an aspect map
+12.2.2.
+★☆☆
+Follow Along: Get basic statistic of raster layer
+12.2.3.
+★★☆
+Follow Along: The Reclass Tool
+12.2.4.
+★★☆
+Try Yourself: Reclassify with your rules
+12.2.5.
+★★☆
+Follow Along: The Mapcalc Tool
+12.2.6. In Conclusion

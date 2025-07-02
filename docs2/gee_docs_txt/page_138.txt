@@ -1,0 +1,400 @@
+Run in Google Colab
+View source on GitHub
+This quickstart will give you an interactive introduction to visualizing and
+analyzing geospatial data with the Earth Engine Python interface.
+Before you begin
+Register or create
+a Google Cloud
+  Project; you'll be prompted to complete the following steps. If you already have a project
+  registered for Earth Engine access, skip to the next section.
+Select the project's purpose: commercial or noncommercial.
+If the purpose is noncommercial, select a project type.
+Create a new Google Cloud project or select an existing project.
+If the purpose is commercial, verify or set up billing for your project.
+Confirm your project information.
+Note:
+If you don't plan to keep the resources that you create
+      in this procedure, create a project instead of selecting an existing project. After you finish
+      these steps, you can
+delete the project
+,
+      removing all resources owned by the project.
+Notebook setup
+Jupyter notebooks allow you to use Earth Engine and explore results
+interactively. The quickest way to get started is with a notebook in Google
+Colab notebook. You can either
+open a new notebook
+and
+copy the following code chunks into individual cells or use the prefilled
+Earth Engine Python Quickstart notebook
+.
+Import the Earth Engine and geemap libraries.
+import
+ee
+import
+geemap.core
+as
+geemap
+Authenticate and initialize the Earth Engine service. Follow the
+resulting prompts to complete authentication. Be sure to replace PROJECT_ID
+with the name of the project you set up for this quickstart.
+ee
+.
+Authenticate
+()
+ee
+.
+Initialize
+(
+project
+=
+'PROJECT_ID'
+)
+Add raster data to a map
+Load climate data for a given period and display its
+metadata.
+jan_2023_climate
+=
+(
+ee
+.
+ImageCollection
+(
+'ECMWF/ERA5_LAND/MONTHLY_AGGR'
+)
+.
+filterDate
+(
+'2023-01'
+,
+'2023-02'
+)
+.
+first
+()
+)
+jan_2023_climate
+Instantiate a map object and add the temperature band as a layer
+with specific visualization properties. Display the map.
+m
+=
+geemap
+.
+Map
+(
+center
+=
+[
+30
+,
+0
+],
+zoom
+=
+2
+)
+vis_params
+=
+{
+'bands'
+:
+[
+'temperature_2m'
+],
+'min'
+:
+229
+,
+'max'
+:
+304
+,
+'palette'
+:
+'inferno'
+,
+}
+m
+.
+add_layer
+(
+jan_2023_climate
+,
+vis_params
+,
+'Temperature (K)'
+)
+m
+Add vector data to a map
+Create a vector data object with points for three cities.
+cities
+=
+ee
+.
+FeatureCollection
+([
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+(
+10.75
+,
+59.91
+),
+{
+'city'
+:
+'Oslo'
+}),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+(
+-
+118.24
+,
+34.05
+),
+{
+'city'
+:
+'Los Angeles'
+}),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+(
+103.83
+,
+1.33
+),
+{
+'city'
+:
+'Singapore'
+}),
+])
+cities
+Add the city locations to the map and redisplay it.
+m
+.
+add_layer
+(
+cities
+,
+name
+=
+'Cities'
+)
+m
+Extract and chart data
+Import the Altair charting library.
+%
+pip
+install
+-
+q
+--
+upgrade
+altair
+import
+altair
+as
+alt
+Extract the climate data for the three cities as a pandas
+DataFrame.
+city_climates
+=
+jan_2023_climate
+.
+reduceRegions
+(
+cities
+,
+ee
+.
+Reducer
+.
+first
+())
+city_climates_dataframe
+=
+ee
+.
+data
+.
+computeFeatures
+(
+{
+'expression'
+:
+city_climates
+,
+'fileFormat'
+:
+'PANDAS_DATAFRAME'
+}
+)
+city_climates_dataframe
+Plot the temperature for the cities as a bar chart.
+alt
+.
+Chart
+(
+city_climates_dataframe
+)
+.
+mark_bar
+(
+size
+=
+100
+)
+.
+encode
+(
+alt
+.
+X
+(
+'city:N'
+,
+sort
+=
+'y'
+,
+axis
+=
+alt
+.
+Axis
+(
+labelAngle
+=
+0
+),
+title
+=
+'City'
+),
+alt
+.
+Y
+(
+'temperature_2m:Q'
+,
+title
+=
+'Temperature (K)'
+),
+tooltip
+=
+[
+alt
+.
+Tooltip
+(
+'city:N'
+,
+title
+=
+'City'
+),
+alt
+.
+Tooltip
+(
+'temperature_2m:Q'
+,
+title
+=
+'Temperature (K)'
+),
+],
+)
+.
+properties
+(
+title
+=
+'January 2023 temperature for selected cities'
+,
+width
+=
+500
+)
+What's next
+Learn about analyzing data with Earth Engine's
+objects and methods
+.
+Learn about Earth Engine's
+processing environments
+.
+Learn about Earth Engine's
+machine learning capabilities
+.
+Learn how to
+export your computation results to BigQuery
+.
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+ee.Authenticate()ee.Initialize(project='PROJECT_ID')
+
+
+
+--- CODE BLOCK ---
+jan_2023_climate=(ee.ImageCollection('ECMWF/ERA5_LAND/MONTHLY_AGGR').filterDate('2023-01','2023-02').first())jan_2023_climate
+
+
+
+--- CODE BLOCK ---
+m=geemap.Map(center=[30,0],zoom=2)vis_params={'bands':['temperature_2m'],'min':229,'max':304,'palette':'inferno',}m.add_layer(jan_2023_climate,vis_params,'Temperature (K)')m
+
+
+
+--- CODE BLOCK ---
+cities=ee.FeatureCollection([ee.Feature(ee.Geometry.Point(10.75,59.91),{'city':'Oslo'}),ee.Feature(ee.Geometry.Point(-118.24,34.05),{'city':'Los Angeles'}),ee.Feature(ee.Geometry.Point(103.83,1.33),{'city':'Singapore'}),])cities
+
+
+
+--- CODE BLOCK ---
+m.add_layer(cities,name='Cities')m
+
+
+
+--- CODE BLOCK ---
+%pipinstall-q--upgradealtairimportaltairasalt
+
+
+
+--- CODE BLOCK ---
+city_climates=jan_2023_climate.reduceRegions(cities,ee.Reducer.first())city_climates_dataframe=ee.data.computeFeatures({'expression':city_climates,'fileFormat':'PANDAS_DATAFRAME'})city_climates_dataframe
+
+
+
+--- CODE BLOCK ---
+alt.Chart(city_climates_dataframe).mark_bar(size=100).encode(alt.X('city:N',sort='y',axis=alt.Axis(labelAngle=0),title='City'),alt.Y('temperature_2m:Q',title='Temperature (K)'),tooltip=[alt.Tooltip('city:N',title='City'),alt.Tooltip('temperature_2m:Q',title='Temperature (K)'),],).properties(title='January 2023 temperature for selected cities',width=500)

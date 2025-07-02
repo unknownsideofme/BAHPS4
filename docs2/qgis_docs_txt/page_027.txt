@@ -1,0 +1,13 @@
+26.
+Appendices
+
+26.1. Appendix C: QGIS File Formats
+26.1.1. QGS/QGZ - The QGIS Project File Format
+26.1.2. QLR - The QGIS Layer Definition file
+26.1.3. QML - The QGIS Style File Format
+26.2. Appendix D: QGIS R script syntax
+26.2.1. Inputs
+26.2.2. Outputs
+26.2.3. Syntax Summary for QGIS R scripts
+26.2.4. Examples
+26.3. Appendix E: QGIS Application Network Connections

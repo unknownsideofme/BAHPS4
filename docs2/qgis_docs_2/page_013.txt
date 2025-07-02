@@ -1,0 +1,79 @@
+16.
+Module: Spatial Database Concepts with PostGIS
+
+Spatial Databases allow the storage of the geometries of records inside a
+Database as well as providing functionality for querying and retrieving the
+records  using these Geometries. In this module we will use PostGIS, an
+extension to PostgreSQL, to learn how to setup a spatial database, import data
+into the database and make use of the geographic functions that PostGIS offers.
+While working through this section, you may want to keep a copy of the
+PostGIS
+cheat sheet
+available
+from
+Boston GIS user group
+.
+Another useful resource is the
+online
+PostGIS
+documentation.
+There are also some more extensive tutorials on PostGIS and Spatial Databases
+created by Boundless that are now hosted on the PostGIS’s website:
+Introduction to PostGIS
+PostGIS Database Tips and Tricks
+See also
+PostGIS In Action
+.
+16.1. Lesson: PostGIS Setup
+16.1.1. Installing under Ubuntu
+16.1.2. Installing under Windows
+16.1.3. Installing on Other Platforms
+16.1.4. Configuring Databases to use PostGIS
+16.1.5. Looking at the installed PostGIS functions
+16.1.6. Spatial Reference Systems
+16.1.7. In Conclusion
+16.1.8. What’s Next?
+16.2. Lesson: Simple Feature Model
+16.2.1. What is OGC
+16.2.2. What is the SFS Model
+16.2.3. Add a geometry field to table
+16.2.4. Add a constraint based on geometry type
+16.2.5.
+★★★
+Try Yourself:
+16.2.6. Populate geometry_columns table
+16.2.7. Add geometry record to table using SQL
+16.2.8. In Conclusion
+16.2.9. What’s Next?
+16.3. Lesson: Import and Export
+16.3.1. shp2pgsql
+16.3.2. pgsql2shp
+16.3.3. ogr2ogr
+16.3.4. DB Manager
+16.3.5. In Conclusion
+16.3.6. What’s Next?
+16.4. Lesson: Spatial Queries
+16.4.1. Spatial Operators
+16.4.2. Spatial Indexes
+16.4.3. Try Yourself:
+★★☆
+16.4.4. PostGIS Spatial Functions Demo
+16.4.5. In Conclusion
+16.4.6. What’s Next?
+16.5. Lesson: Geometry Construction
+16.5.1. Creating Linestrings
+16.5.2. Try Yourself:
+★★☆
+16.5.3. Creating Polygons
+16.5.4. Exercise: Linking Cities to People
+16.5.5. Looking at Our Schema
+16.5.6. Try Yourself:
+★★★
+16.5.7. Access Sub-Objects
+16.5.8. Data Processing
+16.5.9. Clipping
+16.5.10. Building Geometries from Other Geometries
+16.5.11. Geometry Cleaning
+16.5.12. Differences between tables
+16.5.13. Tablespaces
+16.5.14. In Conclusion

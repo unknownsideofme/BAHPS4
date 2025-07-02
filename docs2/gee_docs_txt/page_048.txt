@@ -1,0 +1,148 @@
+The examples on this page demonstrate uses of Vertex AI with Earth Engine.  See
+the hosted models page
+for details.
+      These examples use the
+Earth Engine Python API
+running in
+Colab Notebooks
+.
+Costs
+Warning!
+These guides use billable components of Google Cloud including:
+Vertex AI (
+pricing
+)
+Cloud Storage (
+pricing
+)
+Earth Engine (
+pricing (commercial)
+)
+You can use the
+Pricing Calculator
+to generate
+      a cost estimate based on your projected usage.
+AutoML
+Low-code Crop Classification
+AutoML enables creating and training a model with minimal technical effort. This example
+      demonstrates training and deploying an AutoML Tabular model using the Vertex AI Python SDK and
+      then connecting to it from Earth Engine to classify crop types from National Agriculture
+      Imagery Program (NAIP) aerial imagery.
+Run in Google Colab
+View source on GitHub
+PyTorch
+Landcover Classification with a CNN
+This example demonstrates a simple CNN which takes several spectral vectors as inputs
+      (i.e. one pixel at a time) and outputs a single class label per-pixel. The Colab notebook
+      demonstrates creating
+      the CNN, training it with data from Earth Engine, deploying the model to Vertex AI, and
+      getting predictions from the model in Earth Engine.
+Run in Google Colab
+View source on GitHub
+Tensorflow
+Multi-class prediction with a DNN from scratch
+A "deep" neural network (DNN) is an artificial neural network (ANN) with one or more
+      hidden layers.  This example demonstrates a simple DNN with a single hidden layer.  The
+      DNN takes spectral vectors as inputs (i.e. one pixel at a time) and outputs a single class
+      label and class probabilities per pixel.  The Colab notebook demonstrates creating
+      the DNN, training it with data from Earth Engine, making predictions on exported imagery and
+      importing the predictions to Earth Engine.
+Run in Google Colab
+View source on GitHub
+Multi-class prediction with a DNN hosted on Vertex AI
+You can get predictions from a model hosted on
+Vertex AI
+directly in Earth Engine
+      (e.g. in the
+Code Editor
+). This guide
+      demonstrates how to train, save and prepare a TensorFlow model for hosting, deploy
+      the model to a Vertex AI endpoint and get and get a map of interactive model predictions
+      from Earth Engine.
+Run in Google Colab
+View source on GitHub
+Semantic segmentation with an FCNN trained and hosted on Vertex AI
+This guide demonstrates semantic segmentation for land cover mapping.  Details on the
+      inputs or training data are in this
+2022 Geo for Good session
+.  Powered by data from Earth Engine, this guide shows how to
+      train a model on Vertex AI using a custom machine, prepare the model for hosting, deploy
+      the model to an endpoint and get and get a map of interactive model predictions
+      from Earth Engine.
+Run in Google Colab
+View source on GitHub
+Host a Pre-trained Tree-crown Segmentation Model
+You can host pretrained models to get interactive predictions in Earth Engine.  For example,
+Li et al. (2023)
+published several
+      tree-crown segmentation models implemented in TensorFlow.  If the inputs and outputs are
+      shaped accordingly, these models can be hosted directly and used to get predictions in Earth
+      Engine wherever there's input imagery.  This guide demonstrates how to download a pre-trained
+      model, prepare it for hosting on Vertex AI, and get predictions on imagery in the Earth Engine
+      public catalog.
+Run in Google Colab
+View source on GitHub
+Yggdrasil Decision Forests (YDF)
+Yggdrasil Decision Forests (YDF)
+is an implementation of popular tree-based machine learning models compatible with TensorFlow.
+      These models can be trained, saved and hosted on Vertex AI, as with neural networks.
+      This notebook demonstrates how to install YDF, train a simple model, host the model on
+      Vertex AI and get interactive predictions in Earth Engine.
+Run in Google Colab
+View source on GitHub
+Deprecated
+Deprecated!
+This guide uses datasets that may be removed from the
+        Earth Engine catalog and/or methods that may be removed in future versions of the used APIs.
+TensorFlow Decision Forests
+TensorFlow Decision Forests (TF-DF)
+is an implementation of popular tree-based machine learning models in TensorFlow.
+      These models can be trained, saved and hosted on Vertex AI, as with TensorFlow neural networks.
+      This notebook demonstrates how to install TF-DF, train a random forest, host the model on
+      Vertex AI and get interactive predictions in Earth Engine.
+Run in Google Colab
+View source on GitHub
+Regression with an FCNN
+Deprecated!
+This guide uses datasets that may be removed from the
+        Earth Engine catalog and/or methods that may be removed in future versions of the Earth
+        Engine API.
+A "convolutional" neural network (CNN) contains one or more convolutional layers, in which
+      inputs are neighborhoods of pixels, resulting in a network that is not fully-connected, but
+      is suited to identifying spatial patterns.  A fully convolutional neural network (FCNN) does
+      not contain a fully-connected layer as output.  This means that it does not learn a global
+      output (i.e. a single output per image), but rather localized outputs (i.e. per-pixel).
+This Colab notebook demonstrates the use of the
+UNET model
+, an FCNN developed for medical
+      image segmentation, for predicting a continuous [0,1] output in each pixel from 256x256
+      neighborhoods of pixels.  Specifically, this example shows how to export patches of data to
+      train the network and how to overtile image patches for inference, to eliminate tile boundary
+      artifacts.
+Run in Google Colab
+View source on GitHub
+Training on AI Platform
+Deprecated!
+This guide uses datasets that may be removed from the
+        Earth Engine catalog and/or methods that may be removed in future versions of the Earth
+        Engine API.
+For relatively large models (like the FCNN example), the longevity of the free virtual
+      machine on which Colab notebooks run may not be sufficient for a long-running training
+      job.  Specifically, if the expected prediction error is not minimized on the evaluation
+      dataset, then more training iterations may be prudent.  For performing large training
+      jobs in the Cloud, this Colab notebook demonstrates how to
+package your training
+        code
+,
+start a
+      training job
+, prepare a
+SavedModel
+with the
+earthengine model prepare
+command, and get predictions in Earth
+      Engine interactively with
+ee.Model.fromAiPlatformPredictor
+.
+Run in Google Colab
+View source on GitHub

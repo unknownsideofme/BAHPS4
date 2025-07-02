@@ -1,0 +1,3797 @@
+Algorithms you create in Earth Engine run in the Google
+      cloud, distributed over many computers. Debugging can be challenging because errors
+      can occur either in the client-side code or the server-side execution of
+      the coded instructions, and result from scaling problems as well as syntactic or
+      logical errors. The bits of the program that are running somewhere in the cloud are
+      not available to inspect, unless you ask for them. This document presents debugging
+      strategies, tools and solutions to help you resolve common errors and debug Earth
+      Engine scripts.
+Syntax errors
+Syntax errors happen when your code breaks the rules of the programming language (either
+      JavaScript or Python in Earth Engine). These errors prevent your code from running and are
+      usually caught before execution. If you encounter a syntax error, carefully review the
+      highlighted line or error message, and consult resources like the
+Python Language Reference
+or
+Google JavaScript Style Guide
+. A code linter can also help identify and fix these
+      issues.
+Client-side errors
+Despite syntactically correct code, there may be errors associated with the
+      consistency or logic of the script. The following examples demonstrate errors from using
+      a variable and method that don't exist.
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+// Load a Sentinel-2 image.
+var
+image
+=
+ee
+.
+Image
+(
+'USGS/SRTMGL1_003'
+);
+// Error: "bandNames" is not defined in this scope.
+var
+display
+=
+image
+.
+visualize
+({
+bands
+:
+bandNames
+,
+min
+:
+0
+,
+max
+:
+9000
+});
+// Error: image.selfAnalyze is not a function
+var
+silly
+=
+image
+.
+selfAnalyze
+();
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+# Load a Sentinel-2 image.
+image
+=
+ee
+.
+Image
+(
+'USGS/SRTMGL1_003'
+)
+# NameError: name 'band_names' is not defined.
+display
+=
+image
+.
+visualize
+(
+bands
+=
+band_names
+,
+min
+=
+0
+,
+max
+=
+9000
+)
+# AttributeError: 'Image' object has no attribute 'selfAnalyze'.
+silly
+=
+image
+.
+selfAnalyze
+()
+The first error informs you that the
+bandNames
+variable is not defined
+      in the scope in which it's referenced. As a solution, set the variable, or provide a
+      list argument for the
+bands
+parameter. The second error demonstrates what
+      happens when the non-existent
+selfAnalyze()
+function is called. Since
+      that isn't a real method on images, the error tells you it's not a function. In both
+      cases, the error is descriptive of the problem.
+Unknown object type casting
+The "
+...is not a function
+" error may result from Earth Engine not
+      knowing the type of a variable. Common manifestations of this problem result from:
+Doing something to an object returned by
+first()
+(the type of
+      the elements in a collection is unknown).
+Doing something to an object returned by
+get()
+(the type of
+      element stored in a property is unknown).
+Doing something to a function argument (in the function) when the type of the argument
+        is unknown.
+For an example of the former:
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+FeatureCollection
+(
+'USDOS/LSIB_SIMPLE/2017'
+);
+// Error: collection.first(...).area is not a function
+var
+area
+=
+collection
+.
+first
+().
+area
+();
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+FeatureCollection
+(
+'USDOS/LSIB_SIMPLE/2017'
+)
+# AttributeError: 'Element' object has no attribute 'area'.
+area
+=
+collection
+.
+first
+()
+.
+area
+()
+The solution in all cases is to cast the object of unknown type with the constructor
+      of the known type. Continuing the previous example, the solution is to cast to
+ee.Feature
+:
+Solution
+— use a cast!
+Code Editor (JavaScript)
+var
+area
+=
+ee
+.
+Feature
+(
+collection
+.
+first
+()).
+area
+();
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+area
+=
+ee
+.
+Feature
+(
+collection
+.
+first
+())
+.
+area
+()
+(It's worth noting that you can safely call any method on
+Element
+here
+      because that's what Earth Engine thinks it is).
+Avoid mixing client and server functions
+The following example is less obvious:
+Error
+— this code doesn't do what you want
+Code Editor (JavaScript)
+// Don't mix EE objects and JavaScript objects.
+var
+image
+=
+ee
+.
+Image
+(
+'USGS/SRTMGL1_003'
+);
+var
+nonsense
+=
+image
++
+2
+;
+// You can print this, but it's not what you were hoping for.
+print
+(
+nonsense
+);
+// Error: g.eeObject.name is not a function
+Map
+.
+addLayer
+(
+nonsense
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+# Don't mix EE objects and Python objects.
+image
+=
+ee
+.
+Image
+(
+'USGS/SRTMGL1_003'
+)
+nonsense
+=
+image
++
+2
+# TypeError: unsupported operand type(s) for +: 'Image' and 'int'.
+display
+(
+nonsense
+)
+# TypeError: unsupported operand type(s) for +: 'Image' and 'int'.
+m
+=
+geemap
+.
+Map
+()
+m
+.
+add_layer
+(
+nonsense
+)
+m
+Supposing the author of this code intended to add
+2
+to every pixel in the
+      image, this is not the right way to do it. Specifically, this code wrongly mixes a
+      server-side object (
+image
+) with a client-side operator
+      (
++
+). The results may be surprising. In the first case, printing of
+nonsense
+in the JavaScript Code Editor will perform the requested operation
+      (
++
+) by converting both
+image
+and
+2
+to strings,
+      then concatenating them. The resultant string is unintended (in Python a TypeError is thrown).
+      In the second case, adding
+nonsense
+to the map, the cryptic
+g.eeObject.name is not a function
+error is displayed in the JavaScript Code
+      Editor because the object being added to the map,
+nonsense
+, is a string, not an
+      EE object (in Python a TypeError is thrown). To avoid possibly unintended results and
+      uninformative errors, don't mix server objects and functions with client objects, primitives
+      or functions. The solution is this example is to use a server function.
+Solution
+— use a server function!
+Code Editor (JavaScript)
+Map
+.
+addLayer
+(
+image
+.
+add
+(
+2
+));
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+m
+=
+geemap
+.
+Map
+()
+m
+.
+add_layer
+(
+image
+.
+add
+(
+2
+))
+m
+See the
+Client versus Server
+page for more
+    details.
+JavaScript Code Editor browser lock
+Browser freeze or lock can occur when JavaScript running in the client takes too long, or
+      when waiting for something from Earth Engine. Two common sources of this error are
+      for-loops and/or
+getInfo()
+in your JavaScript Code Editor code, with the
+      worst-case scenario of
+getInfo()
+inside a for-loop. For-loops can cause the
+      browser to lock because the code runs on your machine. On the other hand,
+getInfo()
+synchronously requests the result of a computation from Earth Engine,
+      blocking until the result is received. If the computation takes a long time, the blocking
+      could cause your browser to lock. Avoid both for-loops and
+getInfo()
+while
+      working in the Code Editor. See the
+Client versus Server
+page for more
+      details.
+Server-side errors
+Despite logical consistency in the client code, there may be bugs which only
+      become apparent at run time on the server. The following example demonstrates what
+      happens when trying to get a band that doesn't exist.
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+// Load a Sentinel-2 image.
+var
+s2image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR'
+);
+// Error: Image.select: Pattern 'nonBand' did not match any bands.
+print
+(
+s2image
+.
+select
+([
+'nonBand'
+]));
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+# Load a Sentinel-2 image.
+s2image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR'
+)
+# EEException: Image.select: Band pattern 'non_band' did not match any bands.
+print
+(
+s2image
+.
+select
+([
+'non_band'
+])
+.
+getInfo
+())
+In this example, the error informs you that there is no band named
+nonBand
+. The possibly obvious solution is to specify a band name that
+does
+exist. You can discover the band names by printing the image and
+      inspecting it in the console, or by printing the list of band names returned by
+image.bandNames()
+.
+Immutability
+Server-side objects you create in Earth Engine are
+immutable
+. (Any
+ee.Object
+is a server side
+Object
+). That means that if you
+      want to make a change to the object, you have to save the changed state into a new
+      variable. For example, this won't work to set a property on the Sentinel-2 image:
+Error
+— this code doesn't do what you want!
+Code Editor (JavaScript)
+var
+s2image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR'
+);
+s2image
+.
+set
+(
+'myProperty'
+,
+'This image is not assigned to a variable'
+);
+// This will not result in an error, but will not find 'myProperty'.
+print
+(
+s2image
+.
+get
+(
+'myProperty'
+));
+// null
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+s2image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR'
+)
+s2image
+.
+set
+(
+'my_property'
+,
+'This image is not assigned to a variable'
+)
+# This will not result in an error, but will not find 'my_property'.
+display
+(
+s2image
+.
+get
+(
+'my_property'
+))
+# None
+In this example,
+s2image.set()
+returns a copy of the image with the new
+      property, but the image stored in the
+s2image
+variable is unchanged. You need
+      to save the image returned by
+s2image.set()
+in a new variable. For example:
+Solution
+— capture the result in a variable!
+Code Editor (JavaScript)
+s2image
+=
+s2image
+.
+set
+(
+'myProperty'
+,
+'OK'
+);
+print
+(
+s2image
+.
+get
+(
+'myProperty'
+));
+// OK
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+s2image
+=
+s2image
+.
+set
+(
+'my_property'
+,
+'OK'
+)
+display
+(
+s2image
+.
+get
+(
+'my_property'
+))
+# OK
+Mapped functions
+Another context in which client and server functions don't mix is in mapped
+      functions. Specifically, the operations specified by the mapped function run in the cloud,
+      so client functions such as
+getInfo
+and
+Export
+(as well as
+print
+and method on
+Map
+and
+Chart
+in
+      the JavaScript Code Editor) won't work in mapped functions. For example:
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+);
+// Error: A mapped function's arguments cannot be used in client-side operations
+var
+badMap3
+=
+collection
+.
+map
+(
+function
+(
+image
+)
+{
+print
+(
+image
+);
+return
+image
+;
+});
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+)
+# Error: A mapped function's arguments cannot be used in client-side operations.
+bad_map_3
+=
+collection
+.
+map
+(
+lambda
+image
+:
+print
+(
+image
+.
+getInfo
+()))
+This somewhat cryptic error results from the process Earth Engine uses to turn this
+      code into a set of instructions that can be run on Google servers. Client-side functions and
+      control structures cannot be used to operate on the argument image passed to the mapped
+      function. To avoid this error, avoid the use of client-side functions in mapped functions.
+      See the
+Client versus Server
+page to learn
+      more about the distinction between client and server functions.
+Mapped functions have additional requirements. For example, mapped functions must return
+      something:
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+);
+// Error: User-defined methods must return a value.
+var
+badMap1
+=
+collection
+.
+map
+(
+function
+(
+image
+)
+{
+// Do nothing.
+});
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+)
+# Error: User-defined methods must return a value.
+bad_map_1
+=
+collection
+.
+map
+(
+lambda
+image
+:
+None
+)
+The possibly obvious solution is to return something. But it can't return just any type
+      of thing. Specifically, functions mapped over an
+ImageCollection
+or
+FeatureCollection
+must return an
+Image
+or
+Feature
+. For example, you can't return a date from a function mapped over
+      an
+ImageCollection
+:
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+);
+var
+badMap2
+=
+collection
+.
+map
+(
+function
+(
+image
+)
+{
+return
+image
+.
+date
+();
+});
+// Error: Collection.map: A mapped algorithm must return a Feature or Image.
+print
+(
+badMap2
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+)
+bad_map_2
+=
+collection
+.
+map
+(
+lambda
+image
+:
+image
+.
+date
+())
+# EEException: Collection.map:
+# A mapped algorithm must return a Feature or Image.
+print
+(
+bad_map_2
+.
+getInfo
+())
+To avoid this, return the input image with a new property set. Then, if you need a list
+      of the dates of the images in the collection, you can use
+aggregate_array()
+:
+Solution
+— set a property!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+);
+var
+okMap2
+=
+collection
+.
+map
+(
+function
+(
+image
+)
+{
+return
+image
+.
+set
+(
+'date'
+,
+image
+.
+date
+());
+});
+print
+(
+okMap2
+);
+// Get a list of the dates.
+var
+datesList
+=
+okMap2
+.
+aggregate_array
+(
+'date'
+);
+print
+(
+datesList
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+ImageCollection
+(
+'MODIS/006/MOD44B'
+)
+ok_map_2
+=
+collection
+.
+map
+(
+lambda
+image
+:
+image
+.
+set
+(
+'date'
+,
+image
+.
+date
+()))
+print
+(
+ok_map_2
+.
+getInfo
+())
+# Get a list of the dates.
+dates_list
+=
+ok_map_2
+.
+aggregate_array
+(
+'date'
+)
+print
+(
+dates_list
+.
+getInfo
+())
+Procedural errors
+Pattern was applied to an Image with no bands
+The
+"Pattern 'my_band' was applied to an Image with no bands"
+error means there is an
+ee.Image.select()
+call for an Image
+      with an empty band list. Here's what you can do to address this:
+If the image is produced from an ImageCollection with a reducer or
+        using the
+first()
+or
+toBands()
+calls, make sure
+        the source collection is not empty.
+If the image is produced from a dictionary using
+ee.Dictionary().toImage()
+, make sure the dictionary
+        is not empty.
+If the image is standalone, make sure it has data (and isn't just
+ee.Image(0)
+).
+Scaling errors
+Though a script may be syntactically correct, without logical errors, and represent a valid
+      set of instructions for the server, in parallelizing and executing the computation,
+      the resultant objects may be too big, too numerous, or take too long to compute. In
+      this case, you will get an error indicating that the algorithm can't be scaled. These
+      errors are generally the most difficult to diagnose and resolve. Examples of this
+      type of error include:
+Computation timed out
+Too many concurrent aggregations
+User memory limit exceeded
+An internal error has occurred
+Warning:
+Quota restrictions exist to ensure the availability of
+  computing resources for the entire Earth Engine community. Attempting to circumvent quota
+  restrictions through the use of multiple Google accounts is a violation of the
+Earth Engine Terms of Service.
+Improving the scaling of your code will let you get results faster, and also improve the
+      availability of computing resources for all users. Each type of error is discussed in the
+      following sections, following a brief aside about
+reduceRegion()
+, a commonly used
+      function that is notorious for being able to cause every type of scaling error.
+reduceRegion()
+Although
+reduceRegion()
+greedily consumes enough pixels to trigger an
+      exciting variety of errors, there are also parameters intended to control the
+      computation, so you can overcome the errors. For example, consider the following
+      inadvisable reduction:
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+absurdComputation
+=
+ee
+.
+Image
+(
+1
+).
+reduceRegion
+({
+reducer
+:
+'count'
+,
+geometry
+:
+ee
+.
+Geometry
+.
+Rectangle
+([
+-
+180
+,
+-
+90
+,
+180
+,
+90
+],
+null
+,
+false
+),
+scale
+:
+100
+,
+});
+// Error: Image.reduceRegion: Too many pixels in the region.
+//        Found 80300348117, but only 10000000 allowed.
+print
+(
+absurdComputation
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+absurd_computation
+=
+ee
+.
+Image
+(
+1
+)
+.
+reduceRegion
+(
+reducer
+=
+'count'
+,
+geometry
+=
+ee
+.
+Geometry
+.
+Rectangle
+([
+-
+180
+,
+-
+90
+,
+180
+,
+90
+],
+None
+,
+False
+),
+scale
+=
+100
+,
+)
+# EEException: Image.reduceRegion: Too many pixels in the region.
+#        Found 80300348117, but only 10000000 allowed.
+print
+(
+absurd_computation
+.
+getInfo
+())
+This silly example is just for demonstration. The purpose of this error is to ask
+      you whether you
+really
+want to reduce 80300348117 (that's 80
+billion
+)
+      pixels. If not, increase the
+scale
+(pixel size in meters) accordingly, or
+      set
+bestEffort
+to true, to recompute a larger scale automatically. See the
+reduceRegion()
+page for
+      more details about these parameters.
+Computation timed out
+Suppose you need all those pixels in your computation. If so, you can increase the
+maxPixels
+parameter to allow the computation to succeed. However, it's
+      going to take Earth Engine some time to finish the computation. As a result, a
+      "computation timed out" error might be thrown:
+Bad
+— don't do this!
+Code Editor (JavaScript)
+var
+ridiculousComputation
+=
+ee
+.
+Image
+(
+1
+).
+reduceRegion
+({
+reducer
+:
+'count'
+,
+geometry
+:
+ee
+.
+Geometry
+.
+Rectangle
+([
+-
+180
+,
+-
+90
+,
+180
+,
+90
+],
+null
+,
+false
+),
+scale
+:
+100
+,
+maxPixels
+:
+1e11
+});
+// Error: Computation timed out.
+print
+(
+ridiculousComputation
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+ridiculous_computation
+=
+ee
+.
+Image
+(
+1
+)
+.
+reduceRegion
+(
+reducer
+=
+'count'
+,
+geometry
+=
+ee
+.
+Geometry
+.
+Rectangle
+([
+-
+180
+,
+-
+90
+,
+180
+,
+90
+],
+None
+,
+False
+),
+scale
+=
+100
+,
+maxPixels
+=
+int
+(
+1e11
+),
+)
+# Error: Computation timed out.
+print
+(
+ridiculous_computation
+.
+getInfo
+())
+What this error means is that Earth Engine waited about five minutes before stopping the
+      computation. Exporting allows Earth Engine to perform the computation in an environment
+      with longer allowable running times (but
+not
+more memory). As the return value
+      from
+reduceRegion()
+is a dictionary, you can use the dictionary to set the
+      properties of a feature with null geometry:
+Good
+— use
+Export
+!
+Code Editor (JavaScript)
+Export
+.
+table
+.
+toDrive
+({
+collection
+:
+ee
+.
+FeatureCollection
+([
+ee
+.
+Feature
+(
+null
+,
+ridiculousComputation
+)
+]),
+description
+:
+'ridiculousComputation'
+,
+fileFormat
+:
+'CSV'
+});
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+task
+=
+ee
+.
+batch
+.
+Export
+.
+table
+.
+toDrive
+(
+collection
+=
+ee
+.
+FeatureCollection
+([
+ee
+.
+Feature
+(
+None
+,
+ridiculous_computation
+)]),
+description
+=
+'ridiculous_computation'
+,
+fileFormat
+=
+'CSV'
+,
+)
+# task.start()
+Too many concurrent aggregations
+The "aggregations" part of this error refers to operations that are spread out over
+      multiple machines (such as reductions that span more than one tile). Earth Engine
+      has limits in place to prevent too many such aggregations from being run concurrently. In
+      this example, the "Too many concurrent aggregations" error is triggered by a reduction
+      within a map:
+Bad
+— don't do this!
+Code Editor (JavaScript)
+var
+collection
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+123
+,
+43
+]));
+var
+terribleAggregations
+=
+collection
+.
+map
+(
+function
+(
+image
+)
+{
+return
+image
+.
+set
+(
+image
+.
+reduceRegion
+({
+reducer
+:
+'mean'
+,
+geometry
+:
+image
+.
+geometry
+(),
+scale
+:
+30
+,
+maxPixels
+:
+1e9
+}));
+});
+// Error: Quota exceeded: Too many concurrent aggregations.
+print
+(
+terribleAggregations
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+collection
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+123
+,
+43
+])
+)
+def
+apply_mean_aggregation
+(
+image
+):
+return
+image
+.
+set
+(
+image
+.
+reduceRegion
+(
+reducer
+=
+'mean'
+,
+geometry
+=
+image
+.
+geometry
+(),
+scale
+=
+30
+,
+maxPixels
+=
+int
+(
+1e9
+),
+)
+)
+terrible_aggregations
+=
+collection
+.
+map
+(
+apply_mean_aggregation
+)
+# EEException: Computation timed out.
+print
+(
+terrible_aggregations
+.
+getInfo
+())
+Assuming that the purpose of this code is to get image statistics for each image, one
+      possible solution is to
+Export
+the result. For example, using the fact
+      that an
+ImageCollection
+is also a
+FeatureCollection
+, the
+      metadata associated with the images can be exported as a table:
+Good
+— use
+Export
+!
+Code Editor (JavaScript)
+Export
+.
+table
+.
+toDrive
+({
+collection
+:
+terribleAggregations
+,
+description
+:
+'terribleAggregations'
+,
+fileFormat
+:
+'CSV'
+});
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+task
+=
+ee
+.
+batch
+.
+Export
+.
+table
+.
+toDrive
+(
+collection
+=
+terrible_aggregations
+,
+description
+=
+'terrible_aggregations'
+,
+fileFormat
+=
+'CSV'
+,
+)
+# task.start()
+User memory limit exceeded
+One way your algorithms get parallelized in Earth Engine is by splitting the inputs
+      into tiles, running the same computation separately on each tile, then combining the
+      results. As a consequence, all of the inputs necessary to compute an output tile have
+      to fit into memory. For example, when the input is an image with many bands, that
+      could end up taking a lot of memory if all the bands are used in the computation. To
+      demonstrate, this example uses too much memory by forcing (unnecessarily) an entire
+      image collection into a tile:
+Bad
+— don't do this!
+Code Editor (JavaScript)
+var
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+];
+var
+memoryHog
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+).
+select
+(
+bands
+)
+.
+toArray
+()
+.
+arrayReduce
+(
+ee
+.
+Reducer
+.
+mean
+(),
+[
+0
+])
+.
+arrayProject
+([
+1
+])
+.
+arrayFlatten
+([
+bands
+])
+.
+reduceRegion
+({
+reducer
+:
+'mean'
+,
+geometry
+:
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+]).
+buffer
+(
+1000
+),
+scale
+:
+1
+,
+bestEffort
+:
+true
+,
+});
+// Error: User memory limit exceeded.
+print
+(
+memoryHog
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+]
+memory_hog
+=
+(
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+)
+.
+select
+(
+bands
+)
+.
+toArray
+()
+.
+arrayReduce
+(
+ee
+.
+Reducer
+.
+mean
+(),
+[
+0
+])
+.
+arrayProject
+([
+1
+])
+.
+arrayFlatten
+([
+bands
+])
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+mean
+(),
+geometry
+=
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+])
+.
+buffer
+(
+1000
+),
+scale
+=
+1
+,
+bestEffort
+=
+True
+,
+)
+)
+# EEException: User memory limit exceeded.
+print
+(
+memory_hog
+.
+getInfo
+())
+This very bad code demonstrates one reason to not use arrays unless you really need to
+      (see also the 'Avoid converting type unnecessarily' section). When that collection is
+      converted to a gigantic array, the array has to be loaded into memory all at
+      once. Because it's a long time series of images, the array is large and won't fit in
+      memory.
+One possible solution is to set the
+tileScale
+parameter to a higher
+      value. Higher values of tileScale result in tiles smaller by a factor of
+tileScale^2
+. For example, the following allows the computation to
+      succeed:
+Code Editor (JavaScript)
+var
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+];
+var
+smallerHog
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+).
+select
+(
+bands
+)
+.
+toArray
+()
+.
+arrayReduce
+(
+ee
+.
+Reducer
+.
+mean
+(),
+[
+0
+])
+.
+arrayProject
+([
+1
+])
+.
+arrayFlatten
+([
+bands
+])
+.
+reduceRegion
+({
+reducer
+:
+'mean'
+,
+geometry
+:
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+]).
+buffer
+(
+1000
+),
+scale
+:
+1
+,
+bestEffort
+:
+true
+,
+tileScale
+:
+16
+});
+print
+(
+smallerHog
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+]
+smaller_hog
+=
+(
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+)
+.
+select
+(
+bands
+)
+.
+toArray
+()
+.
+arrayReduce
+(
+ee
+.
+Reducer
+.
+mean
+(),
+[
+0
+])
+.
+arrayProject
+([
+1
+])
+.
+arrayFlatten
+([
+bands
+])
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+mean
+(),
+geometry
+=
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+])
+.
+buffer
+(
+1000
+),
+scale
+=
+1
+,
+bestEffort
+=
+True
+,
+tileScale
+=
+16
+,
+)
+)
+print
+(
+smaller_hog
+.
+getInfo
+())
+However, the much preferred solution is to not use arrays unnecessarily, so you don't
+      need to fiddle with
+tileScale
+at all:
+Good
+— avoid Arrays!
+Code Editor (JavaScript)
+var
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+];
+var
+okMemory
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+).
+select
+(
+bands
+)
+.
+mean
+()
+.
+reduceRegion
+({
+reducer
+:
+'mean'
+,
+geometry
+:
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+]).
+buffer
+(
+1000
+),
+scale
+:
+1
+,
+bestEffort
+:
+true
+,
+});
+print
+(
+okMemory
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+bands
+=
+[
+'B1'
+,
+'B2'
+,
+'B3'
+,
+'B4'
+,
+'B5'
+,
+'B6'
+,
+'B7'
+]
+ok_memory
+=
+(
+ee
+.
+ImageCollection
+(
+'LANDSAT/LT05/C02/T1'
+)
+.
+select
+(
+bands
+)
+.
+mean
+()
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+mean
+(),
+geometry
+=
+ee
+.
+Geometry
+.
+Point
+([
+-
+122.27
+,
+37.87
+])
+.
+buffer
+(
+1000
+),
+scale
+=
+1
+,
+bestEffort
+=
+True
+,
+)
+)
+print
+(
+ok_memory
+.
+getInfo
+())
+Unless necessary to resolve a memory error, you shouldn't set
+tileScale
+as smaller tiles also result in larger parallelization overhead.
+Internal errors
+You may encounter an error that looks like:
+An internal error has occurred.
+If you get this error, click the "Report error" link which appears in the JavaScript Code
+      Editor console. You can also
+Send feedback
+from the
+Help
+button. This error can result from logical errors in your script that only become
+      obvious at runtime or a problem with the inner workings of Earth Engine. In either
+      case, the error is uninformative and should be reported so that it can be fixed.
+Internal errors include a
+request
+ID, like the following:
+(request: 4b14e62b-f73f-49cc-9cf7-901cad12058b)
+These strings act as unique identifiers to help the Earth Engine team to identify specific
+      issues. Include this string in bug reports.
+Debugging methods
+You coded up your analysis, ran it, and got an error. Now what? This
+      section describes general debugging techniques to isolate the problem and fix it.
+Inspect variables and map layers
+Suppose you have a very complex analysis that produces an error. If it not obvious where
+      the error originates, a good initial strategy is to print or visualize intermediate
+      objects and inspect them to ensure the structure of the object is consistent with the
+      logic in your script. Specifically, you can inspect pixel values of layers added to the
+      map with the Code Editor or geemap inspector tools. If you print something,
+      be sure to expand its properties with the zippies (▶). Some things to check include:
+Band names. Do image band names match your code?
+Pixel values. Does your data have the right range? Is it masked appropriately?
+Null. Is anything null that shouldn't be?
+Sizes. Is the size zero when it shouldn't be?
+aside()
+It can be onerous to put every intermediate step in an analysis into a variable so that
+      it can be printed and inspected. To print intermediate values from a long chain of
+      function calls, you can use the
+aside()
+method. For example:
+Code Editor (JavaScript)
+var
+image
+=
+ee
+.
+Image
+(
+ee
+.
+ImageCollection
+(
+'COPERNICUS/S2'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+12.29
+,
+168.83
+]))
+.
+aside
+(
+print
+)
+.
+filterDate
+(
+'2011-01-01'
+,
+'2016-12-31'
+)
+.
+first
+());
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+image
+=
+ee
+.
+Image
+(
+ee
+.
+ImageCollection
+(
+'COPERNICUS/S2_HARMONIZED'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+12.29
+,
+168.83
+]))
+.
+aside
+(
+display
+)
+.
+filterDate
+(
+'2011-01-01'
+,
+'2016-12-31'
+)
+.
+first
+()
+)
+Just remember,
+aside(print)
+(JavaScript Code Editor) and
+aside(display)
+(Python geemap) are calling client side functions, and it
+      will still
+fail in mapped functions
+. You can also use aside
+      with user defined functions. For example:
+Code Editor (JavaScript)
+var
+composite
+=
+ee
+.
+ImageCollection
+(
+'LANDSAT/LC08/C02/T1_TOA'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+106.91
+,
+47.91
+]))
+.
+map
+(
+function
+(
+image
+)
+{
+return
+image
+.
+addBands
+(
+image
+.
+normalizedDifference
+([
+'B5'
+,
+'B4'
+]));
+})
+.
+aside
+(
+Map
+.
+addLayer
+,
+{
+bands
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+max
+:
+0.3
+},
+'collection'
+)
+.
+qualityMosaic
+(
+'nd'
+);
+Map
+.
+setCenter
+(
+106.91
+,
+47.91
+,
+11
+);
+Map
+.
+addLayer
+(
+composite
+,
+{
+bands
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+max
+:
+0.3
+},
+'composite'
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+m
+=
+geemap
+.
+Map
+()
+m
+.
+set_center
+(
+106.91
+,
+47.91
+,
+11
+)
+composite
+=
+(
+ee
+.
+ImageCollection
+(
+'LANDSAT/LC08/C02/T1_TOA'
+)
+.
+filterBounds
+(
+ee
+.
+Geometry
+.
+Point
+([
+106.91
+,
+47.91
+]))
+.
+map
+(
+lambda
+image
+:
+image
+.
+addBands
+(
+image
+.
+normalizedDifference
+([
+'B5'
+,
+'B4'
+])))
+.
+aside
+(
+m
+.
+add_layer
+,
+{
+'bands'
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+'max'
+:
+0.3
+},
+'collection'
+)
+.
+qualityMosaic
+(
+'nd'
+)
+)
+m
+.
+add_layer
+(
+composite
+,
+{
+'bands'
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+'max'
+:
+0.3
+},
+'composite'
+)
+m
+Running a function on
+first()
+Printing and visualizing are useful for debugging when available, but when you're debugging
+      a function mapped over a collection, then you can't print in the function,
+      as described in the
+mapped functions section
+. In this case,
+      it's useful to isolate problematic elements in the collection and test the mapped function on
+      an individual element. When you're testing the function without mapping it, you can use
+      print statements to understand the problem. Consider the following example.
+Error
+— this code doesn't work!
+Code Editor (JavaScript)
+var
+image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20150821T111616_20160314T094808_T30UWU'
+);
+var
+someFeatures
+=
+ee
+.
+FeatureCollection
+([
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+2.02
+,
+48.43
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+2.80
+,
+48.37
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+1.22
+,
+48.29
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+1.73
+,
+48.65
+])),
+]);
+var
+problem
+=
+someFeatures
+.
+map
+(
+function
+(
+feature
+)
+{
+var
+dictionary
+=
+image
+.
+reduceRegion
+({
+reducer
+:
+'first'
+,
+geometry
+:
+feature
+.
+geometry
+(),
+scale
+:
+10
+,
+});
+return
+feature
+.
+set
+({
+result
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))
+});
+});
+// Error in map(ID=2):
+//  Number.divide: Parameter 'left' is required.
+print
+(
+problem
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+image
+=
+ee
+.
+Image
+(
+'COPERNICUS/S2_HARMONIZED/20150821T111616_20160314T094808_T30UWU'
+)
+some_features
+=
+ee
+.
+FeatureCollection
+([
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+2.02
+,
+48.43
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+2.80
+,
+48.37
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+1.22
+,
+48.29
+])),
+ee
+.
+Feature
+(
+ee
+.
+Geometry
+.
+Point
+([
+-
+1.73
+,
+48.65
+])),
+])
+# Define a function to be mapped over the collection.
+def
+function_to_map
+(
+feature
+):
+dictionary
+=
+image
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+first
+(),
+geometry
+=
+feature
+.
+geometry
+(),
+scale
+=
+10
+)
+return
+feature
+.
+set
+(
+{
+'result'
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))}
+)
+problem
+=
+some_features
+.
+map
+(
+function_to_map
+)
+# EEException: Error in map(ID=2):
+#  Number.divide: Parameter 'left' is required.
+print
+(
+problem
+.
+getInfo
+())
+To debug this, it is instructional to examine the error. Fortunately, this helpful error
+      informs you that there is a problem with the feature with
+ID=2
+. To
+      investigate further, it's useful to refactor the code a bit. Specifically, you can't
+      have print statements in the function when it's mapped over a collection, as described in
+      this section. The debugging goal is to isolate the problematic feature, and run the
+      function with some print statements in it. With the same image and features used
+      previously:
+Code Editor (JavaScript)
+// Define a function to be mapped over the collection.
+var
+functionToMap
+=
+function
+(
+feature
+)
+{
+var
+dictionary
+=
+image
+.
+reduceRegion
+({
+reducer
+:
+'first'
+,
+geometry
+:
+feature
+.
+geometry
+(),
+scale
+:
+10
+,
+});
+// Debug:
+print
+(
+dictionary
+);
+return
+feature
+.
+set
+({
+result
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))
+});
+};
+// Isolate the feature that's creating problems.
+var
+badFeature
+=
+ee
+.
+Feature
+(
+someFeatures
+.
+filter
+(
+ee
+.
+Filter
+.
+eq
+(
+'system:index'
+,
+'2'
+))
+.
+first
+());
+// Test the function with print statements added.
+functionToMap
+(
+badFeature
+);
+// Inspect the bad feature in relation to the image.
+Map
+.
+centerObject
+(
+badFeature
+,
+11
+);
+Map
+.
+addLayer
+(
+badFeature
+,
+{},
+'bad feature'
+);
+Map
+.
+addLayer
+(
+image
+,
+{
+bands
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+max
+:
+3000
+},
+'image'
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+# Define a function to be mapped over the collection.
+def
+function_to_map
+(
+feature
+):
+dictionary
+=
+image
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+first
+(),
+geometry
+=
+feature
+.
+geometry
+(),
+scale
+=
+10
+)
+# Debug:
+display
+(
+dictionary
+)
+return
+feature
+.
+set
+(
+{
+'result'
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))}
+)
+# Isolate the feature that's creating problems.
+bad_feature
+=
+ee
+.
+Feature
+(
+some_features
+.
+filter
+(
+ee
+.
+Filter
+.
+eq
+(
+'system:index'
+,
+'2'
+))
+.
+first
+()
+)
+# Test the function with print statements added.
+function_to_map
+(
+bad_feature
+)
+# Inspect the bad feature in relation to the image.
+m
+=
+geemap
+.
+Map
+()
+m
+.
+center_object
+(
+bad_feature
+,
+11
+)
+m
+.
+add_layer
+(
+bad_feature
+,
+{},
+'bad feature'
+)
+m
+.
+add_layer
+(
+image
+,
+{
+'bands'
+:
+[
+'B4'
+,
+'B3'
+,
+'B2'
+],
+'max'
+:
+3000
+},
+'image'
+)
+m
+Now, because the function is run only on one feature, you can put a print (`display` for
+      Python geemap) call inside. Inspect the printed object to discover (ah ha!) that the object
+      returned by
+reduceRegion()
+has nulls for every band. That explains why the
+      division is failing: because you can't divide null by null. Why is it null in the first place?
+      To investigate, add the input image and the bad feature to the map, and center on the bad
+      feature. In doing so, you discover that the problem is due to the point being outside
+      the bounds of the image. Based on this discovery, the debugged code is:
+Code Editor (JavaScript)
+var
+functionToMap
+=
+function
+(
+feature
+)
+{
+var
+dictionary
+=
+image
+.
+reduceRegion
+({
+reducer
+:
+'first'
+,
+geometry
+:
+feature
+.
+geometry
+(),
+scale
+:
+10
+,
+});
+return
+feature
+.
+set
+({
+result
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))
+});
+};
+var
+noProblem
+=
+someFeatures
+.
+filterBounds
+(
+image
+.
+geometry
+())
+.
+map
+(
+functionToMap
+);
+print
+(
+noProblem
+);
+Python setup
+See the
+Python Environment
+page for information on the Python API and using
+geemap
+for interactive development.
+import
+ee
+import
+geemap.core
+as
+geemap
+Colab (Python)
+def
+function_to_map
+(
+feature
+):
+dictionary
+=
+image
+.
+reduceRegion
+(
+reducer
+=
+ee
+.
+Reducer
+.
+first
+(),
+geometry
+=
+feature
+.
+geometry
+(),
+scale
+=
+10
+)
+return
+feature
+.
+set
+(
+{
+'result'
+:
+ee
+.
+Number
+(
+dictionary
+.
+get
+(
+'B5'
+))
+.
+divide
+(
+dictionary
+.
+get
+(
+'B4'
+))}
+)
+no_problem
+=
+some_features
+.
+filterBounds
+(
+image
+.
+geometry
+())
+.
+map
+(
+function_to_map
+)
+display
+(
+no_problem
+)
+Profiler
+The
+profiler
+provides
+      information about EECU-time and memory usage (per algorithm and asset) resulting from the
+      computation performed while it's enabled. Look for the entries at the top of the profiler for
+      information about the most resource intensive operations. For long-running or inefficient
+      scripts, the entries at the top of the profiler provide clues about where to focus efforts to
+      optimize the script. Important note: the profiler itself influences the performance of the
+      script, so you should only run it when necessary.
+
+
+--- CODE BLOCK ---
+// Load a Sentinel-2 image.varimage=ee.Image('USGS/SRTMGL1_003');// Error: "bandNames" is not defined in this scope.vardisplay=image.visualize({bands:bandNames,min:0,max:9000});// Error: image.selfAnalyze is not a functionvarsilly=image.selfAnalyze();
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Load a Sentinel-2 image.image=ee.Image('USGS/SRTMGL1_003')# NameError: name 'band_names' is not defined.display=image.visualize(bands=band_names,min=0,max=9000)# AttributeError: 'Image' object has no attribute 'selfAnalyze'.silly=image.selfAnalyze()
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');// Error: collection.first(...).area is not a functionvararea=collection.first().area();
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017')# AttributeError: 'Element' object has no attribute 'area'.area=collection.first().area()
+
+
+
+--- CODE BLOCK ---
+vararea=ee.Feature(collection.first()).area();
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+area=ee.Feature(collection.first()).area()
+
+
+
+--- CODE BLOCK ---
+// Don't mix EE objects and JavaScript objects.varimage=ee.Image('USGS/SRTMGL1_003');varnonsense=image+2;// You can print this, but it's not what you were hoping for.print(nonsense);// Error: g.eeObject.name is not a functionMap.addLayer(nonsense);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Don't mix EE objects and Python objects.image=ee.Image('USGS/SRTMGL1_003')nonsense=image+2# TypeError: unsupported operand type(s) for +: 'Image' and 'int'.display(nonsense)# TypeError: unsupported operand type(s) for +: 'Image' and 'int'.m=geemap.Map()m.add_layer(nonsense)m
+
+
+
+--- CODE BLOCK ---
+Map.addLayer(image.add(2));
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+m=geemap.Map()m.add_layer(image.add(2))m
+
+
+
+--- CODE BLOCK ---
+// Load a Sentinel-2 image.vars2image=ee.Image('COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR');// Error: Image.select: Pattern 'nonBand' did not match any bands.print(s2image.select(['nonBand']));
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Load a Sentinel-2 image.s2image=ee.Image('COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR')# EEException: Image.select: Band pattern 'non_band' did not match any bands.print(s2image.select(['non_band']).getInfo())
+
+
+
+--- CODE BLOCK ---
+vars2image=ee.Image('COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR');s2image.set('myProperty','This image is not assigned to a variable');// This will not result in an error, but will not find 'myProperty'.print(s2image.get('myProperty'));// null
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+s2image=ee.Image('COPERNICUS/S2_HARMONIZED/20160625T100617_20160625T170310_T33UVR')s2image.set('my_property','This image is not assigned to a variable')# This will not result in an error, but will not find 'my_property'.display(s2image.get('my_property'))# None
+
+
+
+--- CODE BLOCK ---
+s2image=s2image.set('myProperty','OK');print(s2image.get('myProperty'));// OK
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+s2image=s2image.set('my_property','OK')display(s2image.get('my_property'))# OK
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.ImageCollection('MODIS/006/MOD44B');// Error: A mapped function's arguments cannot be used in client-side operationsvarbadMap3=collection.map(function(image){print(image);returnimage;});
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.ImageCollection('MODIS/006/MOD44B')# Error: A mapped function's arguments cannot be used in client-side operations.bad_map_3=collection.map(lambdaimage:print(image.getInfo()))
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.ImageCollection('MODIS/006/MOD44B');// Error: User-defined methods must return a value.varbadMap1=collection.map(function(image){// Do nothing.});
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.ImageCollection('MODIS/006/MOD44B')# Error: User-defined methods must return a value.bad_map_1=collection.map(lambdaimage:None)
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.ImageCollection('MODIS/006/MOD44B');varbadMap2=collection.map(function(image){returnimage.date();});// Error: Collection.map: A mapped algorithm must return a Feature or Image.print(badMap2);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.ImageCollection('MODIS/006/MOD44B')bad_map_2=collection.map(lambdaimage:image.date())# EEException: Collection.map:# A mapped algorithm must return a Feature or Image.print(bad_map_2.getInfo())
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.ImageCollection('MODIS/006/MOD44B');varokMap2=collection.map(function(image){returnimage.set('date',image.date());});print(okMap2);// Get a list of the dates.vardatesList=okMap2.aggregate_array('date');print(datesList);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.ImageCollection('MODIS/006/MOD44B')ok_map_2=collection.map(lambdaimage:image.set('date',image.date()))print(ok_map_2.getInfo())# Get a list of the dates.dates_list=ok_map_2.aggregate_array('date')print(dates_list.getInfo())
+
+
+
+--- CODE BLOCK ---
+varabsurdComputation=ee.Image(1).reduceRegion({reducer:'count',geometry:ee.Geometry.Rectangle([-180,-90,180,90],null,false),scale:100,});// Error: Image.reduceRegion: Too many pixels in the region.//        Found 80300348117, but only 10000000 allowed.print(absurdComputation);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+absurd_computation=ee.Image(1).reduceRegion(reducer='count',geometry=ee.Geometry.Rectangle([-180,-90,180,90],None,False),scale=100,)# EEException: Image.reduceRegion: Too many pixels in the region.#        Found 80300348117, but only 10000000 allowed.print(absurd_computation.getInfo())
+
+
+
+--- CODE BLOCK ---
+varridiculousComputation=ee.Image(1).reduceRegion({reducer:'count',geometry:ee.Geometry.Rectangle([-180,-90,180,90],null,false),scale:100,maxPixels:1e11});// Error: Computation timed out.print(ridiculousComputation);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+ridiculous_computation=ee.Image(1).reduceRegion(reducer='count',geometry=ee.Geometry.Rectangle([-180,-90,180,90],None,False),scale=100,maxPixels=int(1e11),)# Error: Computation timed out.print(ridiculous_computation.getInfo())
+
+
+
+--- CODE BLOCK ---
+Export.table.toDrive({collection:ee.FeatureCollection([ee.Feature(null,ridiculousComputation)]),description:'ridiculousComputation',fileFormat:'CSV'});
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+task=ee.batch.Export.table.toDrive(collection=ee.FeatureCollection([ee.Feature(None,ridiculous_computation)]),description='ridiculous_computation',fileFormat='CSV',)# task.start()
+
+
+
+--- CODE BLOCK ---
+varcollection=ee.ImageCollection('LANDSAT/LT05/C02/T1').filterBounds(ee.Geometry.Point([-123,43]));varterribleAggregations=collection.map(function(image){returnimage.set(image.reduceRegion({reducer:'mean',geometry:image.geometry(),scale:30,maxPixels:1e9}));});// Error: Quota exceeded: Too many concurrent aggregations.print(terribleAggregations);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+collection=ee.ImageCollection('LANDSAT/LT05/C02/T1').filterBounds(ee.Geometry.Point([-123,43]))defapply_mean_aggregation(image):returnimage.set(image.reduceRegion(reducer='mean',geometry=image.geometry(),scale=30,maxPixels=int(1e9),))terrible_aggregations=collection.map(apply_mean_aggregation)# EEException: Computation timed out.print(terrible_aggregations.getInfo())
+
+
+
+--- CODE BLOCK ---
+Export.table.toDrive({collection:terribleAggregations,description:'terribleAggregations',fileFormat:'CSV'});
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+task=ee.batch.Export.table.toDrive(collection=terrible_aggregations,description='terrible_aggregations',fileFormat='CSV',)# task.start()
+
+
+
+--- CODE BLOCK ---
+varbands=['B1','B2','B3','B4','B5','B6','B7'];varmemoryHog=ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).toArray().arrayReduce(ee.Reducer.mean(),[0]).arrayProject([1]).arrayFlatten([bands]).reduceRegion({reducer:'mean',geometry:ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale:1,bestEffort:true,});// Error: User memory limit exceeded.print(memoryHog);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+bands=['B1','B2','B3','B4','B5','B6','B7']memory_hog=(ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).toArray().arrayReduce(ee.Reducer.mean(),[0]).arrayProject([1]).arrayFlatten([bands]).reduceRegion(reducer=ee.Reducer.mean(),geometry=ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale=1,bestEffort=True,))# EEException: User memory limit exceeded.print(memory_hog.getInfo())
+
+
+
+--- CODE BLOCK ---
+varbands=['B1','B2','B3','B4','B5','B6','B7'];varsmallerHog=ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).toArray().arrayReduce(ee.Reducer.mean(),[0]).arrayProject([1]).arrayFlatten([bands]).reduceRegion({reducer:'mean',geometry:ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale:1,bestEffort:true,tileScale:16});print(smallerHog);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+bands=['B1','B2','B3','B4','B5','B6','B7']smaller_hog=(ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).toArray().arrayReduce(ee.Reducer.mean(),[0]).arrayProject([1]).arrayFlatten([bands]).reduceRegion(reducer=ee.Reducer.mean(),geometry=ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale=1,bestEffort=True,tileScale=16,))print(smaller_hog.getInfo())
+
+
+
+--- CODE BLOCK ---
+varbands=['B1','B2','B3','B4','B5','B6','B7'];varokMemory=ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).mean().reduceRegion({reducer:'mean',geometry:ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale:1,bestEffort:true,});print(okMemory);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+bands=['B1','B2','B3','B4','B5','B6','B7']ok_memory=(ee.ImageCollection('LANDSAT/LT05/C02/T1').select(bands).mean().reduceRegion(reducer=ee.Reducer.mean(),geometry=ee.Geometry.Point([-122.27,37.87]).buffer(1000),scale=1,bestEffort=True,))print(ok_memory.getInfo())
+
+
+
+--- CODE BLOCK ---
+varimage=ee.Image(ee.ImageCollection('COPERNICUS/S2').filterBounds(ee.Geometry.Point([-12.29,168.83])).aside(print).filterDate('2011-01-01','2016-12-31').first());
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+image=ee.Image(ee.ImageCollection('COPERNICUS/S2_HARMONIZED').filterBounds(ee.Geometry.Point([-12.29,168.83])).aside(display).filterDate('2011-01-01','2016-12-31').first())
+
+
+
+--- CODE BLOCK ---
+varcomposite=ee.ImageCollection('LANDSAT/LC08/C02/T1_TOA').filterBounds(ee.Geometry.Point([106.91,47.91])).map(function(image){returnimage.addBands(image.normalizedDifference(['B5','B4']));}).aside(Map.addLayer,{bands:['B4','B3','B2'],max:0.3},'collection').qualityMosaic('nd');Map.setCenter(106.91,47.91,11);Map.addLayer(composite,{bands:['B4','B3','B2'],max:0.3},'composite');
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+m=geemap.Map()m.set_center(106.91,47.91,11)composite=(ee.ImageCollection('LANDSAT/LC08/C02/T1_TOA').filterBounds(ee.Geometry.Point([106.91,47.91])).map(lambdaimage:image.addBands(image.normalizedDifference(['B5','B4']))).aside(m.add_layer,{'bands':['B4','B3','B2'],'max':0.3},'collection').qualityMosaic('nd'))m.add_layer(composite,{'bands':['B4','B3','B2'],'max':0.3},'composite')m
+
+
+
+--- CODE BLOCK ---
+varimage=ee.Image('COPERNICUS/S2_HARMONIZED/20150821T111616_20160314T094808_T30UWU');varsomeFeatures=ee.FeatureCollection([ee.Feature(ee.Geometry.Point([-2.02,48.43])),ee.Feature(ee.Geometry.Point([-2.80,48.37])),ee.Feature(ee.Geometry.Point([-1.22,48.29])),ee.Feature(ee.Geometry.Point([-1.73,48.65])),]);varproblem=someFeatures.map(function(feature){vardictionary=image.reduceRegion({reducer:'first',geometry:feature.geometry(),scale:10,});returnfeature.set({result:ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))});});// Error in map(ID=2)://  Number.divide: Parameter 'left' is required.print(problem);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+image=ee.Image('COPERNICUS/S2_HARMONIZED/20150821T111616_20160314T094808_T30UWU')some_features=ee.FeatureCollection([ee.Feature(ee.Geometry.Point([-2.02,48.43])),ee.Feature(ee.Geometry.Point([-2.80,48.37])),ee.Feature(ee.Geometry.Point([-1.22,48.29])),ee.Feature(ee.Geometry.Point([-1.73,48.65])),])# Define a function to be mapped over the collection.deffunction_to_map(feature):dictionary=image.reduceRegion(reducer=ee.Reducer.first(),geometry=feature.geometry(),scale=10)returnfeature.set({'result':ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))})problem=some_features.map(function_to_map)# EEException: Error in map(ID=2):#  Number.divide: Parameter 'left' is required.print(problem.getInfo())
+
+
+
+--- CODE BLOCK ---
+// Define a function to be mapped over the collection.varfunctionToMap=function(feature){vardictionary=image.reduceRegion({reducer:'first',geometry:feature.geometry(),scale:10,});// Debug:print(dictionary);returnfeature.set({result:ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))});};// Isolate the feature that's creating problems.varbadFeature=ee.Feature(someFeatures.filter(ee.Filter.eq('system:index','2')).first());// Test the function with print statements added.functionToMap(badFeature);// Inspect the bad feature in relation to the image.Map.centerObject(badFeature,11);Map.addLayer(badFeature,{},'bad feature');Map.addLayer(image,{bands:['B4','B3','B2'],max:3000},'image');
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Define a function to be mapped over the collection.deffunction_to_map(feature):dictionary=image.reduceRegion(reducer=ee.Reducer.first(),geometry=feature.geometry(),scale=10)# Debug:display(dictionary)returnfeature.set({'result':ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))})# Isolate the feature that's creating problems.bad_feature=ee.Feature(some_features.filter(ee.Filter.eq('system:index','2')).first())# Test the function with print statements added.function_to_map(bad_feature)# Inspect the bad feature in relation to the image.m=geemap.Map()m.center_object(bad_feature,11)m.add_layer(bad_feature,{},'bad feature')m.add_layer(image,{'bands':['B4','B3','B2'],'max':3000},'image')m
+
+
+
+--- CODE BLOCK ---
+varfunctionToMap=function(feature){vardictionary=image.reduceRegion({reducer:'first',geometry:feature.geometry(),scale:10,});returnfeature.set({result:ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))});};varnoProblem=someFeatures.filterBounds(image.geometry()).map(functionToMap);print(noProblem);
+
+
+
+--- CODE BLOCK ---
+importeeimportgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+deffunction_to_map(feature):dictionary=image.reduceRegion(reducer=ee.Reducer.first(),geometry=feature.geometry(),scale=10)returnfeature.set({'result':ee.Number(dictionary.get('B5')).divide(dictionary.get('B4'))})no_problem=some_features.filterBounds(image.geometry()).map(function_to_map)display(no_problem)

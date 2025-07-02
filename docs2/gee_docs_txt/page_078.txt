@@ -1,0 +1,22 @@
+Welcome to the introductory tutorial for the Google Earth Engine JavaScript API.  This
+      tutorial provides examples of how to use Earth Engine to analyze geospatial raster and
+      vector data.  By the end of the tutorial, you will have seen most of the basic
+      functionality of the Earth Engine API.
+Prerequisites
+Register for Earth Engine
+.
+If you are unfamiliar with JavaScript, check out the
+JavaScript for Earth Engine tutorial
+before
+        proceeding.
+Get familiar with the
+Earth
+        Engine Code Editor
+, the IDE for writing Earth Engine JavaScript code in a web
+        browser.  Learn more about the Code Editor
+here
+.
+Once you're familiar with JavaScript and the Code Editor, visit the next page to learn about
+      visualizing images and image bands.
+Next page
+arrow_forward

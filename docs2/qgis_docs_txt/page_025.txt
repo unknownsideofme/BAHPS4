@@ -1,0 +1,143 @@
+A Gentle Introduction to GIS
+
+1. Preamble
+1.1. A word from the editor
+2. Introducing GIS
+2.1. Overview
+2.2. More about GIS
+2.3. What is GIS Software / a GIS Application?
+2.4. Getting a GIS Application for your own computer(s)
+2.5. GIS Data
+2.6. What have we learned?
+2.7. Now you try!
+2.8. Something to think about
+2.9. Further reading
+2.10. What’s next?
+3. Vector Data
+3.1. Overview
+3.2. Point features in detail
+3.3. Polyline features in detail
+3.4. Polygon features in detail
+3.5. Vector data in layers
+3.6. Editing vector data
+3.7. Scale and vector data
+3.8. Symbology
+3.9. What can we do with vector data in a GIS?
+3.10. Common problems with vector data
+3.11. What have we learned?
+3.12. Now you try!
+3.13. Something to think about
+3.14. Further reading
+3.15. What’s next?
+4. Vector Attribute Data
+4.1. Overview
+4.2. Attributes in detail
+4.3. Single Symbols
+4.4. Graduated Symbols
+4.5. Continuous Colour Symbols
+4.6. Unique Value Symbols
+4.7. Things to be aware of
+4.8. What have we learned?
+4.9. Now you try!
+4.10. Something to think about
+4.11. Further reading
+4.12. What’s next?
+5. Data Capture
+5.1. Overview
+5.2. How does GIS digital data get stored?
+5.3. Planning before you begin
+5.4. Creating an empty shapefile
+5.5. Adding data to your shapefile
+5.6. Heads-up digitising
+5.7. Digitising using a digitising table
+5.8. After your features are digitised…
+5.9. Common problems / things to be aware of
+5.10. What have we learned?
+5.11. Now you try!
+5.12. Something to think about
+5.13. Further reading
+5.14. What’s next?
+6. Raster Data
+6.1. Overview
+6.2. Raster data in detail
+6.3. Georeferencing
+6.4. Sources of raster data
+6.5. Spatial Resolution
+6.6. Spectral resolution
+6.7. Raster to vector conversion
+6.8. Vector to raster conversion
+6.9. Raster analysis
+6.10. Common problems / things to be aware of
+6.11. What have we learned?
+6.12. Now you try!
+6.13. Something to think about
+6.14. Further reading
+6.15. What’s next?
+7. Topology
+7.1. Overview
+7.2. Topology errors
+7.3. Topology rules
+7.4. Topological tools
+7.5. Snapping distance
+7.6. Search Radius
+7.7. Common problems / things to be aware of
+7.8. What have we learned?
+7.9. Now you try!
+7.10. Something to think about
+7.11. Further reading
+7.12. What’s next?
+8. Coordinate Reference Systems
+8.1. Overview
+8.2. Map Projection in detail
+8.3. The three families of map projections
+8.4. Accuracy of map projections
+8.5. Coordinate Reference System (CRS) in detail
+8.6. Universal Transverse Mercator (UTM) CRS in detail
+8.7. On-The-Fly Projection
+8.8. Common problems / things to be aware of
+8.9. What have we learned?
+8.10. Now you try!
+8.11. Something to think about
+8.12. Further reading
+8.13. What’s next?
+9. Map Production
+9.1. Overview
+9.2. Title in detail
+9.3. Map Border in detail
+9.4. Map Legend in detail
+9.5. North arrow in detail
+9.6. Scale in detail
+9.7. Acknowledgment in detail
+9.8. Graticule in detail
+9.9. Name of the map projection in detail
+9.10. Common problems / things to be aware of
+9.11. What have we learned?
+9.12. Now you try!
+9.13. Something to think about
+9.14. Further reading
+9.15. What’s next?
+10. Vector Spatial Analysis (Buffers)
+10.1. Overview
+10.2. Buffering in detail
+10.3. Variations in buffering
+10.4. Common problems / things to be aware of
+10.5. More spatial analysis tools
+10.6. What have we learned?
+10.7. Now you try!
+10.8. Something to think about
+10.9. Further reading
+10.10. What’s next?
+11. Spatial Analysis (Interpolation)
+11.1. Overview
+11.2. Spatial interpolation in detail
+11.3. Inverse Distance Weighted (IDW)
+11.4. Triangulated Irregular Network (TIN)
+11.5. Common problems / things to be aware of
+11.6. Other interpolation methods
+11.7. What have we learned?
+11.8. Now you try!
+11.9. Something to think about
+11.10. Further reading
+11.11. What’s next?
+12. About the authors & contributors
+13. GNU Free Documentation License

@@ -1,0 +1,35 @@
+9.
+Level up with Expressions
+
+9.1. Expressions
+9.1.1. The Expression string builder
+9.1.2. Function Editor
+9.2. List of functions
+9.2.1. Aggregates Functions
+9.2.2. Array Functions
+9.2.3. Color Functions
+9.2.4. Conditional Functions
+9.2.5. Conversions Functions
+9.2.6. Custom Functions
+9.2.7. Date and Time Functions
+9.2.8. Fields and Values
+9.2.9. Files and Paths Functions
+9.2.10. Form Functions
+9.2.11. Fuzzy Matching Functions
+9.2.12. General Functions
+9.2.13. Geometry Functions
+9.2.14. Layout Functions
+9.2.15. Map Layers
+9.2.16. Maps Functions
+9.2.17. Mathematical Functions
+9.2.18. Meshes Functions
+9.2.19. Operators
+9.2.20. Processing Functions
+9.2.21. Rasters Functions
+9.2.22. Record and Attributes Functions
+9.2.23. Relations
+9.2.24. Sensors Functions
+9.2.25. String Functions
+9.2.26. User Expressions
+9.2.27. Variables
+9.2.28. Recent Functions

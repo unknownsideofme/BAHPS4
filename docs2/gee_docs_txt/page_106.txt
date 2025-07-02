@@ -1,0 +1,23 @@
+Cloud AI Platform is deprecated and access will be discontinued January 31 2025.
+The easiest way to migrate is to following Vertex AI's
+migration page in the Cloud Console
+.
+Otherwise you can manually migrate with the following steps.
+Manual Migration
+Re-upload your Cloud AI Platform model to Vertex AI. Be careful to ensure
+that the uploaded model is using the same ML library when choosing the
+container image to use otherwise the model may not successfully deploy at a
+later step.
+Create a new Vertex AI endpoint for your hosted model.
+Deploy your uploaded model to the new Vertex AI endpoint.
+Update any references from
+ee.Model.fromAiPlatformPredictor
+to
+ee.Model.fromVertexAi
+in all of your code using Earth Engine and in the
+endpoint
+field use the new endpoint name that you created in step 2.
+Tip:
+When re-deploying your model to Vertex AI consider using a
+gRPC prediction format
+.

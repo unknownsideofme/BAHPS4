@@ -1,0 +1,64 @@
+These video tutorials are from lectures or hands-on trainings conducted at Earth
+      Engine User Summits and
+Earth Outreach digital events
+.
+Introduction to Earth Engine (condensed)
+Learn about Earth Engine from developer advocate Noel Gorelick in this fast-paced intro.
+companion slides
+code repository
+Hands-on Intermediate Training
+Topics covered include classification, spectral unmixing and terrain visualization.
+Tables and Vectors
+Overview of tables and vectors in Earth Engine.  Topics include how to load, manipulate,
+      display and analyze vector and tabular data in Earth Engine.
+companion slides
+Importing and Exporting
+Topics covered include importing and exporting Earth Engine data, the command line interface,
+      and map publishing.
+Classification
+Learn all about classifiers (both supervised and unsupervised), training data, test
+      data, the dreaded "computed value too large" message, and the awesome linear
+      regression reducer.
+companion slides
+code repository
+Topics covered include supervised and unsupervised classification.
+Machine Learning
+Machine Learning Best Practices
+With the pace of modern machine learning, building and
+      training neural networks is hard. Learn some best practices and sift through the overwhelming
+      amount of information available with a focus on remote sensing.
+companion slides
+Neural Segmentation
+Arguably the most common application of ML to earth observation imagery is pixel level
+      segmentation and regression. With neural networks, a whole new set of techniques are possible
+      that eclipse existing methods in terms of generality, but come with their own set of
+      challenges. Learn applications and training regimens ranging from supervised to fully
+      unsupervised.
+companion slides
+Arrays and Matrices
+Overview of array and matrix operations the Earth Engine way.  Topics include linear
+      modeling, matrix solving, eigen analysis, covariance reducers.
+companion slides
+Time Series Analysis
+Overview of time series analysis the Earth Engine way.  Topics covered include linear
+      modeling, auto-correlation, cross-correlation, auto-regressive models and smoothing.
+companion slides
+Earth Engine and the Google Cloud Platform
+Introduction to interoperability between Earth Engine and the Google Cloud Platform.
+companion slides
+Google Maps API
+Create a "Hello World" Maps API webpage, and learn how to do things like change the
+      options (background map type, initial location, etc.), overlay data and KML layers,
+      and start to showcase your first Earth Engine maps.
+companion slides
+Publishing and storytelling with your Earth Engine results
+Get an overview of how to use Google's geo tools to tell your stories and share your
+      data.  Topics include Google Earth, Google Maps (APIs), My Maps, Tour Builder,
+      and Street View.
+companion slides
+Datasets
+Synthetic Aperture Radar (Sentinel-1)
+Take a deep dive into one of the more unique datasets in the Earth Engine data catalog. This
+      session provides an introduction to Synthetic Aperture Radar (SAR) data and working with
+      scripts analyzing Sentinel-1 SAR data.
+companion slides

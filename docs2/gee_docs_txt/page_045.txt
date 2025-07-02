@@ -1,0 +1,43 @@
+Welcome to the Google Earth Engine tutorial for working with the global surface water (GSW)
+      dataset. This dataset is described in the Nature letter
+High-resolution mapping of global surface water and its long-term changes
+.
+      This tutorial provides examples of how to use Earth Engine to visualize data layers
+      available in the GSW dataset, and presents some typical visualizations and analyses.
+The tutorial is broken up into sections. Within each section, code will be built up
+      gradually with short code snippets and explanatory text. At the end of each section, the
+      complete working script will be presented.
+References
+High-resolution mapping of global surface water and its
+          long-term changes
+(online viewer)
+Get water governance on the global agenda
+(Nature editorial)
+Global Surface Water Explorer
+(web application)
+Data Users Guide (v2)
+Audience
+This tutorial assumes you are familiar with concepts presented in the
+Earth Engine Code Editor
+documentation pages and have worked through the
+Earth Engine API tutorial
+.
+License and Attribution
+The GSW data described in this tutorial were produced under the
+Copernicus Programme
+and
+         are provided free of charge, without restriction of use. For the full license information
+        see the
+Copernicus Regulation.
+If you are using the data as a layer in a published map, please include the following
+      attribution text:
+Attribution text:
+"Source: EC JRC/Google"
+Get access to Earth Engine
+Access to Earth Engine is free, but requires signup.  To get access, please fill out our
+Earth Engine signup form
+to apply for an Evaluator account.  Those granted access will receive an email within
+        a few business days with further instructions.
+Once you're familiar with the Code Editor,
+get started on the tutorial
+!

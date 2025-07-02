@@ -1,0 +1,20 @@
+13.
+Working with Raster Data
+
+13.1. Raster Properties Dialog
+13.1.1. Information Properties
+13.1.2. Source Properties
+13.1.3. Symbology Properties
+13.1.4. Transparency Properties
+13.1.5. Histogram Properties
+13.1.6. Rendering Properties
+13.1.7. Temporal Properties
+13.1.8. Pyramids Properties
+13.1.9. Elevation Properties
+13.1.10. Metadata Properties
+13.1.11. Legend Properties
+13.1.12. Display Properties
+13.1.13. QGIS Server Properties
+13.1.14. Identify raster cells
+13.2. Raster Analysis
+13.2.1. Raster Calculator

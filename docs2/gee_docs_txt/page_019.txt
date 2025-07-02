@@ -1,0 +1,734 @@
+Earth Engine assets are project-owned geospatial data stored within the
+platform. You can upload your own data and store data produced from your Earth
+Engine analyses as assets.
+Asset types
+Earth Engine offers various asset formats for different data types, along with
+container elements for organization.
+Asset types
+Image
+A raster, a grid-based representation of geographic information where
+    each cell in the grid holds a value corresponding to a specific location on
+    the Earth's surface.
+ImageCollection
+A collection of related raster images that constitute a mosaic or a time
+    series. It is functionally similar to a folder, but can be imported into
+    Earth Engine as an
+ee.ImageCollection
+object which includes a
+    set of methods for filtering and analysis.
+Table
+A table data structure composed of vector features (rows), each
+    containing a series of properties (columns). It is represented by the
+ee.FeatureCollection
+object, which includes a set of methods
+    for filtering and analysis.
+Classifier
+A trained Earth Engine machine learning model. It is represented by the
+ee.Classifier
+object, which includes a set of
+    methods for application and analysis.
+FeatureView
+A visualization view of a table for use in Earth Engine Apps.
+Folder
+A container for assets and additional folders to aid in organization.
+Asset organization
+Earth Engine assets are organized into a hierarchical system of folders and
+collections. The structure is similar to common file systems.
+Root
+Assets are owned by a Cloud project. The project name defines the root of the
+asset directory. For example, the root of
+my-project
+is
+projects/my-project/assets
+.
+All assets that belong to
+my-project
+are in the
+projects/my-project/assets
+folder or a sub-folder (or ImageCollection) within it.
+Note:
+Legacy user-owned assets use a different root format:
+users/user-name/assets
+Directory
+Earth Engine uses a tree-like directory structure for organizing assets.
+Each Cloud project has a root directory that can contain individual
+assets and folders. ImageCollections are a special asset type designed
+specifically to hold sets of related images, such as time series or mosaics.
+Unlike folders, ImageCollections can only contain image assets and cannot nest
+other folders or collections within them.
+folder_data
+projects/my-project/assets/
+folder
+folder-name/
+photo
+image-name
+view_comfy
+table-name
+satellite
+featureview-name
+bubble_chart
+classifier-name
+photo_library
+imagecollection-name/
+photo
+image-name-1
+photo
+image-name-2
+Asset ID
+Earth Engine uses asset IDs to reference data in both scripts and command-line
+operations. They define asset locations using forward slashes (/) as separators
+between directories. For example,
+projects/my-project/assets/my-asset
+specifies an asset named
+"my-asset" located in the "my-project" root. Here's an
+example of using this ID to get information about the asset.
+Python
+print
+(
+ee
+.
+data
+.
+getAsset
+(
+'projects/my-project/assets/my-asset'
+))
+Code Editor
+print
+(
+ee
+.
+Image
+(
+'projects/my-project/assets/my-asset'
+))
+Command line
+earthengine
+asset
+info
+projects/my-project/assets/my-asset
+Create assets
+You can create folders and ImageCollections and ingest images and tables
+from local files or files in a Google Cloud Storage bucket. Supported image
+formats include GeoTIFF (standard and COG) and TFRecord. Supported table formats
+include Shapefile and CSV. (Assets can also be created by
+exporting an Earth Engine analysis result
+using batch functions
+Export.*.toAsset
+).
+Python client
+Image
+Use the
+ee.data.startIngestion
+function to ingest images from Cloud Storage. See the
+image manifest
+page
+for more information on configuring the upload.
+manifest
+=
+{
+'name'
+:
+'projects/my-project/assets/asset-name'
+,
+'tilesets'
+:
+[
+{
+'sources'
+:
+[
+{
+'uris'
+:
+[
+'gs://my-bucket/filename.tif'
+]
+}
+]
+}
+]
+}
+ee
+.
+data
+.
+startIngestion
+(
+None
+,
+manifest
+)
+Table
+Use the
+ee.data.startTableIngestion
+function to ingest tables from Cloud Storage. See the
+image manifest
+page
+for more information on configuring the upload.
+manifest
+=
+{
+'name'
+:
+'projects/my-project/assets/asset-name'
+,
+'sources'
+:
+[
+{
+'uris'
+:
+[
+'gs://my-bucket/filename.csv'
+]
+}
+]
+}
+ee
+.
+data
+.
+startTableIngestion
+(
+None
+,
+manifest
+)
+Folder or ImageCollection
+Use the
+ee.data.createAsset
+function to create empty folders or ImageCollections.
+ee
+.
+data
+.
+createAsset
+(
+{
+'type'
+:
+'FOLDER'
+},
+# or 'IMAGE_COLLECTION'
+'projects/my-project/assets/asset-name'
+)
+Code Editor
+Within the Asset Manager, click the
+NEW
+button and select the asset type you'd like to upload or create from the drop
+list. Configure the asset upload or creation in the dialog.
+Command line
+Image or table
+earthengine
+upload
+image
+--asset_id
+=
+projects/my-project/assets/asset-name
+gs://my-bucket/filename.tif
+earthengine
+upload
+table
+--asset_id
+=
+projects/my-project/assets/asset-name
+gs://my-bucket/filename.csv
+Folder or ImageCollection
+Use the
+earthengine create
+command to create empty folders or ImageCollections.
+earthengine
+create
+folder
+projects/my-project/assets/folder-name
+earthengine
+create
+collection
+projects/my-project/assets/collection-name
+External image
+Cloud-optimized GeoTIFF (COG) files that you upload to a Google Cloud Storage
+bucket can be registered as external image assets and used directly
+in Earth Engine. See the
+reference docs
+for more information on COG backed assets and constructing a manifest.
+earthengine
+alpha
+upload
+external_image
+--manifest
+/tmp/foo.json
+List assets
+Python client
+Use the
+ee.data.listAssets
+function to list assets in a folder or collection (not recursive).
+See the reference docs for more information about filtering and pagination.
+ee
+.
+data
+.
+listAssets
+(
+'projects/my-project/assets'
+)
+Also see
+ee.data.listImages
+and
+ee.data.listFeatures
+.
+Code Editor
+Expand folders in the Asset Manager to view assets.
+Command line
+Use the
+earthengine ls
+command to list assets in a folder or collection (not recursive). See the
+reference docs for more information about limiting the number of assets to
+list and the amount detail to return.
+earthengine
+ls
+projects/my-project/assets
+Set asset permissions
+Python client
+Use the
+ee.data.setAssetAcl
+function to set permissions on an asset.
+asset_id
+=
+'projects/my-project/assets/asset-name'
+acl_update
+=
+{
+'owners'
+:
+[
+'user:big_cheese@example.com'
+,
+'user:el_jefe@example.com'
+],
+'writers'
+:
+[
+'user:romeo@example.com'
+,
+'user:juliet@example.com'
+],
+'readers'
+:
+[
+'group:some-group@googlegroups.com'
+,
+'domain:example.com'
+,
+'serviceAccount:some-project-id@appspot.gserviceaccount.com'
+],
+'all_users_can_read'
+:
+False
+}
+ee
+.
+data
+.
+setAssetAcl
+(
+asset_id
+,
+acl_update
+)
+Code Editor
+Within the Asset Manager, hold the pointer over an asset and click the
+share
+icon. In the dialog,
+enter an email address or domain to share the asset with, then select a
+permission level to grant from the drop list. Click the
+ADD ACCESS
+button to confirm the change.
+Check the "Anyone can read" box to grant any entity read permission. You
+can also provide access to Earth Engine apps from the dialog by selecting
+the app's name from the drop list (assets owned by the active Code Editor
+project).
+Command line
+Use the
+earthengine acl set
+command to set an asset's read access to
+public
+or
+private
+.
+earthengine
+acl
+set
+public
+projects/my-project/assets/asset-name
+Use the
+earthengine acl ch
+command to set individual permissions for asset
+read and write.
+earthengine
+acl
+ch
+-u
+person@gmail.com:R
+projects/my-project/assets/asset-name
+See the
+command line reference
+page
+for more details.
+Check asset permissions
+Python client
+Use the
+ee.data.getAssetAcl
+function to fetch the access control list for an asset.
+ee
+.
+data
+.
+getAssetAcl
+(
+'projects/my-project/assets/asset-name'
+)
+Code Editor
+Within the Asset Manager, hold the pointer over an asset and click the
+share
+icon. The dialog displays
+a list of emails and domains along with their respective access levels.
+Command line
+Use the
+earthengine acl get
+command to fetch the access control list for an asset.
+earthengine
+acl
+get
+projects/my-project/assets/asset-name
+Copy assets
+Python client
+Use the
+ee.data.copyAsset
+function to copy an asset.
+ee
+.
+data
+.
+copyAsset
+(
+'projects/my-project/assets/asset-name'
+,
+'projects/my-project/assets/asset-copy-name'
+)
+Code Editor
+Use the Python client or the command line tool to copy assets.
+Command line
+Use the
+earthengine cp
+command to copy an asset.
+earthengine
+cp
+projects/my-project/assets/asset-name
+projects/my-project/assets/asset-copy-name
+Move or rename assets
+Python client
+Use the
+ee.data.renameAsset
+function to move or rename an asset.
+ee
+.
+data
+.
+renameAsset
+(
+'projects/my-project/assets/asset-name'
+,
+'projects/my-project/assets/new-asset-name'
+)
+Code Editor
+Move
+Within the Asset Manager, drag an asset into a new folder.
+Rename
+Within the Asset Manager, hold the pointer over an asset and click the
+edit
+icon and type a new name
+in the editable input field.
+Command line
+Use the
+earthengine mv
+command to move or rename an asset.
+earthengine
+mv
+projects/my-project/assets/asset-name
+projects/my-project/assets/new-asset-name
+Delete assets
+Python client
+Use the
+ee.data.deleteAsset
+function to delete an asset.
+ee
+.
+data
+.
+deleteAsset
+(
+'projects/my-project/assets/asset-name'
+)
+Code Editor
+Click an asset to open the asset dialog page, then click the
+DELETE
+button.
+Command line
+Use the
+earthengine rm
+command to delete an asset. See the function reference for recursive and
+dry run options.
+earthengine
+rm
+projects/my-project/assets/asset-name
+View asset metadata
+Python client
+Use the
+ee.data.getAsset
+function to get asset metadata.
+ee
+.
+data
+.
+getAsset
+(
+'projects/my-project/assets/asset-name'
+)
+Code Editor
+Click an asset to open the asset dialog page. View the asset information.
+Command line
+Use the
+earthengine asset info
+command to get asset metadata.
+earthengine
+asset
+info
+projects/my-project/assets/asset-name
+Set asset metadata
+The following asset metadata can be set:
+start_time
+end_time
+properties
+Python client
+Use the
+ee.data.updateAsset
+function to update asset metadata.
+asset_id
+=
+'projects/my-project/assets/asset-name'
+new_metadata
+=
+{
+'properties'
+:
+{
+'name'
+:
+'value'
+},
+'start_time'
+:
+'2024-10-02T15:01:24Z'
+,
+'end_time'
+:
+'2024-10-02T15:01:25Z'
+,
+}
+update_these
+=
+[
+'start_time'
+,
+'end_time'
+,
+'properties'
+]
+ee
+.
+data
+.
+updateAsset
+(
+asset_id
+,
+new_metadata
+,
+update_these
+)
+Code Editor
+Click an asset to open the asset dialog page, then activate the edit toggle
+in the upper right. You can edit the description, properties, and start and
+end date. Deactivate the edit toggle to save the changes.
+Command line
+Use the
+earthengine asset set
+command to update asset metadata. See the reference docs for more
+information.
+earthengine asset set \
+  --time_start 2024-10-02T15:01:24 \
+  --time_end 2024-10-02T15:01:25 \
+  --property 'name=value' \
+  projects/my-project/assets/asset-name
+Check asset quota
+Quota is applied at the project level. Learn more about asset quota in the
+usage and quota limits
+page.
+Python client
+Use the
+ee.data.getAssetRootQuota
+function to get the storage quota usage for an asset root.
+ee
+.
+data
+.
+getAssetRootQuota
+(
+'projects/my-project/assets'
+)
+Code Editor
+Within the Asset Manager, hold the pointer over a project root and click the
+data_usage
+icon. An information
+dialog will appear.
+Command line
+Use the Python client or the Code Editor to check asset quota.
+
+
+--- CODE BLOCK ---
+print(ee.data.getAsset('projects/my-project/assets/my-asset'))
+
+
+
+--- CODE BLOCK ---
+print(ee.Image('projects/my-project/assets/my-asset'))
+
+
+
+--- CODE BLOCK ---
+earthengineassetinfoprojects/my-project/assets/my-asset
+
+
+
+--- CODE BLOCK ---
+manifest={'name':'projects/my-project/assets/asset-name','tilesets':[{'sources':[{'uris':['gs://my-bucket/filename.tif']}]}]}ee.data.startIngestion(None,manifest)
+
+
+
+--- CODE BLOCK ---
+manifest={'name':'projects/my-project/assets/asset-name','sources':[{'uris':['gs://my-bucket/filename.csv']}]}ee.data.startTableIngestion(None,manifest)
+
+
+
+--- CODE BLOCK ---
+ee.data.createAsset({'type':'FOLDER'},# or 'IMAGE_COLLECTION''projects/my-project/assets/asset-name')
+
+
+
+--- CODE BLOCK ---
+earthengineuploadimage--asset_id=projects/my-project/assets/asset-namegs://my-bucket/filename.tifearthengineuploadtable--asset_id=projects/my-project/assets/asset-namegs://my-bucket/filename.csv
+
+
+
+--- CODE BLOCK ---
+earthenginecreatefolderprojects/my-project/assets/folder-nameearthenginecreatecollectionprojects/my-project/assets/collection-name
+
+
+
+--- CODE BLOCK ---
+earthenginealphauploadexternal_image--manifest/tmp/foo.json
+
+
+
+--- CODE BLOCK ---
+ee.data.listAssets('projects/my-project/assets')
+
+
+
+--- CODE BLOCK ---
+earthenginelsprojects/my-project/assets
+
+
+
+--- CODE BLOCK ---
+asset_id='projects/my-project/assets/asset-name'acl_update={'owners':['user:big_cheese@example.com','user:el_jefe@example.com'],'writers':['user:romeo@example.com','user:juliet@example.com'],'readers':['group:some-group@googlegroups.com','domain:example.com','serviceAccount:some-project-id@appspot.gserviceaccount.com'],'all_users_can_read':False}ee.data.setAssetAcl(asset_id,acl_update)
+
+
+
+--- CODE BLOCK ---
+earthengineaclsetpublicprojects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+earthengineaclch-uperson@gmail.com:Rprojects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+ee.data.getAssetAcl('projects/my-project/assets/asset-name')
+
+
+
+--- CODE BLOCK ---
+earthengineaclgetprojects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+ee.data.copyAsset('projects/my-project/assets/asset-name','projects/my-project/assets/asset-copy-name')
+
+
+
+--- CODE BLOCK ---
+earthenginecpprojects/my-project/assets/asset-nameprojects/my-project/assets/asset-copy-name
+
+
+
+--- CODE BLOCK ---
+ee.data.renameAsset('projects/my-project/assets/asset-name','projects/my-project/assets/new-asset-name')
+
+
+
+--- CODE BLOCK ---
+earthenginemvprojects/my-project/assets/asset-nameprojects/my-project/assets/new-asset-name
+
+
+
+--- CODE BLOCK ---
+ee.data.deleteAsset('projects/my-project/assets/asset-name')
+
+
+
+--- CODE BLOCK ---
+earthenginermprojects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+ee.data.getAsset('projects/my-project/assets/asset-name')
+
+
+
+--- CODE BLOCK ---
+earthengineassetinfoprojects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+asset_id='projects/my-project/assets/asset-name'new_metadata={'properties':{'name':'value'},'start_time':'2024-10-02T15:01:24Z','end_time':'2024-10-02T15:01:25Z',}update_these=['start_time','end_time','properties']ee.data.updateAsset(asset_id,new_metadata,update_these)
+
+
+
+--- CODE BLOCK ---
+earthengine asset set \
+  --time_start 2024-10-02T15:01:24 \
+  --time_end 2024-10-02T15:01:25 \
+  --property 'name=value' \
+  projects/my-project/assets/asset-name
+
+
+
+--- CODE BLOCK ---
+ee.data.getAssetRootQuota('projects/my-project/assets')

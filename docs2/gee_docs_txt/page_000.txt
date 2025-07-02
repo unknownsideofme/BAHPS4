@@ -1,0 +1,27 @@
+You can export images, map tiles, tables and video from Earth Engine. The
+exports can be sent to your Google Drive account, to
+Google Cloud
+Storage
+or to a new Earth Engine asset.
+To use Google Cloud Storage (a fee-based service), you'll need to set up a
+project, enable billing for the project, and create a storage bucket. See the
+Cloud Storage Quickstart
+page
+for
+instructions. See
+this
+guide
+for information on
+storage bucket naming. Data exported to a Cloud Storage bucket will have the
+bucket's
+default object Access Control List
+(ACL)
+.
+You must have write permission for the specified bucket.
+Choose an option from the side menu to learn more about batch exporting
+images
+and
+tables
+,
+extracting image data
+programmatically, and more.

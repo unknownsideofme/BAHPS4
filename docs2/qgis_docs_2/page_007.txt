@@ -1,0 +1,70 @@
+15.
+Module: Database Concepts with PostgreSQL
+
+Relational Databases are an important part of any GIS system. In this module,
+you’ll learn about Relational Database Management System (RDBMS) concepts and
+you will use PostgreSQL to create a new database to store data, as well as
+learning about other typical RDBMS functions.
+15.1. Lesson: Introduction to Databases
+15.1.1. What is a Database?
+15.1.2. Tables
+15.1.3. Columns / Fields
+15.1.4. Records
+15.1.5. Datatypes
+15.1.6. Modelling an Address Database
+15.1.7. Database Theory
+15.1.8. Normalisation
+15.1.9.
+★☆☆
+Try Yourself:
+15.1.10. Indexes
+15.1.11. Sequences
+15.1.12. Entity Relationship Diagramming
+15.1.13. Constraints, Primary Keys and Foreign Keys
+15.1.14. Transactions
+15.1.15. In Conclusion
+15.1.16. What’s Next?
+15.2. Lesson: Implementing the Data Model
+15.2.1. Install PostgreSQL
+15.2.2. Help
+15.2.3. Create a database user
+15.2.4. Verify the new account
+15.2.5. Create a database
+15.2.6. Starting a database shell session
+15.2.7. Make Tables in SQL
+15.2.8. Create Keys in SQL
+15.2.9. Create Indexes in SQL
+15.2.10. Dropping Tables in SQL
+15.2.11. A word on pgAdmin III
+15.2.12. In Conclusion
+15.2.13. What’s Next?
+15.3. Lesson: Adding Data to the Model
+15.3.1. Insert statement
+15.3.2. Sequencing Data Addition According to Constraints
+15.3.3. Try Yourself:
+★★☆
+15.3.4. Select data
+15.3.5. Update data
+15.3.6. Delete Data
+15.3.7. Try Yourself:
+★★★
+15.3.8. In Conclusion
+15.3.9. What’s Next?
+15.4. Lesson: Queries
+15.4.1. Ordering Results
+15.4.2. Filtering
+15.4.3. Joins
+15.4.4. Sub-Select
+15.4.5. Aggregate Queries
+15.4.6. In Conclusion
+15.4.7. What’s Next?
+15.5. Lesson: Views
+15.5.1. Creating a View
+15.5.2. Modifying a View
+15.5.3. Dropping a View
+15.5.4. In Conclusion
+15.5.5. What’s Next?
+15.6. Lesson: Rules
+15.6.1. Creating a logging rule
+15.6.2. In Conclusion
+15.6.3. What’s Next?

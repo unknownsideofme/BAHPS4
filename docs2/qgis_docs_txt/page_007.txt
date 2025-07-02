@@ -1,0 +1,1984 @@
+3.
+QGIS GUI
+
+Menu Bar
+Project
+Edit
+View
+Layer
+Settings
+Plugins
+Vector
+Raster
+Database
+Web
+Mesh
+Processing
+Help
+QGIS
+Panels and Toolbars
+Toolbars
+Panels
+Status Bar
+Locator bar
+Reporting actions
+Control the map canvas
+Messaging
+The QGIS graphical user interface (GUI) is shown in the figure below
+(the numbers 1 through 5 in yellow circles indicate important
+elements of the QGIS GUI, and are discussed below).
+Fig. 3.1
+QGIS GUI with Alaska sample data
+
+Note
+Your window decorations (title bar, etc.) may appear different
+depending on your operating system and window manager.
+The main QGIS GUI (
+Fig. 3.1
+) consists of five components /
+component types:
+Menu Bar
+Toolbars
+Panels
+Map View
+Status Bar
+Scroll down for detailed explanations of these.
+3.1.
+Menu Bar
+
+The Menu bar provides access to QGIS functions using standard
+hierarchical menus.
+The Menus, their options, associated icons and keyboard shortcuts are
+described below.
+The keyboard shortcuts can be reconfigured
+(
+Settings ► Keyboard Shortcuts
+).
+Most menu options have a corresponding tool and vice-versa.
+However, the Menus are not organized exactly like the toolbars.
+The locations of menu options in the toolbars are indicated below
+in the table.
+Plugins may add new options to Menus.
+For more information about tools and toolbars, see
+Toolbars
+.
+Note
+QGIS is a cross-platform application.  Tools are generally
+available on all platforms, but they may be placed in different
+menus, depending on the operating systems.
+The lists below show the most common locations, including known
+variations.
+3.1.1.
+Project
+
+The
+Project
+menu provides access and exit points for
+project files
+. It provides tools to:
+Create a
+New
+project file from scratch or use another
+project file as a template (see
+Project files options
+for template
+configuration)
+Open…
+a project from a file, a GeoPackage, PostgreSQL
+or Oracle database
+Close
+a project or revert it to its last saved state
+Save
+a project in
+.qgs
+or
+.qgz
+file
+format, either as a file or within a GeoPackage, PostgreSQL or
+Oracle database
+Export the map canvas to different formats or use a
+print layout
+for more complex output
+Set project properties and snapping options for geometry editing.
+Table 3.1
+The Project menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+New
+Ctrl
++
+N
+Project
+Introducing QGIS projects
+New from template ►
+Introducing QGIS projects
+Open…
+Ctrl
++
+O
+Project
+Introducing QGIS projects
+Open from ►
+Introducing QGIS projects
+► GeoPackage…
+Introducing QGIS projects
+► PostgreSQL…
+Introducing QGIS projects
+► Oracle…
+Introducing QGIS projects
+Open Recent ►
+Alt
++
+J
++
+R
+Introducing QGIS projects
+► Clear List
+Introducing QGIS projects
+Close
+Introducing QGIS projects
+Save
+Ctrl
++
+S
+Project
+Introducing QGIS projects
+Save As…
+Ctrl
++
+Shift
++
+S
+Project
+Introducing QGIS projects
+Save to ►
+Introducing QGIS projects
+► Templates…
+Introducing QGIS projects
+► GeoPackage…
+Introducing QGIS projects
+► PostgreSQL…
+Introducing QGIS projects
+Revert…
+Properties…
+Ctrl
++
+Shift
++
+P
+Project Properties
+Snapping Options…
+Snapping and Digitizing Options
+Import/Export ►
+►
+Export Map to Image…
+Exporting the map view
+►
+Export Map to PDF…
+Exporting the map view
+► Export Project to DXF…
+Creating new DXF files
+► Import Layers from DWG/DXF…
+Importing a DXF or DWG file
+New Print Layout…
+Ctrl
++
+P
+Project
+Laying out the maps
+New Report…
+Creating a Report
+Layout Manager…
+Project
+Laying out the maps
+Layouts ►
+Laying out the maps
+Models ►
+The model designer
+Exit QGIS
+Ctrl
++
+Q
+Under
+macOS, the
+Exit QGIS
+command corresponds to
+QGIS ► Quit QGIS
+(
+Cmd
++
+Q
+).
+3.1.2.
+Edit
+
+The
+Edit
+menu provides most of the native tools needed
+to edit layer attributes or geometry. To enable
+Edit
+menu options you need to switch to editing mode by clicking on
+Toggle editing
+(see
+Editing
+for details).
+Table 3.2
+The Edit menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Undo
+Ctrl
++
+Z
+Digitizing
+Undo and Redo
+Redo
+Ctrl
++
+Shift
++
+Z
+Digitizing
+Undo and Redo
+Cut Features
+Ctrl
++
+X
+Digitizing
+Cutting, Copying and Pasting Features
+Copy Features
+Ctrl
++
+C
+Digitizing
+Cutting, Copying and Pasting Features
+Paste Features
+Ctrl
++
+V
+Digitizing
+Cutting, Copying and Pasting Features
+Paste Features as ►
+Working with the Attribute Table
+► New Vector Layer…
+Working with the Attribute Table
+► Temporary Scratch Layer…
+Ctrl
++
+Alt
++
+V
+Working with the Attribute Table
+Delete Selected
+Digitizing
+Deleting Selected Features
+Select ►
+Selecting features
+►
+Select Feature(s)
+Selection
+Selecting features
+►
+Select Features by Polygon
+Selection
+Selecting features
+►
+Select Features by Freehand
+Selection
+Selecting features
+►
+Select Features by Radius
+Selection
+Selecting features
+►
+Select Features by Value…
+F3
+Selection
+Selecting features
+►
+Select Features by Expression…
+Ctrl
++
+F3
+Selection
+Selecting features
+►
+Deselect Features from All Layers
+Ctrl
++
+Alt
++
+A
+Selection
+Selecting features
+►
+Deselect Features from the Current Active Layer
+Ctrl
++
+Shift
++
+A
+Selection
+Selecting features
+► Reselect Features
+Selecting features
+►
+Select All Features
+Ctrl
++
+A
+Selection
+Selecting features
+►
+Invert Feature Selection
+Selection
+Selecting features
+Add Record
+Ctrl
++
+.
+Digitizing
+Add Point Feature
+Ctrl
++
+.
+Digitizing
+Adding Features
+Add Line Feature
+Ctrl
++
+.
+Digitizing
+Adding Features
+Add Polygon Feature
+Ctrl
++
+.
+Digitizing
+Adding Features
+Add Annotation ►
+Annotation Tools
+►
+Form Annotation
+Annotations
+Annotation Tools
+►
+HTML Annotation
+Annotations
+Annotation Tools
+Edit Attributes ►
+►
+Modify Attributes of Selected Features
+Digitizing
+Editing attribute values
+►
+Merge Attributes of Selected Features
+Advanced Digitizing
+Merge attributes of selected features
+Edit Geometry ►
+►
+Move Feature(s)
+Advanced Digitizing
+Move Feature(s)
+►
+Copy and Move Feature(s)
+Advanced Digitizing
+Move Feature(s)
+►
+Rotate Feature(s)
+Advanced Digitizing
+Rotate Feature(s)
+►
+Scale Feature(s)
+Advanced Digitizing
+Scale Feature
+►
+Simplify Feature
+Advanced Digitizing
+Simplify Feature
+►
+Add Ring
+Advanced Digitizing
+Add Ring
+►
+Add Part
+Advanced Digitizing
+Add Part
+►
+Fill Ring
+Advanced Digitizing
+Fill Ring
+►
+Delete Ring
+Advanced Digitizing
+Delete Ring
+►
+Delete Part
+Advanced Digitizing
+Delete Part
+►
+Reshape Features
+Advanced Digitizing
+Reshape Features
+►
+Offset Curve
+Advanced Digitizing
+Offset Curves
+►
+Split Features
+Advanced Digitizing
+Split Features
+►
+Split Parts
+Advanced Digitizing
+Split parts
+►
+Merge Selected Features
+Advanced Digitizing
+Merge selected features
+►
+Vertex Tool (All Layers)
+Digitizing
+Vertex tool
+►
+Vertex Tool (Current Layer)
+Digitizing
+Vertex tool
+►
+Reverse Line
+Advanced Digitizing
+Reverse Line
+►
+Trim/extend Feature
+Advanced Digitizing
+Trim/Extend Feature
+Rotate Point Symbols
+Advanced Digitizing
+Rotate Point Symbols
+Offset Point Symbols
+Advanced Digitizing
+Offset Point Symbols
+Tools that depend on the selected layer geometry type i.e. point,
+polyline or polygon, are activated accordingly:
+Table 3.3
+The “Move feature” geometry based icons
+
+Menu Option
+Point
+Polyline
+Polygon
+Move Feature(s)
+Copy and Move Feature(s)
+3.1.3.
+View
+
+The map is rendered in map views. You can interact with these
+views using the
+View
+tools. For example, you can:
+Create new 2D or 3D map views next to the main map canvas
+Zoom or pan
+to any place
+Query the attributes or geometry of the displayed features
+Enhance the map view with preview modes, annotations or decorations
+Access any panel or toolbar
+The menu also allows you to reorganize the QGIS interface itself using
+actions like:
+Toggle Full Screen Mode
+: covers the whole screen
+while hiding the title bar
+Toggle Panel Visibility
+: shows or hides enabled
+panels
+- useful when digitizing features (for
+maximum canvas visibility) as well as for (projected/recorded)
+presentations using QGIS main canvas
+Toggle Map Only
+: hides panels, toolbars, menus and status
+bar and only shows the map canvas. Combined with the full screen
+option, it makes your screen display only the map
+Table 3.4
+The View menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+New Map View
+Ctrl
++
+M
+Map Navigation
+2D Map View
+3D Map Views ►
+3D Map View
+►
+New 3D Map View
+Ctrl
++
+Alt
++
+M
+Map Navigation
+3D Map View
+► Manage 3D Map Views
+3D Map View
+Pan Map
+Map Navigation
+Exploring the map view
+Pan Map to Selection
+Map Navigation
+Exploring the map view
+Zoom In
+Ctrl
++
+Alt
++
++
+Map Navigation
+Exploring the map view
+Zoom Out
+Ctrl
++
+Alt
++
+-
+Map Navigation
+Exploring the map view
+Data Filtering ►
+2D Map View
+►
+Temporal Controller
+Map Navigation
+The temporal controller panel
+►
+Elevation Controller
+The Elevation Controller panel
+Identify Features
+Ctrl
++
+Shift
++
+I
+Attributes
+Identifying Features
+Measure ►
+Attributes
+Measuring
+►
+Measure Line
+Ctrl
++
+Shift
++
+M
+Attributes
+Measuring
+►
+Measure Area
+Ctrl
++
+Shift
++
+J
+Attributes
+Measuring
+►
+Measure Bearing
+Attributes
+Measuring
+►
+Measure Angle
+Attributes
+Measuring
+Statistical Summary
+Attributes
+Statistical Summary Panel
+Elevation Profile
+Elevation Profile View
+Zoom Full
+Ctrl
++
+Shift
++
+F
+Map Navigation
+Exploring the map view
+Zoom To Selection
+Ctrl
++
+J
+Map Navigation
+Exploring the map view
+Zoom To Layer(s)
+Map Navigation
+Exploring the map view
+Zoom To Native Resolution (100%)
+Map Navigation
+Exploring the map view
+Zoom Last
+Map Navigation
+Exploring the map view
+Zoom Next
+Map Navigation
+Exploring the map view
+Decorations ►
+Alt
++
+V
++
+D
+Decorating the map
+►
+Grid…
+Grid
+►
+Scale Bar…
+Scale Bar
+►
+Image…
+Image Decoration
+►
+North Arrow…
+North Arrow
+►
+Title Label…
+Title Label
+►
+Copyright Label…
+Copyright Label
+►
+Layout Extents…
+Layout Extents
+Preview mode ►
+► Normal
+► Simulate Monochrome
+► Simulate Achromatopsia Color Blindness (Grayscale)
+► Simulate Protanopia Color Blindness (No Red)
+► Simulate Deuteranopia Color Blindness (No Green)
+► Simulate Tritanopia Color Blindness (No Blue)
+Show Map Tips
+Attributes
+Display Properties
+New Spatial Bookmark…
+Ctrl
++
+B
+Map Navigation
+Bookmarking extents on the map
+Show Spatial Bookmarks
+Ctrl
++
+Shift
++
+B
+Map Navigation
+Bookmarking extents on the map
+Show Spatial Bookmark Manager
+Bookmarking extents on the map
+Refresh
+F5
+Map Navigation
+Layer Visibility ►
+Layers Panel
+►
+Show All Layers
+Ctrl
++
+Shift
++
+U
+Layers Panel
+►
+Hide All Layers
+Ctrl
++
+Shift
++
+H
+Layers Panel
+►
+Show Selected Layers
+Layers Panel
+►
+Hide Selected Layers
+Layers Panel
+►
+Toggle Selected Layers
+Layers Panel
+►
+Toggle Selected Layers Independently
+Layers Panel
+►
+Hide Deselected Layers
+Layers Panel
+Panels ►
+Panels and Toolbars
+Toolbars ►
+Panels and Toolbars
+Toggle Full Screen Mode
+F11
+Toggle Panel Visibility
+Ctrl
++
+Tab
+Toggle Map Only
+Ctrl
++
+Shift
++
+Tab
+Under
+Linux KDE,
+Panels ►
+,
+Toolbars ►
+and
+Toggle Full Screen Mode
+are in the
+Settings
+menu.
+3.1.4.
+Layer
+
+The
+Layer
+menu provides a large set of tools to
+create
+new data sources,
+add
+them to a project or
+save modifications
+to them.
+Using the same data sources, you can also:
+Duplicate
+a layer to generate a copy where you can
+modify the name, style (symbology, labels, …), joins, …
+The copy uses the same data source as the original.
+Copy
+and
+Paste
+layers or groups from one
+project to another as a new instance whose properties can be
+modified independently.
+As for
+Duplicate
+, the layers are still based on the same data source.
+or
+Embed Layers and Groups…
+from another project, as
+read-only copies which you cannot modify (see
+Embedding layers from external projects
+)
+The
+Layer
+menu also contains tools to configure,
+copy or paste layer properties (style, scale, CRS…).
+Table 3.5
+The Layer menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Data Source Manager
+Ctrl
++
+L
+Data Source Manager
+Opening Data
+Create Layer ►
+Creating new vector layers
+►
+New GeoPackage Layer…
+Ctrl
++
+Shift
++
+N
+Data Source Manager
+Creating a new GeoPackage layer
+►
+New Shapefile Layer…
+Data Source Manager
+Creating a new Shapefile layer
+►
+New SpatiaLite Layer…
+Data Source Manager
+Creating a new SpatiaLite layer
+►
+New Temporary Scratch Layer…
+Data Source Manager
+Creating a new Temporary Scratch Layer
+►
+New Mesh Layer…
+Data Source Manager
+Creating a new Mesh layer
+►
+New GPX Layer…
+Data Source Manager
+Creating a new GPX layer
+►
+New Virtual Layer…
+Data Source Manager
+Creating virtual layers
+Add Layer ►
+Opening Data
+►
+Add Vector Layer……
+Ctrl
++
+Shift
++
+V
+Manage Layers
+Loading a layer from a file
+►
+Add Raster Layer…
+Ctrl
++
+Shift
++
+R
+Manage Layers
+Loading a layer from a file
+►
+Add Mesh Layer…
+Manage Layers
+Loading a mesh layer
+►
+Add Delimited Text Layer…
+Ctrl
++
+Shift
++
+T
+Manage Layers
+Importing a delimited text file
+►
+Add PostGIS Layer…
+Ctrl
++
+Shift
++
+D
+Manage Layers
+Database related tools
+►
+Add SpatiaLite Layer…
+Ctrl
++
+Shift
++
+L
+Manage Layers
+SpatiaLite Layers
+►
+Add MS SQL Server Layer…
+Manage Layers
+Database related tools
+►
+Add Oracle Spatial Layer…
+Manage Layers
+Database related tools
+►
+Add SAP HANA Spatial Layer…
+Manage Layers
+Database related tools
+►
+Add/Edit Virtual Layer…
+Manage Layers
+Creating virtual layers
+►
+Add WMS/WMTS Layer…
+Ctrl
++
+Shift
++
+W
+Manage Layers
+Loading WMS/WMTS Layers
+►
+Add XYZ Layer…
+Using XYZ Tile services
+►
+Add WCS Layer…
+Manage Layers
+WCS Client
+►
+Add WFS / OGC API - Features Layer…
+Manage Layers
+WFS and WFS-T Client
+►
+Add ArcGIS REST Server Layer…
+Manage Layers
+Using ArcGIS REST Servers
+►
+Add Vector Tile Layer…
+Using Vector Tiles services
+►
+Add Point Cloud Layer…
+Working with Point Clouds
+►
+Add GPX Layer…
+Introducing GNSS/GPS Data
+Embed Layers and Groups…
+Embedding layers from external projects
+Add from Layer Definition File…
+Layer definition file
+Georeferencer…
+Georeferencer
+Copy Style
+Save and Share Layer Properties
+Paste Style
+Save and Share Layer Properties
+Copy Layer
+Paste Layer/Group
+Open Attribute Table
+F6
+Attributes
+Working with the Attribute Table
+Filter Attribute Table ►
+Working with the Attribute Table
+►
+Open Attribute Table (Selected Features)
+Shift
++
+F6
+Attributes
+Working with the Attribute Table
+►
+Open Attribute Table (Visible Features)
+Ctrl
++
+F6
+Attributes
+Working with the Attribute Table
+►
+Open Attribute Table (Edited and New Features)
+Attributes
+Working with the Attribute Table
+Toggle Editing
+Digitizing
+Digitizing an existing layer
+Save Layer Edits
+Digitizing
+Saving Edited Layers
+Current Edits ►
+Digitizing
+Saving Edited Layers
+► Save for Selected Layer(s)
+Digitizing
+Saving Edited Layers
+► Rollback for Selected Layer(s)
+Digitizing
+Saving Edited Layers
+► Cancel for Selected Layer(s)
+Digitizing
+Saving Edited Layers
+► Save for all Layers
+Digitizing
+Saving Edited Layers
+► Rollback for all Layers
+Digitizing
+Saving Edited Layers
+► Cancel for all Layers
+Digitizing
+Saving Edited Layers
+Save As…
+Creating new layers from an existing layer
+Save As Layer Definition File…
+Layer definition file
+Remove Layer/Group
+Ctrl
++
+D
+Duplicate Layer(s)
+Set Scale Visibility of Layer(s)
+Visibility Scale Selector
+Set CRS of Layer(s)
+Ctrl
++
+Shift
++
+C
+Layer Coordinate Reference Systems
+Set Project CRS from Layer
+Project Coordinate Reference Systems
+Layer Properties…
+vector
+raster
+mesh
+point cloud
+vector tiles
+Filter…
+Ctrl
++
+F
+Query Builder
+Labeling
+Labels Properties
+Show in Overview
+Overview Panel
+Show All in Overview
+Overview Panel
+Hide All from Overview
+Overview Panel
+3.1.5.
+Settings
+
+Table 3.6
+The Settings menu items
+
+Menu Option
+Reference
+User Profiles ►
+Working with User Profiles
+► default
+Working with User Profiles
+► Open Active Profile Folder
+Working with User Profiles
+► New Profile…
+Working with User Profiles
+Style Manager…
+The Style Manager
+Custom Projections…
+Custom Coordinate Reference System
+Keyboard Shortcuts…
+Keyboard shortcuts
+Interface Customization…
+Customization
+Options…
+Options
+Under
+Linux KDE, you’ll find more tools in the
+Settings
+menu such as
+Panels ►
+,
+Toolbars ►
+and
+Toggle Full Screen Mode
+.
+3.1.6.
+Plugins
+
+Table 3.7
+The Plugins menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Manage and Install Plugins…
+The Plugins Dialog
+Python Console
+Ctrl
++
+Alt
++
+P
+Plugins
+QGIS Python console
+When starting QGIS for the first time not all core plugins are loaded.
+3.1.7.
+Vector
+
+This is what the
+Vector
+menu looks like if all core plugins
+are enabled.
+Table 3.8
+The Vector menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Check Geometries…
+Geometry Checker Plugin
+Topology Checker
+Vector
+Topology Checker Plugin
+Geoprocessing Tools ►
+Alt
++
+O
++
+G
+►
+Buffer…
+Buffer
+►
+Clip…
+Clip
+►
+Convex Hull…
+Convex hull
+►
+Difference…
+Difference
+►
+Dissolve…
+Dissolve
+►
+Intersection…
+Intersection
+►
+Symmetrical Difference…
+Symmetrical difference
+►
+Union…
+Union
+►
+Eliminate Selected Polygons…
+Eliminate selected polygons
+Geometry Tools ►
+Alt
++
+O
++
+E
+►
+Centroids…
+Centroids
+►
+Collect Geometries…
+Collect geometries
+►
+Extract Vertices…
+Extract vertices
+►
+Multipart to Singleparts…
+Multipart to singleparts
+►
+Polygons to Lines…
+Polygons to lines
+►
+Simplify…
+Simplify
+►
+Check Validity…
+Check validity
+►
+Delaunay Triangulation…
+Delaunay triangulation
+►
+Densify by Count…
+Densify by count
+►
+Add Geometry Attributes…
+Add geometry attributes
+►
+Lines to Polygons…
+Lines to polygons
+►
+Voronoi Polygons…
+Voronoi polygons
+Analysis Tools ►
+Alt
++
+O
++
+A
+►
+Line Intersection…
+Line intersections
+►
+Mean Coordinate(s)…
+Mean coordinate(s)
+►
+Basic Statistics for Fields…
+Basic statistics for fields
+►
+Count Points in Polygon…
+Count points in polygon
+►
+Distance Matrix…
+Distance matrix
+►
+List Unique Values…
+List unique values
+►
+Nearest Neighbour Analysis…
+Nearest neighbour analysis
+►
+Sum Line Lengths…
+Sum line lengths
+Data Management Tools ►
+Alt
++
+O
++
+D
+►
+Merge Vector Layers…
+Merge vector layers
+►
+Reproject Layer…
+Reproject layer
+►
+Create Spatial Index…
+Create spatial index
+►
+Join Attributes by Location…
+Join attributes by location
+►
+Split Vector Layer…
+Split vector layer
+Research Tools ►
+Alt
++
+O
++
+R
+►
+Create Grid…
+Create grid
+►
+Extract Layer Extent…
+Extract layer extent
+►
+Random Points in Extent…
+Random points in extent
+►
+Random Points in Polygons…
+Random points in polygons
+►
+Random Points on Lines…
+Random points on lines
+►
+Select by Location…
+Select by location
+►
+Select Within Distance…
+Select within distance
+►
+Random Points in Layer Bounds…
+Random points in layer bounds
+►
+Random Points Inside Polygons…
+Random points inside polygons
+►
+Random Selection…
+Random selection
+►
+Random Selection Within Subsets…
+Random selection within subsets
+►
+Regular Points…
+Regular points
+By default, QGIS adds
+Processing
+algorithms to the
+Vector
+menu, grouped by sub-menus.
+This provides shortcuts for many common vector-based GIS tasks from
+different providers.
+If not all these sub-menus are available, enable the Processing plugin
+in
+Plugins ► Manage and Install Plugins…
+.
+Note that the list of algorithms and their menu can be modified/extended
+with any Processing algorithms (read
+Configuring the Processing Framework
+) or
+some external
+plugins
+.
+3.1.8.
+Raster
+
+This is what the
+Raster
+menu looks like if all core plugins
+are enabled.
+Table 3.9
+The Raster menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Raster calculator…
+Raster Calculator
+Align Rasters…
+Align rasters
+Analysis ►
+►
+Aspect…
+Aspect
+►
+Fill nodata…
+Fill NoData
+►
+Grid (Moving Average)…
+Grid (Moving average)
+►
+Grid (Data Metrics)…
+Grid (Data metrics)
+►
+Grid (Inverse Distance to a Power)…
+Grid (Inverse distance to a power)
+►
+Grid (Nearest Neighbor)…
+Grid (IDW with nearest neighbor searching)
+►
+Near Black…
+Near black
+►
+Hillshade…
+Hillshade
+►
+Proximity (Raster Distance)…
+Proximity (raster distance)
+►
+Roughness…
+Roughness
+►
+Sieve…
+Sieve
+►
+Slope…
+Slope
+►
+Topographic Position Index (TPI)…
+Topographic Position Index (TPI)
+►
+Terrain Ruggedness Index (TRI)…
+Terrain Ruggedness Index (TRI)
+Projections ►
+►
+Assign Projection…
+Assign projection
+►
+Extract Projection…
+Extract projection
+►
+Warp (Reproject)…
+Warp (reproject)
+Miscellaneous ►
+►
+Build Virtual Raster…
+Build virtual raster
+►
+Raster Information…
+Raster information
+►
+Merge…
+Merge
+►
+Build Overviews (Pyramids)…
+Build overviews (pyramids)
+►
+Tile Index…
+Tile index
+Extraction ►
+►
+Clip Raster by Extent…
+Clip raster by extent
+►
+Clip Raster by Mask Layer…
+Clip raster by mask layer
+►
+Contour…
+Contour
+Conversion ►
+►
+PCT to RGB…
+PCT to RGB
+►
+Polygonize (Raster to Vector)…
+Polygonize (raster to vector)
+►
+Rasterize (Vector to Raster)…
+Rasterize (vector to raster)
+►
+RGB to PCT…
+RGB to PCT
+►
+Translate (Convert Format)…
+Translate (convert format)
+By default, QGIS adds
+Processing
+algorithms to the
+Raster
+menu, grouped by sub-menus.
+This provides a shortcut for many common raster-based GIS tasks
+from different providers.
+If not all these sub-menus are available, enable the Processing
+plugin in
+Plugins ► Manage and Install Plugins…
+.
+Note that the list of algorithms and their menu can be modified/extended
+with any Processing algorithms (read
+Configuring the Processing Framework
+) or
+some external
+plugins
+.
+3.1.9.
+Database
+
+This is what the
+Database
+menu looks like if all the core
+plugins are enabled.
+If no database plugins are enabled, there will be no
+Database
+menu.
+Table 3.10
+The Database menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Offline editing…
+Alt
++
+D
++
+O
+Offline Editing Plugin
+►
+Convert to Offline Project…
+Database
+Offline Editing Plugin
+►
+Synchronize
+Database
+Offline Editing Plugin
+DB Manager…
+Database
+DB Manager Plugin
+When starting QGIS for the first time not all core plugins are loaded.
+3.1.10.
+Web
+
+This is what the
+Web
+menu looks like if all the core
+plugins are enabled.
+If no web plugins are enabled, there will be no
+Web
+menu.
+Table 3.11
+The Web menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+MetaSearch ►
+Alt
++
+W
++
+M
+MetaSearch Catalog Client
+►
+Metasearch
+Web
+MetaSearch Catalog Client
+► Help
+MetaSearch Catalog Client
+When starting QGIS for the first time not all core plugins are loaded.
+3.1.11.
+Mesh
+
+The
+Mesh
+menu provides tools needed to manipulate
+mesh layers
+.
+Third-party plugins can add items to this menu.
+Table 3.12
+The Mesh menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Mesh Calculator…
+Mesh Calculator
+Reindex Faces and Vertices
+Reindexing meshes
+3.1.12.
+Processing
+
+Table 3.13
+The Processing menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Toolbox
+Ctrl
++
+Alt
++
+T
+The Toolbox
+Model Designer…
+Ctrl
++
+Alt
++
+G
+The model designer
+History…
+Ctrl
++
+Alt
++
+H
+The history manager
+Results Viewer
+Ctrl
++
+Alt
++
+R
+Configuring external applications
+Edit Features In-Place
+The Processing in-place layer modifier
+When starting QGIS for the first time not all core plugins are loaded.
+3.1.13.
+Help
+
+Table 3.14
+The Help menu items
+
+Menu Option
+Shortcut
+Toolbar
+Reference
+Help Contents
+F1
+Help
+API Documentation
+Plugins ►
+Report an Issue
+Need commercial support?
+QGIS Home Page
+Ctrl
++
+H
+Check QGIS Version
+About
+QGIS Sustaining Members
+3.1.14.
+QGIS
+
+This menu is only available under
+macOS and contains some OS
+related commands.
+Table 3.15
+The QGIS menu items
+
+Menu Option
+Shortcut
+Preferences
+About QGIS
+Hide QGIS
+Show All
+Hide Others
+Quit QGIS
+Cmd
++
+Q
+Preferences
+corresponds to
+Settings ► Options
+,
+About QGIS
+corresponds to
+Help ► About
+and
+Quit QGIS
+corresponds to
+Project ► Exit QGIS
+for other platforms.
+3.2.
+Panels and Toolbars
+
+From the
+View
+menu (or
+Settings
+),
+you can switch QGIS widgets (
+Panels ►
+)
+and toolbars (
+Toolbars ►
+) on and off.
+To (de)activate any of them, right-click the menu bar or toolbar and
+choose the item you want.
+Panels and toolbars can be moved and placed wherever you like within
+the QGIS interface.
+The list can also be extended with the activation of
+Core or
+external plugins
+.
+3.2.1.
+Toolbars
+
+The toolbars provide access to most of the functions in the
+menus, plus additional tools for interacting with the map.
+Each toolbar item has pop-up help available.
+Hover your mouse over the item and a short description of the tool’s
+purpose will be displayed.
+Available toolbars are:
+Table 3.16
+QGIS Toolbars
+
+Toolbar name
+Main Reference for tools
+Advanced Digitizing
+Advanced digitizing
+Annotations
+Annotation Tools
+Attributes
+Working with the Attribute Table
+,
+General Tools
+Data Source Manager
+Managing Data Source
+Database
+DB Manager Plugin
+Digitizing
+Digitizing an existing layer
+GPS
+Live GPS tracking
+GRASS
+GRASS GIS Integration
+Help
+Label
+The Label Toolbar
+Manage Layers
+Opening Data
+Map Navigation
+Exploring the map view
+Mesh Digitizing
+Editing a mesh layer
+Plugins
+Plugins
+Project
+Working with Project Files
+,
+Laying out the maps
+,
+The Style Library
+Processing Algorithms
+Configuring the Processing Framework
+Raster
+Plugins
+Selection
+Selecting features
+Shape digitizing
+Shape digitizing
+Snapping
+Setting the snapping tolerance and search radius
+Vector
+Plugins
+Web
+Plugins
+,
+MetaSearch Catalog Client
+Note
+Third-party plugins can extend the default toolbar with their own tools
+or provide their own toolbar.
+Tip
+Restoring toolbars
+If you have accidentally hidden a toolbar, you can get it
+back using
+View ► Toolbars ►
+(or
+Settings ► Toolbars ►
+).
+If, for some reason, a toolbar (or any other widget) totally
+disappears from the interface, you’ll find tips to get it back at
+restoring initial GUI
+.
+3.2.2.
+Panels
+
+QGIS provides many panels.
+Panels are special widgets that you can interact with (selecting
+options, checking boxes, filling values…) to perform more complex tasks.
+Below is a list of the default panels provided by QGIS:
+Table 3.17
+QGIS Panels
+
+Panel name
+Shortcut
+Reference
+Advanced Digitizing
+Ctrl
++
+4
+The Advanced Digitizing panel
+Browser
+Ctrl
++
+2
+The Browser Panel
+Browser (2)
+The Browser Panel
+Debugging/Development Tools
+F12
+Debugging/Development Tools Panel
+Elevation Profile
+Geometry Validation
+Digitizing Properties
+GPS Information
+Ctrl
++
+0
+Live GPS tracking
+GRASS Tools
+GRASS GIS Integration
+Layer Order
+Ctrl
++
+9
+Layer Order Panel
+Layer Styling
+Ctrl
++
+3
+Layer Styling Panel
+Layers
+Ctrl
++
+1
+Layers Panel
+Log Messages
+Log Messages Panel
+Overview
+Ctrl
++
+8
+Overview Panel
+Processing Toolbox
+The Toolbox
+Results Viewer
+The Toolbox
+Snapping and Digitizing Options
+Setting the snapping tolerance and search radius
+Spatial Bookmark Manager
+Ctrl
++
+7
+Bookmarking extents on the map
+Statistics
+Ctrl
++
+6
+Statistical Summary Panel
+Temporal Controller
+The temporal controller panel
+Tile Scale
+Tilesets
+Undo/Redo
+Ctrl
++
+5
+Undo/Redo Panel
+Vertex Editor
+The Vertex Editor Panel
+3.3.
+Status Bar
+
+The status bar provides you with general information about the map
+view and processed or available actions, and offers you tools to
+manage the map view.
+3.3.1.
+Locator bar
+
+On the left side of the status bar, the locator bar, a quick search
+widget, helps you find and run any feature or options in QGIS:
+Click in the text widget to activate the locator search bar or press
+Ctrl
++
+K
+.
+Type a text associated with the item you are looking for
+(name, tag, keyword, …).
+By default, results are returned for the enabled locator filters, but
+you can limit the search to a certain scope by prefixing your text
+with the
+locator filters
+prefix,
+ie. typing
+l
+cad
+will return only the layers whose name contains
+cad
+.
+The filter can also be selected with a double-click in the menu that shows
+when accessing the locator widget.
+Click on a result to execute the corresponding action, depending on the type
+of item.
+Tip
+Limit the lookup to particular field(s) of the active layer
+By default, a search with the “active layer features” filter (
+f
+) runs
+through the whole attribute table of the layer. You can limit the search to
+a particular field using the
+@
+prefix. E.g.,
+f
+@name
+sal
+or
+@name
+sal
+returns only the features whose “name” attribute contains ‘sal’.
+Text autocompletion is active when writing and the suggestion can be applied
+using
+Tab
+key.
+A more advanced control on the queried fields is possible from the layer
+Fields
+tab. Read
+Fields Properties
+for details.
+Searching is handled using threads, so that results always become available as
+quickly as possible, even if slow search filters are installed.
+They also appear as soon as they are encountered by a
+filter, which means that e.g. a file search filter will show results one by one
+as the file tree is scanned. This ensures that the UI is always responsive, even
+if a very slow search filter is present (e.g. one which uses an online service).
+Note
+The Nominatim locator tool may behave differently (no autocompletion
+search, delay of fetching results, …) with respect to the OpenStreetMap
+Nominatim
+usage policy
+.
+Tip
+Quick access to the locator’s configurations
+Click on the
+icon inside the locator widget on the status bar to
+display the list of filters you can use and a
+Configure
+entry that
+opens the
+Locator
+tab of the
+Settings ►
+Options…
+menu.
+3.3.2.
+Reporting actions
+
+In the area next to the locator bar, a summary of actions you’ve
+carried out will be shown when needed  (such as selecting features in
+a layer, removing layer, pan distance and direction) or a long description of the tool you are
+hovering over (not available for all tools).
+In case of lengthy operations, such as gathering of statistics in
+raster layers, executing Processing algorithms or rendering several
+layers in the map view, a progress bar is displayed in the status bar.
+3.3.3.
+Control the map canvas
+
+The
+Coordinate
+option shows the current
+position of the mouse, following it while moving across the map view.
+You can set the units (and precision) in the
+Project ► Properties… ► General
+tab.
+Click on the small button at the left of the textbox to toggle between
+the Coordinate option and the
+Extents
+option
+that displays the coordinates of the current bottom-left and top-right
+corners of the map view in map units.
+Next to the coordinate display you will find the
+Scale
+display.
+It shows the scale of the map view. There is a scale selector, which
+allows you to choose between
+predefined and custom scales
+.
+On the right side of the scale display, press the
+button
+to lock the scale to use the magnifier to zoom in or out.
+The magnifier allows you to zoom in to a map without altering the map
+scale, making it easier to tweak the positions of labels and symbols
+accurately.
+The magnification level is expressed as a percentage.
+If the
+Magnifier
+has a level of 100%, then the current map
+is not magnified, i.e. is rendered at accurate scale relative to the monitor’s resolution (DPI).
+A default magnification value can be defined within
+Settings ► Options ► Rendering ► Rendering Behavior
+,
+which is very useful for high-resolution screens to enlarge small
+symbols. In addition, a setting in
+Settings ► Options ► Canvas & Legend ► DPI
+controls whether QGIS respects each monitor’s physical DPI or uses the overall system logical DPI.
+To the right of the magnifier tool you can define a current clockwise
+rotation for your map view in degrees.
+On the right side of the status bar, the
+Render
+checkbox can be used to temporarily suspend the map view rendering
+(see section
+Controlling map rendering
+).
+To the right of the
+Render
+function, you find the
+EPSG:code
+button showing the current project CRS.
+Clicking on this opens the
+Project Properties
+dialog and lets you
+reproject the map view or adjust any other project property.
+Tip
+Calculating the Correct Scale of Your Map Canvas
+When you start QGIS, the default CRS is
+WGS
+84
+(EPSG
+4326)
+and
+units are degrees. This means that QGIS will interpret any
+coordinate in your layer as specified in degrees.
+To get correct scale values, you can either manually change this
+setting in the
+General
+tab under
+Project ► Properties…
+(e.g. to meters), or you
+can use the
+EPSG:code
+icon seen above.
+In the latter case, the units are set to what the project projection
+specifies (e.g.,
++units=us-ft
+).
+Note that CRS choice on startup can be set in
+Settings ► Options ► CRS Handling
+.
+3.3.4.
+Messaging
+
+The
+Messages
+button next to it opens the
+Log Messages Panel
+which has information on underlying
+processes (QGIS startup, plugins loading, processing tools…)

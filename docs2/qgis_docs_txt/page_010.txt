@@ -1,0 +1,503 @@
+4.
+The Browser panel
+
+Resources that can be opened / run from the Browser
+Browser panel top-level entries
+Favorites
+Spatial Bookmarks
+Project Home
+Drives and file system
+Database entries
+Tiles and Web Services
+Resources
+The QGIS Browser panel is a great tool for browsing, searching,
+inspecting, copying and loading QGIS resources.
+Only resources that QGIS knows how to handle are shown in the
+browser.
+Using the Browser panel you can locate, inspect and add data, as
+described in
+The Browser Panel
+.
+In addition, the Browser panel supports drag and drop of many QGIS
+resources, such as project files, Python scripts, Processing scripts and
+Processing models.
+Python scripts, Processing scripts and Processing models can also be opened for
+editing in an external editor and the graphical modeller.
+You can drag and drop layers from the
+Layers
+panel
+to the
+Browser
+panel, for instance into a GeoPackage or a
+PostGIS database.
+Fig. 4.1
+The Browser panel
+
+The browser panel (
+Fig. 4.1
+) is organised
+as an expandable hierarchy with some fixed top-level entries that
+organise the resources handled by the browser.
+Node entries are expanded by clicking on
+to the left
+of the entry name.
+A branch is collapsed by clicking on
+.
+The
+Collapse All
+button collapses all top-level
+entries.
+In
+Settings ► Interface Customization
+it is
+possible to disable resources.
+If you, for instance, would not like to show Python scripts in the
+browser, you can uncheck the
+Browser ► py
+entry,
+and if you want to get rid of your home folder in the browser, you
+can uncheck the
+Browser ► special:Home
+entry.
+A filter (
+Filter Browser
+) can be used for searching
+based on entry names (both leaf entries and node entries in the
+hierarchy).
+Using the
+Options
+pull-down menu next to the filter
+text field, you can
+toggle
+Case Sensitive
+search
+set the
+Filter pattern syntax
+to one of
+Normal
+Wildcard(s)
+Regular Expressions
+The
+Properties widget
+, showing useful information about some
+entries / resources, can be enabled / disabled using the
+Enable/disable properties widget
+button.
+When enabled, it opens at the bottom of the browser panel, as shown in
+Fig. 4.2
+.
+Fig. 4.2
+The properties widget
+
+A second browser panel can be opened by activating the
+Browser (2)
+panel in
+View ► Panels
+.
+Having two browser panels can be useful when copying layers between
+resources that are locationed deep down in different branches of the
+browser hierarchy.
+4.1.
+Resources that can be opened / run from the Browser
+
+A lot can be accomplished in the Browser panel
+Add vector, raster and mesh layers to your map by double-clicking,
+dragging onto the map canvas or clicking the
+Add Selected Layers
+button (after selecting layers)
+Run Python scripts (including Processing algorithms) by
+double-clicking or dragging onto the map canvas
+Run models by double-clicking or dragging onto the map canvas
+Extract Symbols…
+from QGIS Project files using the
+context menu
+Open files with their default applications
+(
+Open <file type> Externally…
+in the context menu).
+Examples: HTML files, spreadsheets, images, PDFs, text files, …
+Copy entries
+Rename and delete (multiple) layers (context menu:
+Manage ►
+)
+Open a file explorer window and directly select the file
+Show in Files
+Resource specific actions are listed for the different resource groups
+sorted under the top-level entries listed below.
+4.2.
+Browser panel top-level entries
+
+4.2.1.
+Favorites
+
+Often used file system locations can be tagged as favorites.
+The ones you have tagged will appear here.
+In addition to the operations described under
+Home
+, the
+context menu allows you to
+Rename Favorite…
+and
+Remove Favorite
+.
+4.2.2.
+Spatial Bookmarks
+
+This is where you will find your spatial bookmarks, organised
+into
+Project Bookmarks
+and
+User Bookmarks
+.
+From the top level context menu, you can create a bookmark
+(
+New Spatial Bookmark…
+),
+Show the Spatial Bookmark Manager
+,
+Import Spatial Bookmarks…
+and
+Export Spatial Bookmarks…
+.
+For bookmark group entries you can
+Export Spatial Bookmarks…
+,
+create a bookmark (
+New Spatial Bookmark…
+),
+Rename Bookmark Group
+,
+and
+Delete Bookmark Group
+.
+For bookmark entries you can
+Zoom to Bookmark
+,
+Edit Spatial Bookmark…
+and
+Delete Spatial Bookmark
+4.2.3.
+Project Home
+
+Available once the project file has been saved, the
+Project home
+entry is a folder containing data and other contents (scripts, models, text, …)
+that may be used within the current project.
+Displayed in the
+Browser
+panel, it allows you to quickly
+access data and other files of the project.
+It defaults to the project file folder but can be changed through the
+Project ► Properties… ► General ► Project home
+option,
+or by right-clicking on the
+Project Home
+item of the Browser panel
+and selecting
+Set project home…
+.
+Customizing that folder is especially useful in contexts where QGIS projects
+are not stored in the root folder of an organisational ‘project’, along with datasets.
+4.2.4.
+Drives and file system
+
+The next items of the
+Browser
+panel depend on the OS in use
+and concern the top level entries of its file system.
+They are mainly:
+The
+Home
+folder, pointing to the current user home folder
+on Unix-based machines, the root
+/
+folder
+the connected drives, either local or network. Depending on the OS,
+they are directly listed (eg,
+C:\
+,
+D:\
+) or through the
+/Volumes
+entry.
+From the contextual menu of each of these folders or drives, you can:
+refresh the contents
+create a
+New ►
+subitem that is a
+Directory
+,
+GeoPackage
+or ESRI
+Shapefile
+format dataset
+hide the directory (
+Hide from Browser
+)
+Set color
+: customize the folder icon color, aiding in rapid
+browser navigation of complex folder structures
+enable
+Scanning
+:
+Monitor for changes
+: allows to manually control
+whether a particular directory should be monitored and automatically updated.
+This setting applies to the selected directory and all subdirectories.
+This means that you can manually opt-in to monitoring of network drives
+if you know there’s no issue, or manually opt-out of monitoring of large
+directories which you don’t want monitored for other reasons.
+By default, remote or network drives are not automatically monitored.
+Fast scan this directory
+open the directory in your file manager (
+Open Directory…
+)
+open the directory in a terminal window  (
+Open in Terminal…
+)
+inspect the
+Properties…
+or the parent
+Directory
+Properties…
+4.2.5.
+Database entries
+
+Depending on your OS and installed drivers, you might have access to different database
+types to use in QGIS. Below are listed the different entries of contextual menu at
+each level of the dataset tree.
+Level
+Context menu
+Type of database
+GeoPackage
+(
+[
+1
+]
+)
+SpatiaLite
+PostGIS
+SAP HANA
+MS SQL Server
+Oracle
+Top menu
+Create a
+New Connection…
+to an existing database
+Create Database…
+Create Database and Layer…
+Save Connections…
+details
+to a file
+Load Connections…
+Connection
+/ Database
+Refresh
+a connection
+Edit Connection…
+settings
+Duplicate Connection
+Remove Connection…
+New Field Domain ►
+New Range Domain
+New Field Domain ►
+New Coded Values Domain
+New Field Domain ►
+New Glob Domain
+Delete <database_name>
+Compact Database (VACUUM)
+Create a
+New Schema…
+Create a
+New Table…
+Execute SQL…
+query
+Schema
+Refresh
+a schema
+Schema Operations ►
+Rename Schema…
+Schema Operations ►
+Delete Schema…
+Create a
+New Table…
+Execute SQL…
+query
+Table / Layer
+Table Operations ►
+Rename Table…
+Table Operations ►
+Truncate Table…
+Execute SQL…
+query
+Export Layer ► To file…
+Manage ►
+Rename Layer <layer_name>…
+Manage ►
+Delete Layer <layer_name>…
+Manage ►
+Delete Selected Layers
+Manage ►
+Add Layer to Project
+Manage ►
+Add Selected Layers to Project
+Open
+Layer Properties…
+dialog
+Open
+File Properties…
+dialog
+Open with Data Source Manager
+Fields
+Add New Field…
+Field
+Set Field Domain
+Rename Field
+Set Alias…
+Set Comment…
+Delete Field…
+[
+1
+]
+The different entries may also be available for some GDAL supported
+vector file formats
+such as ESRI File Geodatabase, FlatGeobuf, GeoParquet, NetCDF, … when compatible.
+Note
+When loading vector layers into QGIS, fields with
+Field Domains
+(such as those defined in a GeoPackage or ESRI File Geodatabase) are automatically
+detected. These domains are database-level constraints, meaning they are enforced
+by the database itself and apply across different applications, not just QGIS.
+4.2.6.
+Tiles and Web Services
+
+Level
+Context menu
+Type of services
+WMS / WMTS
+Vector Tiles
+XYZ Tiles
+WCS
+WFS / OGC
+API - Features
+ArcGIS REST
+Servers
+Scene
+Cloud
+SensorThings
+Top menu
+Create a
+New Connection…
+Create a
+New Generic Connection…
+Create a
+New ArcGIS Vector Tile
+Service Connection…
+Save Connections…
+details
+to a file
+Load Connections…
+Connection
+Refresh
+connection
+Edit…
+connection settings
+Duplicate
+connection
+Delete
+connection
+View Service Info
+in Web browser
+Table / Layer
+Export Layer ► To File…
+Add layer to Project
+Open
+Layer properties…
+dialog
+View Service Info
+in Web browser
+4.3.
+Resources
+
+Project files.
+The context menu for QGIS project files allows you to:
+open it (
+Open Project
+)
+extract symbols (
+Extract Symbols…
+) - opens the style
+manager that allows you to export symbols to an XML file, add
+symbols to the default style or export as PNG or SVG.
+inspect properties (
+File Properties…
+)
+You can expand the project file to see its layers.
+The context menu of a layer offers the same actions as elsewhere
+in the browser.
+QGIS Layer Definition files (QLR).
+The following actions are available from the context menu:
+export it (
+Export Layer ► To file
+)
+add it to the project (
+Add Layer to Project
+)
+inspect properties (
+Layer Properties…
+)
+Processing models (.model3).
+The following actions are available from the context menu:
+Run Model…
+)
+Edit Model…
+)
+QGIS print composer templates (QPT).
+The following action is available from the context menu:
+(
+New Layout from Template
+)
+Python scripts (.py).
+The following actions are available from the context menu:
+(
+Run script…
+)
+(
+Open in External Editor
+)
+Recognized raster formats.
+The following actions are available from the context menu:
+delete it (
+Delete File <dataset name>
+)
+export it (
+Export Layer ► To file
+)
+add it to the project (
+Add Layer to Project
+)
+inspect properties (
+Layer Properties…
+,
+File Properties…
+)
+For some formats you can also
+Open <file type> Externally…
+Recognized vector formats.
+The following actions are available from the context menu:
+delete it (
+Delete File <dataset name>
+)
+export it (
+Export Layer ► To file
+)
+add it to the project (
+Add Layer to Project
+)
+inspect properties (
+Layer Properties…
+,
+File Properties…
+)
+For some formats you can also
+Open <file type> Externally…

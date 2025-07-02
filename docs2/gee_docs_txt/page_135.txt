@@ -1,0 +1,22 @@
+Earth Engine represents 1-D vectors, 2-D matrices, 3-D cubes, and higher dimensional
+      hypercubes with the
+ee.Array
+type.  Arrays are a flexible data structure, but
+      in exchange for the power they offer, they do not scale as well as other data structures
+      in Earth Engine.  If the problem can be solved without using arrays, the result will be
+      computed faster and more efficiently.  But if the problem requires a higher dimension model,
+      flexible linear algebra, or anything else arrays are uniquely suited to, you can use
+      the
+Array
+class.
+Array dimension, shape and size
+The dimension of an array refers to the number of axes along which the underlying data
+        varies.  For example, 0-D arrays are scalar numbers, 1-D arrays are vectors, 2-D arrays
+        are matrices, 3-D arrays are cubes, and >3-D arrays are hyper-cubes.  For an
+        N-dimensional array, there are N axes from 0 to N-1.  The shape of the array is
+        determined by the lengths of the axes.  The length of an axis is the number of positions
+        along it.  The array size, or number of total elements in the array, equals the product
+        of the axis lengths.  Each value at every position on every axis must have a valid number,
+        since sparse or ragged arrays are not currently supported. The array’s element type
+        indicates what kind of number each element is; all elements of the array will have the
+        same type.

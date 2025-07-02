@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 import rasterio
 from rasterio.warp import reproject, Resampling
 
-from pydantic import BaseModel
+from pydantic import BaseModel 
+from typing import List, TypedDict
+
 import osmnx as ox    
 import ee
 
@@ -210,6 +212,9 @@ def get_srtm_dem( **kwargs):
     input = GetData(**kwargs)
     bbox = input.bbox
     filepath = input.filepath
+    filepath= os.path.basename(filepath)
+    filepath = os.path.splitext(filepath)[0]
+
     base_name = "downloads"
     delete_drive_file(filepath)
     # Step 3: Load and clip the DEM
@@ -250,6 +255,10 @@ def get_landcover(**kwargs):
     input = GetData(**kwargs)
     bbox = input.bbox
     filepath = input.filepath
+    filepath= os.path.basename(filepath)
+    filepath = os.path.splitext(filepath)[0]
+
+
     base_name = "downloads"
     ee_auth()
     bbox_geom = ee.Geometry.Rectangle(bbox)
@@ -282,7 +291,12 @@ def get_landcover(**kwargs):
 def get_ndvi_data(**kwargs):
     input = GetData(**kwargs)
     bbox = input.bbox
+    
+
     filepath = input.filepath
+    filepath= os.path.basename(filepath)
+    filepath = os.path.splitext(filepath)[0]
+
     ee_auth()
     delete_drive_file(filepath)
     base_name = "downloads"
@@ -317,9 +331,13 @@ def get_ndvi_data(**kwargs):
 
 
 def get_rainfall( **kwargs):
+    
     input = GetData(**kwargs)
     bbox = input.bbox
     filepath = input.filepath
+    filepath= os.path.basename(filepath)
+    filepath = os.path.splitext(filepath)[0]
+
     ee_auth()
     delete_drive_file(filepath)
     bbox_geom = ee.Geometry.Rectangle(bbox)
@@ -380,26 +398,35 @@ def export_classified_raster(classified_array, reference_meta, output_path):
     print(f"✅ Exported classified raster to {output_path}")
 
 
-class GenerateFloodRiskMapInput(BaseModel):
-    dem_path: str
-    ndvi_path: str
-    rainfall_path: str
-    lulc_path: str
-    classification_bins: list = [0.2, 0.4, 0.6, 0.72]
-    plot: bool = True
+class Analysis(BaseModel):
+    class RasterConfig(BaseModel):
+        filepath: str
+        weight: float
+        inverse: bool
+        raster_type :str 
 
-def generate_flood_risk_map(
-    **kwargs
-):
-    input = GenerateFloodRiskMapInput(**kwargs)
-    dem_path = input.dem_path+".tif"
-    ndvi_path = input.ndvi_path+".tif"
-    rainfall_path = input.rainfall_path+".tif"
-    lulc_path = input.lulc_path+".tif"
-    classification_bins = input.classification_bins
-    plot = input.plot
-    
-    # --- 1. Helper: Load & Resample ---
+    filepath_list: List[RasterConfig]
+    state_name : str 
+
+def export_classified_raster(array, meta, output_path):
+    meta = meta.copy()
+    meta.update({
+        'dtype': 'int32',
+        'count': 1,
+        'nodata': 0
+    })
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with rasterio.open(output_path, 'w', **meta) as dst:
+        dst.write(array.astype(np.int32), 1)
+
+
+def suitability_analysis(**kwargs):
+    input = Analysis(**kwargs)
+    filepath_list = input.filepath_list
+    state_name = input.state_name
+    region = state_name
+    formatted_state = region.replace(" ", "") if " " in region else region
+
     def load_and_resample(path, reference_meta=None):
         with rasterio.open(path) as src:
             data = src.read(1).astype(np.float32)
@@ -418,7 +445,6 @@ def generate_flood_risk_map(
                 )
                 return dst_array, reference_meta
 
-    # --- 2. Helper: Normalize ---
     def normalize(x, inverse=False):
         x = np.where(np.isnan(x), 0, x)
         min_val, max_val = np.min(x), np.max(x)
@@ -427,51 +453,46 @@ def generate_flood_risk_map(
         norm = (x - min_val) / (max_val - min_val)
         return 1 - norm if inverse else norm
 
-    # --- 3. Load all data to match NDVI reference ---
-    ndvi, ref_meta = load_and_resample(ndvi_path)
-    dem, _ = load_and_resample(dem_path, ref_meta)
-    rainfall, _ = load_and_resample(rainfall_path, ref_meta)
-    lulc, _ = load_and_resample(lulc_path, ref_meta)
+    # Load first raster to get reference metadata
+    _, ref_meta = load_and_resample(filepath_list[0].filepath)
 
-    # --- 4. Normalize ---
-    dem_n = normalize(dem, inverse=True)
-    ndvi_n = normalize(ndvi, inverse=True)
-    rain_n = normalize(rainfall)
+    combined = np.zeros((ref_meta['height'], ref_meta['width']), dtype=np.float32)
 
-    # --- 5. LULC risk ---
-    
+    # LULC class weights
     lulc_weights = {
-            10: 0.2, 20: 0.3, 30: 0.3, 40: 0.6, 50: 0.9,
-            60: 0.4, 70: 0.1, 80: 0.8, 90: 0.7, 95: 0.6, 100: 0.2
-        }
-    lulc_risk = np.vectorize(lambda x: lulc_weights.get(int(x), 0.3))(lulc)
+        10: 0.2, 20: 0.3, 30: 0.3, 40: 0.6, 50: 0.9,
+        60: 0.4, 70: 0.1, 80: 0.8, 90: 0.7, 95: 0.6, 100: 0.2
+    }
 
-    # --- 6. Weighted Overlay ---
-    flood_risk = (
-        0.55 * dem_n +
-        0.20 * rain_n +
-        0.25 * ndvi_n +
-        0.10 * lulc_risk
-    )
+    for raster in filepath_list:
+        arr, _ = load_and_resample(raster.filepath, ref_meta)
 
-    # --- 7. Classification ---
-    classified = np.digitize(flood_risk, bins=classification_bins)
+        if raster.raster_type.lower() == "lulc":
+            arr = np.vectorize(lambda x: lulc_weights.get(int(x), 0.3))(arr)
 
-    # --- 8. Plot ---
-    if plot:
-        plt.figure(figsize=(10, 6))
-        im = plt.imshow(classified, cmap='RdYlBu_r')
-        plt.title("🛰️ Flood Risk Map (Uttarakhand)", fontsize=14)
-        cbar = plt.colorbar(im, ticks=[1, 2, 3, 4])
-        cbar.ax.set_yticklabels(["Low", "Moderate", "High", "Very High"])
-        cbar.set_label("Flood Risk Classification", rotation=270, labelpad=15)
-        plt.axis('off')
-        plt.show()
-        
-    base_output = "outputs"
-    export_classified_raster(classified, ref_meta, os.path.join(base_output, "output.tif")) 
-    
-    return {"classified_raster": os.path.join(base_output, "output.tif")}
+        norm_arr = normalize(arr, inverse=raster.inverse)
+        combined += norm_arr * raster.weight
+
+    # --- Classification ---
+    classification_bins = [0.2, 0.4, 0.6, 0.8]
+    classified = np.digitize(combined, bins=classification_bins)
+
+    # --- Plot ---
+    plt.figure(figsize=(10, 6))
+    im = plt.imshow(classified, cmap='RdYlBu_r')
+    plt.title(f" Suitability Map ({state_name})", fontsize=14)
+    cbar = plt.colorbar(im, ticks=[1, 2, 3, 4])
+    cbar.ax.set_yticklabels(["Low", "Moderate", "High", "Very High"])
+    cbar.set_label("Suitability Classification", rotation=270, labelpad=15)
+    plt.axis('off')
+    plt.show()
+
+    # --- Save output raster ---
+    output_path = os.path.join("outputs", f"{formatted_state}_suitability_map.tif")
+    export_classified_raster(classified, ref_meta, output_path)
+
+    return {"classified_raster": output_path}
+
 
 
 import rasterio
@@ -482,8 +503,16 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import folium
 import os
+import rasterio
+from rasterio.mask import mask
+from rasterio.transform import array_bounds
+import numpy as np
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import folium
+import os
 
-class VisualizeFloodRiskInput(BaseModel):
+class VisualiseMap(BaseModel):
     raster_path: str
     boundary_geojson_path: str
     output_png_path: str
@@ -492,13 +521,11 @@ class VisualizeFloodRiskInput(BaseModel):
     opacity: float = 0.6
     zoom_start: int = 8
 
-def visualize_flood_risk_folium(
+def visualise_map(
     **kwargs
 ):
-    input = VisualizeFloodRiskInput(**kwargs)
-    if not raster_path.lower().endswith('.tif'):
-        raster_path = raster_path + '.tif'
-
+    input = VisualiseMap(**kwargs)
+    raster_path = input.raster_path
     boundary_geojson_path = input.boundary_geojson_path
     output_png_path = input.output_png_path
     output_html_path = input.output_html_path

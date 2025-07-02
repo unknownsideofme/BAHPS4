@@ -1,0 +1,124 @@
+6.
+Module: Vector Analysis
+
+Now that you have edited a few features, you must want to know what else one
+can do with them. Having features with attributes is nice, but when all is said
+and done, this doesn’t really tell you anything that a normal, non-GIS map
+can’t.
+The key advantage of a GIS is this:
+a GIS can answer questions.
+For the next three modules, we’ll endeavor to answer a
+research question
+using GIS functions. For example, you are an estate agent and you are looking
+for a residential property in Swellendam for clients who have the
+following criteria:
+It needs to be in Swellendam.
+It must be within reasonable driving distance of a school (say 1km).
+It must be more than 100m squared in size.
+Closer than 50m to a main road.
+Closer than 500m to a restaurant.
+Within the next few modules, we’ll harness the power of GIS analysis tools to
+locate suitable farm properties for this new residential development.
+6.1. Lesson: Reprojecting and Transforming Data
+6.1.1.
+★☆☆
+Follow Along: Projections
+6.1.2.
+★☆☆
+Follow Along: “On the Fly” Reprojection
+6.1.3.
+★★☆
+Follow Along: Saving a Dataset to Another CRS
+6.1.4.
+★★★
+Follow Along: Creating Your Own Projection
+6.1.5. In Conclusion
+6.1.6. Further Reading
+6.1.7. What’s Next?
+6.2. Lesson: Vector Analysis
+6.2.1.
+★☆☆
+The GIS Process
+6.2.2.
+★☆☆
+The Problem
+6.2.3.
+★☆☆
+The Data
+6.2.4.
+★☆☆
+Follow Along: Start a Project and get the Data
+6.2.5.
+★☆☆
+Try Yourself: Convert Layers’ CRS
+6.2.6.
+★☆☆
+Follow Along: Analyzing the Problem: Distances From Schools and Roads
+6.2.7.
+★☆☆
+Try Yourself: Distance from schools
+6.2.8.
+★☆☆
+Follow Along: Overlapping Areas
+6.2.9.
+★☆☆
+Follow Along: Extract the Buildings
+6.2.10.
+★★☆
+Try Yourself: Further Filter our Buildings
+6.2.11.
+★☆☆
+Follow Along: Select Buildings of the Right Size
+6.2.12.
+★☆☆
+Try Yourself:
+6.2.13. In Conclusion
+6.2.14. What’s Next?
+6.3. Lesson: Network Analysis
+6.3.1.
+★☆☆
+Follow Along: The Tools and the Data
+6.3.2.
+★☆☆
+Calculate the shortest path (point to point)
+6.3.3.
+★★☆
+Try Yourself: Fastest path
+6.3.4.
+★★☆
+Follow Along: Advanced options
+6.3.5.
+★★★
+Shortest path with speed limit
+6.3.6.
+★★☆
+Service area (from layer)
+6.3.7. In Conclusion
+6.3.8. What’s Next?
+6.4. Lesson: Spatial Statistics
+6.4.1.
+★☆☆
+Follow Along: Create a Test Dataset
+6.4.2.
+★☆☆
+Follow Along: Basic Statistics
+6.4.3.
+★☆☆
+Follow Along: Compute statistics on distances between points
+6.4.4.
+★☆☆
+Follow Along: Nearest Neighbor Analysis (within layer)
+6.4.5.
+★☆☆
+Follow Along: Mean Coordinates
+6.4.6.
+★☆☆
+Follow Along: Image Histograms
+6.4.7.
+★☆☆
+Follow Along: Spatial Interpolation
+6.4.8.
+★★☆
+Try Yourself: Different interpolation methods
+6.4.9. In Conclusion
+6.4.10. What’s Next?

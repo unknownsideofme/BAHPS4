@@ -1,0 +1,15 @@
+25.
+Plugins
+
+25.1. QGIS Plugins
+25.1.1. Core and External plugins
+25.1.2. The Plugins Dialog
+25.2. Using QGIS Core Plugins
+25.2.1. DB Manager Plugin
+25.2.2. Geometry Checker Plugin
+25.2.3. MetaSearch Catalog Client
+25.2.4. Offline Editing Plugin
+25.2.5. Topology Checker Plugin
+25.3. QGIS Python console
+25.3.1. The Interactive Console
+25.3.2. The Code Editor

@@ -1,0 +1,953 @@
+Keep your client library up to date by running the command for the package manager you used to
+      install
+earthengine-api
+:
+Conda Package Manager
+:
+conda update -c conda-forge earthengine-api
+Python Package Installer
+:
+pip install earthengine-api --upgrade
+Python support
+The Earth Engine Python client library is compatible with
+Python versions
+        supported by Google Cloud
+. Support is updated annually following the Python point
+      release schedule (
+PEP 602
+;
+Status of Python versions
+). Using
+      unsupported Python versions may cause authentication failures, unexpected behavior, or failure
+      of certain operations.
+Install options
+If you are using
+Google Colab
+, the latest version of the Earth Engine Python
+      client library has already been installed (via pip). Try the following notebook to get started
+      with Earth Engine and Colab:
+Run in Google Colab
+View source on GitHub
+If you don't use Colab, the Earth Engine client library can be manually installed and
+      updated on your system using
+conda
+(recommended) or
+pip
+:
+Install with
+conda
+Install with
+pip
+expand_more
+Install
+the API to an
+          arbitrary Python environment using
+pip
+. From a terminal or
+          command prompt:
+pip install earthengine-api
+Once installed, you can import, authenticate and initialize the Earth Engine API as
+          described
+here
+.
+Update
+the API:
+pip install earthengine-api --upgrade
+Package import
+The Python API package is called
+ee
+. It must be imported and initialized for
+      each new Python session and script:
+import
+ee
+Authentication and Initialization
+Prior to using the Earth Engine Python client library, you need to
+      authenticate and use the resultant credentials to initialize the Python
+      client. Run:
+ee
+.
+Authenticate
+()
+This will select the best authentication mode for your environment, and prompt
+      you to confirm access for your scripts.  To initialize, you will need to provide
+      a project that you own, or have
+permissions
+to use. This project will be used for running all Earth Engine operations:
+ee
+.
+Initialize
+(
+project
+=
+'my-project'
+)
+See the
+authentication
+      guide
+for troubleshooting and to learn more about authentication modes
+      and Cloud projects.
+Hello world!
+Here is a short script to test that you're all set for working with Earth Engine.
+import
+ee
+ee
+.
+Authenticate
+()
+ee
+.
+Initialize
+(
+project
+=
+'my-project'
+)
+print
+(
+ee
+.
+String
+(
+'Hello from the Earth Engine servers!'
+)
+.
+getInfo
+())
+Syntax
+Both the Python and JavaScript APIs access the same server-side functionality,
+      but client-side expressions (
+learn more about client vs. server
+)
+      can vary because of language syntax differences. The following table includes
+      a list of the common syntax differences you'll encounter
+      when working with the Python API relative to the JavaScript API.
+Common syntax differences between JavaScript and Python
+Property
+JavaScript
+Python
+Function definition
+function
+myFun
+(
+arg
+)
+{
+return
+arg
+;
+}
+var
+myFun
+=
+function
+(
+arg
+)
+{
+return
+arg
+;
+};
+def
+my_fun
+(
+arg
+):
+return
+arg
+Anonymous function mapping
+var
+foo
+=
+col
+.
+map
+(
+function
+(
+arg
+)
+{
+return
+arg
+;
+});
+foo
+=
+col
+.
+map
+(
+lambda
+arg
+:
+arg
+)
+Variable definition
+var
+myVar
+=
+'var'
+;
+my_var
+=
+'var'
+Logical operators
+var
+match
+=
+such
+.
+and
+(
+that
+);
+var
+match
+=
+such
+.
+or
+(
+that
+);
+var
+match
+=
+such
+.
+not
+(
+that
+);
+match
+=
+such
+.
+And
+(
+that
+)
+match
+=
+such
+.
+Or
+(
+that
+)
+match
+=
+such
+.
+Not
+(
+that
+)
+Multi-line method chain
+var
+foo
+=
+my
+.
+really
+()
+.
+reallyLong
+()
+.
+methodChain
+();
+foo
+=
+(
+my
+.
+really
+()
+.
+reallyLong
+()
+.
+methodChain
+())
+Dictionary keys
+var
+dic
+=
+{
+'key'
+:
+value
+};
+var
+dic
+=
+{
+key
+:
+value
+};
+dic
+=
+{
+'key'
+:
+value
+}
+Dictionary object access
+var
+value
+=
+dic
+.
+key
+;
+var
+value
+=
+dic
+[
+'key'
+];
+value
+=
+dic
+[
+'key'
+]
+Function argument definition
+// Positional arguments.
+var
+foo
+=
+fun
+(
+argX
+,
+argY
+,
+argZ
+);
+// Keyword arguments object.
+var
+foo
+=
+fun
+({
+y
+:
+argY
+});
+# Positional arguments.
+foo
+=
+fun
+(
+arg_x
+,
+arg_y
+,
+arg_z
+)
+# Keyword arguments dictionary.
+foo
+=
+fun
+(
+**
+{
+'y'
+:
+arg_y
+})
+# Keyword arguments.
+foo
+=
+fun
+(
+x
+=
+arg_x
+,
+z
+=
+arg_z
+)
+Boolean
+var
+t
+=
+true
+;
+var
+f
+=
+false
+;
+t
+=
+True
+f
+=
+False
+Null values
+var
+na
+=
+null
+;
+na
+=
+None
+Comment
+//
+#
+Notes regarding Python API syntax:
+Anonymous function mapping is achieved via
+lambda
+functions, which accept only a single expression. Use traditional
+          named functions when complex mapping operations are required.
+Function arguments provided as a keyword arguments dictionary must be
+          specified as
+**kwargs
+;
+          i.e., prepend two asterisks to the function input dictionary:
+y = fun(**{'x': 0})
+or
+y = fun(**arg_dict)
+.
+Date objects
+Define and manipulate client-side date objects with the
+datetime
+module. Include the module in your script:
+import
+datetime
+Convert
+ee.Date
+to client-side date:
+ee_date
+=
+ee
+.
+Date
+(
+'2020-01-01'
+)
+py_date
+=
+datetime
+.
+datetime
+.
+utcfromtimestamp
+(
+ee_date
+.
+getInfo
+()[
+'value'
+]
+/
+1000.0
+)
+Convert client-side date to
+ee.Date:
+py_date
+=
+datetime
+.
+datetime
+.
+utcnow
+()
+ee_date
+=
+ee
+.
+Date
+(
+py_date
+)
+Exporting data
+Exporting data with the Python API requires the use of the
+ee.batch
+module, which provides an interface to the
+Export
+functions. Pass parameter arguments as you would with the JavaScript API, minding the
+      differences noted in the
+syntax table
+above. Export tasks must be
+      started by calling the
+start()
+method on a defined task. Query a task's status by
+      calling the
+status()
+method on it. The following example demonstrates exporting
+      an
+ee.Image
+object.
+Create an export task:
+task
+=
+ee
+.
+batch
+.
+Export
+.
+image
+.
+toDrive
+(
+image
+=
+my_image
+,
+# an ee.Image object.
+region
+=
+my_geometry
+,
+# an ee.Geometry object.
+description
+=
+'mock_export'
+,
+folder
+=
+'gdrive_folder'
+,
+fileNamePrefix
+=
+'mock_export'
+,
+scale
+=
+1000
+,
+crs
+=
+'EPSG:4326'
+)
+Start an export task:
+task
+.
+start
+()
+Check export task status:
+task
+.
+status
+()
+The result of
+task.status()
+is a dictionary containing information such as the
+      state of the task and its ID.
+{
+'state'
+:
+'READY'
+,
+'description'
+:
+'my_export_task'
+,
+'creation_timestamp_ms'
+:
+1647567508236
+,
+'update_timestamp_ms'
+:
+1647567508236
+,
+'start_timestamp_ms'
+:
+0
+,
+'task_type'
+:
+'EXPORT_IMAGE'
+,
+'id'
+:
+'56TVJIZABUMTD5CJ5YHTMYK4'
+,
+'name'
+:
+'projects/earthengine-legacy/operations/56TVJIZABUMTX5CJ5HHTMYK4'
+}
+You can monitor task progress using the
+state
+field. See the Processing
+      Environments page for a
+list of
+state
+values
+and more information on
+task lifecycle
+.
+Note:
+Tasks started from the Python API will also appear in the Tasks
+      tab of the JavaScript
+Code Editor
+for the
+      same Google account.
+Printing objects
+Printing an Earth Engine object in Python prints the serialized request for the object,
+      not the object itself. Refer to the
+Client vs. server
+page
+      to understand the reason for this.
+Call
+getInfo()
+on Earth Engine objects to get the desired object from the server
+      to the client:
+# Load a Landsat image.
+img
+=
+ee
+.
+Image
+(
+'LANDSAT/LT05/C02/T1_L2/LT05_034033_20000913'
+)
+# Print image object WITHOUT call to getInfo(); prints serialized request instructions.
+print
+(
+img
+)
+# Print image object WITH call to getInfo(); prints image metadata.
+print
+(
+img
+.
+getInfo
+())
+Note that
+getInfo()
+is a synchronous operation, meaning execution of expressions
+    following the
+getInfo()
+call are blocked until the result is returned to the client.
+    Additionally, requests for a lot of data or expensive computations can return an error and/or
+    hang. In general, the best practice is to
+export your results
+,
+    and once complete, import them into a new script for further analysis.
+Caution:
+Calling
+getInfo()
+in your script will block execution.
+      Additionally, requests for a lot of data or expensive computations can return an error
+      and/or hang.
+Export
+to obtain the
+        results of expensive, large, or long running computations.
+UI objects
+The Earth Engine
+ui
+module is only available through the JavaScript API Code
+      Editor. Use third party libraries for UI elements in Python. Libraries such as
+geemap
+,
+Folium
+, and
+ipyleaflet
+provide interactive map display, while charting can be done with
+Matplotlib
+,
+Altair
+, or
+seaborn
+, to name a few. See examples
+      in the
+Earth Engine in Colab setup notebook
+for using geemap and Matplotlib.
+Python in the Developer Guide
+Python code is included throughout the Earth Engine Developer Guide. Where available,
+      code examples can be viewed by clicking on the "Colab (Python)" tab at the top of code blocks.
+      Guide pages may also include buttons at the top for running the page as a Colab notebook or
+      viewing on GitHub. Python code examples are intended to be run using
+Google Colab
+. Interactive map and object exploration are
+      handled by the
+geemap
+library. Both the Earth Engine Python client library and
+geemap
+are preinstalled
+      in Colab.
+Earth Engine setup
+Running Python code requires that you import the Earth Engine library, authenticate,
+      and initialize. The following commands are used in examples
+      (see the
+Authentication and Initialization
+page for
+      alternatives).
+import
+ee
+ee
+.
+Authenticate
+()
+ee
+.
+Initialize
+(
+project
+=
+'my-project'
+)
+Interactive exploration with
+geemap
+The
+geemap
+library is used
+      for displaying map tiles and printing rich representations of Earth Engine objects.
+      The library depends respectively on
+ipyleaflet
+and
+eerepr
+for these features.
+      The
+geemap
+library and its dependencies are preinstalled in Google Colab;
+      import it into each session.
+import
+geemap.core
+as
+geemap
+Geographic Earth Engine data classes, such as
+ee.Image
+and
+ee.FeatureCollection
+, can be viewed using the
+geemap.Map
+object.
+      First, define the map object. Then, add layers to it or alter its viewport.
+# Initialize a map object.
+m
+=
+geemap
+.
+Map
+()
+# Define an example image.
+img
+=
+ee
+.
+Image
+.
+random
+()
+# Add the image to the map.
+m
+.
+add_layer
+(
+img
+,
+None
+,
+'Random image'
+)
+# Display the map (you can call the object directly if it is the final line).
+display
+(
+m
+)
+
+
+--- CODE BLOCK ---
+pip install earthengine-api
+
+
+
+--- CODE BLOCK ---
+pip install earthengine-api --upgrade
+
+
+
+--- CODE BLOCK ---
+importee
+
+
+
+--- CODE BLOCK ---
+ee.Authenticate()
+
+
+
+--- CODE BLOCK ---
+ee.Initialize(project='my-project')
+
+
+
+--- CODE BLOCK ---
+importeeee.Authenticate()ee.Initialize(project='my-project')print(ee.String('Hello from the Earth Engine servers!').getInfo())
+
+
+
+--- CODE BLOCK ---
+functionmyFun(arg){returnarg;}varmyFun=function(arg){returnarg;};
+
+
+
+--- CODE BLOCK ---
+defmy_fun(arg):returnarg
+
+
+
+--- CODE BLOCK ---
+varfoo=col.map(function(arg){returnarg;});
+
+
+
+--- CODE BLOCK ---
+foo=col.map(lambdaarg:arg)
+
+
+
+--- CODE BLOCK ---
+varmyVar='var';
+
+
+
+--- CODE BLOCK ---
+my_var='var'
+
+
+
+--- CODE BLOCK ---
+varmatch=such.and(that);varmatch=such.or(that);varmatch=such.not(that);
+
+
+
+--- CODE BLOCK ---
+match=such.And(that)match=such.Or(that)match=such.Not(that)
+
+
+
+--- CODE BLOCK ---
+varfoo=my.really().reallyLong().methodChain();
+
+
+
+--- CODE BLOCK ---
+foo=(my.really().reallyLong().methodChain())
+
+
+
+--- CODE BLOCK ---
+vardic={'key':value};vardic={key:value};
+
+
+
+--- CODE BLOCK ---
+dic={'key':value}
+
+
+
+--- CODE BLOCK ---
+varvalue=dic.key;varvalue=dic['key'];
+
+
+
+--- CODE BLOCK ---
+value=dic['key']
+
+
+
+--- CODE BLOCK ---
+// Positional arguments.varfoo=fun(argX,argY,argZ);// Keyword arguments object.varfoo=fun({y:argY});
+
+
+
+--- CODE BLOCK ---
+# Positional arguments.foo=fun(arg_x,arg_y,arg_z)# Keyword arguments dictionary.foo=fun(**{'y':arg_y})# Keyword arguments.foo=fun(x=arg_x,z=arg_z)
+
+
+
+--- CODE BLOCK ---
+vart=true;varf=false;
+
+
+
+--- CODE BLOCK ---
+t=Truef=False
+
+
+
+--- CODE BLOCK ---
+varna=null;
+
+
+
+--- CODE BLOCK ---
+na=None
+
+
+
+--- CODE BLOCK ---
+//
+
+
+
+--- CODE BLOCK ---
+#
+
+
+
+--- CODE BLOCK ---
+importdatetime
+
+
+
+--- CODE BLOCK ---
+ee_date=ee.Date('2020-01-01')py_date=datetime.datetime.utcfromtimestamp(ee_date.getInfo()['value']/1000.0)
+
+
+
+--- CODE BLOCK ---
+py_date=datetime.datetime.utcnow()ee_date=ee.Date(py_date)
+
+
+
+--- CODE BLOCK ---
+task=ee.batch.Export.image.toDrive(image=my_image,# an ee.Image object.region=my_geometry,# an ee.Geometry object.description='mock_export',folder='gdrive_folder',fileNamePrefix='mock_export',scale=1000,crs='EPSG:4326')
+
+
+
+--- CODE BLOCK ---
+task.start()
+
+
+
+--- CODE BLOCK ---
+task.status()
+
+
+
+--- CODE BLOCK ---
+{'state':'READY','description':'my_export_task','creation_timestamp_ms':1647567508236,'update_timestamp_ms':1647567508236,'start_timestamp_ms':0,'task_type':'EXPORT_IMAGE','id':'56TVJIZABUMTD5CJ5YHTMYK4','name':'projects/earthengine-legacy/operations/56TVJIZABUMTX5CJ5HHTMYK4'}
+
+
+
+--- CODE BLOCK ---
+# Load a Landsat image.img=ee.Image('LANDSAT/LT05/C02/T1_L2/LT05_034033_20000913')# Print image object WITHOUT call to getInfo(); prints serialized request instructions.print(img)# Print image object WITH call to getInfo(); prints image metadata.print(img.getInfo())
+
+
+
+--- CODE BLOCK ---
+importeeee.Authenticate()ee.Initialize(project='my-project')
+
+
+
+--- CODE BLOCK ---
+importgeemap.coreasgeemap
+
+
+
+--- CODE BLOCK ---
+# Initialize a map object.m=geemap.Map()# Define an example image.img=ee.Image.random()# Add the image to the map.m.add_layer(img,None,'Random image')# Display the map (you can call the object directly if it is the final line).display(m)

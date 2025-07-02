@@ -1,0 +1,136 @@
+14.
+Module: Forestry Application
+
+In modules 1 through 13, you have already learned quite a lot about QGIS and how to work with it. If
+you are interested in learning about some basic forestry applications of GIS, following this
+module will give you the ability to apply what you have learned and will show you
+some new useful tools.
+The development of this module has been sponsored by the European Union.
+14.1. Lesson: Forestry Module Presentation
+14.1.1. Forestry Sample Data
+14.2. Lesson: Georeferencing a Map
+14.2.1.
+★☆☆
+Scan the map
+14.2.2.
+★☆☆
+Follow Along: Georeferencing the scanned map
+14.2.3. In Conclusion
+14.2.4. What’s Next?
+14.3. Lesson: Digitizing Forest Stands
+14.3.1.
+★☆☆
+Follow Along: Extracting the Forest Stands Borders
+14.3.2.
+★☆☆
+Try Yourself: Georeference the Green Pixels Image
+14.3.3.
+★☆☆
+Follow Along: Creating Supporting Points for Digitizing
+14.3.4.
+★☆☆
+Follow Along: Digitize the Forest Stands
+14.3.5.
+★☆☆
+Try Yourself: Finish Digitizing the Forest Stands
+14.3.6.
+★☆☆
+Follow Along: Joining the Forest Stand Data
+14.3.7.
+★☆☆
+Try Yourself: Adding Area and Perimeter
+14.3.8. In Conclusion
+14.3.9. What’s Next?
+14.4. Lesson: Updating Forest Stands
+14.4.1.
+★☆☆
+Comparing the Old Forest Stands to Current Aerial Photographs
+14.4.2.
+★☆☆
+Interpreting the CIR Image
+14.4.3.
+★☆☆
+Try Yourself: Digitizing Forest Stands from CIR Imagery
+14.4.4.
+★☆☆
+Follow Along: Updating Forest Stands with Conservation Information
+14.4.5.
+★☆☆
+Try Yourself: Updating Forest Stands with Distance to the Stream
+14.4.6. In Conclusion
+14.4.7. What’s Next?
+14.5. Lesson: Systematic Sampling Design
+14.5.1. Inventorying the Forest
+14.5.2.
+★☆☆
+Follow Along: Implementing a Systematic Sampling Plot Design
+14.5.3.
+★☆☆
+Follow Along: Exporting Sample Plots as GPX format
+14.5.4. In Conclusion
+14.5.5. What’s Next?
+14.6. Lesson: Creating Detailed Maps with the Atlas Tool
+14.6.1.
+★☆☆
+Follow Along: Preparing the Print Layout
+14.6.2.
+★☆☆
+Follow Along: Adding Background Map
+14.6.3.
+★☆☆
+Try Yourself: Changing the Symbology of the Layers
+14.6.4.
+★☆☆
+Try Yourself: Create a Basic Map Template
+14.6.5.
+★☆☆
+Follow Along: Adding More Elements to the Print Layout
+14.6.6.
+★☆☆
+Follow Along: Creating an Atlas Coverage
+14.6.7.
+★☆☆
+Follow Along: Setting Up the Atlas Tool
+14.6.8.
+★☆☆
+Follow Along: Editing the Coverage Layer
+14.6.9.
+★☆☆
+Follow Along: Printing the Maps
+14.6.10. In Conclusion
+14.6.11. What’s Next?
+14.7. Lesson: Calculating the Forest Parameters
+14.7.1.
+★☆☆
+Follow Along: Adding the Inventory Results
+14.7.2.
+★☆☆
+Follow Along: Whole Forest Parameters Estimation
+14.7.3.
+★☆☆
+Follow Along: Estimating Stand Parameters
+14.7.4. In Conclusion
+14.7.5. What’s Next?
+14.8. Lesson: DEM from LiDAR Data
+14.8.1.
+★☆☆
+Follow Along: Installing Lastools
+14.8.2.
+★☆☆
+Follow Along: Calculating a DEM with LAStools
+14.8.3.
+★☆☆
+Follow Along: Creating a Terrain Hillshade
+14.8.4. In Conclusion
+14.8.5. What’s Next?
+14.9. Lesson: Map Presentation
+14.9.1.
+★☆☆
+Follow Along: Preparing the Map Data
+14.9.2.
+★☆☆
+Try Yourself: Try Different Blending Modes
+14.9.3.
+★☆☆
+Try Yourself: Using a Layout Template to Create the Map result
+14.9.4. In Conclusion
