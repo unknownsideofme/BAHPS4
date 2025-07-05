@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1
 import sys
 import os
 from typing import Dict, Any
@@ -145,6 +146,29 @@ st.markdown("""
         font-size: 0.9rem;
         line-height: 1.6;
         box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    /* Code blocks within action container */
+    .action-container pre {
+        background: #0f1419 !important;
+        color: #e6e1dc !important;
+        padding: 1rem !important;
+        border-radius: 8px !important;
+        border: 1px solid #2d3748 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.85rem !important;
+        margin: 0.5rem 0 !important;
+        overflow-x: auto !important;
+        white-space: pre-wrap !important;
+    }
+
+    .action-container code {
+        background: #2d3748 !important;
+        color: #e6e1dc !important;
+        padding: 0.2rem 0.4rem !important;
+        border-radius: 4px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.85rem !important;
     }
 
     .tool-output {
@@ -313,6 +337,60 @@ st.markdown("""
     .streaming-container {
         margin: 1rem 0;
     }
+    
+    /* Map display styling */
+    .map-container {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        color: #e2e8f0;
+        padding: 2rem;
+        border-radius: 16px;
+        margin: 2rem 0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        border: 1px solid #4a5568;
+    }
+    
+    .map-info-header {
+        background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .map-selector {
+        margin-bottom: 1.5rem;
+    }
+    
+    .map-iframe-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        border: 2px solid #4a5568;
+        margin: 1rem 0;
+    }
+    
+    /* Section separators */
+    .section-separator {
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #4a5568 20%, #667eea 50%, #4a5568 80%, transparent 100%);
+        margin: 3rem 0;
+        border-radius: 1px;
+    }
+    
+    /* Map section specific styling */
+    .map-section {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+    }
+    
+    .map-section h2 {
+        color: #f1f5f9;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
 
     /* Fix Streamlit's default white backgrounds */
     .stApp {
@@ -323,9 +401,180 @@ st.markdown("""
         background-color: #0f172a;
     }
     
-    /* Fix sidebar background */
+    /* Fix sidebar background and styling */
     .css-1d391kg {
-        background-color: #1e293b;
+        background-color: #1e293b !important;
+    }
+    
+    .css-1d391kg .css-10trblm {
+        background-color: #1e293b !important;
+    }
+    
+    .css-1d391kg .css-16huue1 {
+        background-color: #1e293b !important;
+    }
+    
+    /* Fix sidebar text color */
+    .css-1d391kg .css-10trblm {
+        color: #e2e8f0 !important;
+    }
+    
+    /* Fix sidebar headers */
+    .css-1d391kg h1, .css-1d391kg h2, .css-1d391kg h3 {
+        color: #f1f5f9 !important;
+    }
+    
+    /* Fix sidebar expander */
+    .css-1d391kg .streamlit-expanderHeader {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #475569 !important;
+    }
+    
+    .css-1d391kg .streamlit-expanderContent {
+        background-color: #1e293b !important;
+        border: 1px solid #475569 !important;
+    }
+    
+    /* Fix sidebar buttons */
+    .css-1d391kg .stButton > button {
+        background-color: #374151 !important;
+        color: #e5e7eb !important;
+        border: 1px solid #6b7280 !important;
+    }
+    
+    .css-1d391kg .stButton > button:hover {
+        background-color: #4b5563 !important;
+        border-color: #9ca3af !important;
+    }
+    
+    /* Fix sidebar checkboxes */
+    .css-1d391kg .stCheckbox > label {
+        color: #e2e8f0 !important;
+    }
+    
+    /* Fix sidebar metrics */
+    .css-1d391kg .metric-container {
+        background-color: #334155 !important;
+        border-color: #475569 !important;
+    }
+    
+    /* Sidebar specific styling */
+    .sidebar-agent-card {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: #e2e8f0;
+        padding: 1.2rem;
+        border-radius: 12px;
+        border: 1px solid #475569;
+        margin-bottom: 1rem;
+        font-family: 'Inter', sans-serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-agent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .sidebar-agent-card h4 {
+        color: #f1f5f9;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .sidebar-agent-card small {
+        color: #cbd5e1;
+        line-height: 1.5;
+        font-size: 0.85rem;
+    }
+    
+    .sidebar-agent-card .agent-icon {
+        font-size: 1.2rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .tool-agent-card {
+        border-left: 4px solid #3b82f6;
+    }
+    
+    .reasoning-agent-card {
+        border-left: 4px solid #ec4899;
+    }
+    
+    /* Sidebar metrics styling */
+    .sidebar-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+    
+    .sidebar-metric {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #475569;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .sidebar-metric-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 0.2rem;
+    }
+    
+    .sidebar-metric-label {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Sidebar button styling */
+    .sidebar-example-btn {
+        background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        color: #e5e7eb;
+        border: 1px solid #6b7280;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .sidebar-example-btn:hover {
+        background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+        transform: translateX(4px);
+    }
+    
+    /* Sidebar section headers */
+    .sidebar-section-header {
+        color: #f1f5f9;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #475569;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    /* Sidebar divider */
+    .sidebar-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, #475569 50%, transparent 100%);
+        margin: 1.5rem 0;
     }
     
     /* Fix text areas and inputs */
@@ -403,13 +652,63 @@ if 'thoughts_expanded' not in st.session_state:
     st.session_state.thoughts_expanded = True
 
 # Helper functions for better formatting
+def apply_text_formatting(text):
+    """Apply consistent text formatting for markdown, bullets, and headers"""
+    if not text:
+        return ""
+    
+    # Split into lines and process each line
+    lines = text.split('\n')
+    formatted_lines = []
+    
+    for line in lines:
+        original_line = line
+        line = line.strip()
+        
+        if not line:
+            formatted_lines.append("")
+            continue
+        
+        # Skip lines that are already in code blocks or HTML
+        if (line.startswith('```') or '```' in original_line or 
+            line.startswith('<') or line.startswith('**🔧') or 
+            line.startswith('**📁')):
+            formatted_lines.append(original_line)
+            continue
+        
+        # Convert hash symbols to HTML bold headers
+        if line.startswith('###'):
+            line = f"<strong>{line[3:].strip()}</strong>"
+        elif line.startswith('##'):
+            line = f"<strong>{line[2:].strip()}</strong>"
+        elif line.startswith('#'):
+            line = f"<strong>{line[1:].strip()}</strong>"
+        # Convert dashes to bullet points
+        elif line.startswith('- '):
+            line = f"• {line[2:]}"
+        elif re.match(r'^-+\s+', line):
+            content = re.sub(r'^-+\s+', '', line)
+            line = f"• {content}"
+        
+        # Convert **text** to HTML bold
+        line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', line)
+        
+        # Preserve original indentation
+        indent = len(original_line) - len(original_line.lstrip())
+        if indent > 0:
+            line = ' ' * indent + line
+        
+        formatted_lines.append(line)
+    
+    return '\n'.join(formatted_lines)
+
 def format_tool_output(text):
     """Format tool output with better structure"""
     if not text:
         return ""
     
-    # Clean up the text
-    text = text.strip()
+    # Apply text formatting first
+    text = apply_text_formatting(text)
     
     # Extract tool usage patterns
     tool_pattern = r'🔧 Using tool: (\w+).*?📝 Input: ({.*?})'
@@ -439,7 +738,11 @@ Input: {tool_input}
     if success_matches:
         formatted_output += "\n**📁 Generated Files:**\n"
         for file in success_matches:
-            formatted_output += f"- {file.strip()}\n"
+            formatted_output += f"• {file.strip()}\n"
+    
+    # If no specific patterns found, return the formatted text
+    if not formatted_output.strip():
+        return text
     
     return formatted_output
 
@@ -447,6 +750,9 @@ def format_reasoning_output(text):
     """Format reasoning output with better structure"""
     if not text:
         return ""
+    
+    # Apply text formatting first
+    text = apply_text_formatting(text)
     
     # Split by sections
     sections = re.split(r'\*\*(THOUGHT|ACTION):\*\*', text)
@@ -460,11 +766,13 @@ def format_reasoning_output(text):
             continue
         
         if current_section and section.strip():
+            formatted_section = apply_text_formatting(section.strip())
+            
             if current_section == 'THOUGHT':
                 formatted_output += f"""
 <div class="section-badge">💭 REASONING</div>
 <div class="thoughts-content">
-{section.strip()}
+{formatted_section}
 </div>
 """
             elif current_section == 'ACTION':
@@ -481,9 +789,13 @@ def format_reasoning_output(text):
                     formatted_output += f"""
 <div class="section-badge">⚡ ACTIONS</div>
 <div class="action-container">
-{section.strip()}
+{formatted_section}
 </div>
 """
+    
+    # If no specific sections found, return the formatted text
+    if not formatted_output.strip():
+        return text
     
     return formatted_output
 
@@ -536,46 +848,47 @@ st.markdown("""
 
 # Sidebar
 with st.sidebar:
-    st.header("🛠 System Overview")
+    st.markdown('<h2 class="sidebar-section-header">🛠 System Overview</h2>', unsafe_allow_html=True)
     
-    # Agent information
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        <div class="metric-container">
-            <h4>🔧 Tool Agent</h4>
-            <small>
-            • Data extraction<br>
-            • SRTM DEM, NDVI<br>
-            • Rainfall data<br>
-            • Analysis & visualization
-            </small>
-        </div>
-        """, unsafe_allow_html=True)
+    # Agent information with enhanced styling
+    st.markdown("""
+    <div class="sidebar-agent-card tool-agent-card">
+        <h4><span class="agent-icon">🔧</span> Tool Agent</h4>
+        <small>
+        • Data extraction & processing<br>
+        • SRTM DEM, NDVI analysis<br>
+        • Rainfall & climate data<br>
+        • Map generation & visualization<br>
+        • Geospatial computations
+        </small>
+    </div>
+    """, unsafe_allow_html=True)
     
-    with col2:
-        st.markdown("""
-        <div class="metric-container">
-            <h4>🧠 Reasoning Agent</h4>
-            <small>
-            • Conceptual explanations<br>
-            • Technical guidance<br>
-            • Scientific reasoning<br>
-            • Real-time CoT streaming
-            </small>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown("""
+    <div class="sidebar-agent-card reasoning-agent-card">
+        <h4><span class="agent-icon">🧠</span> Reasoning Agent</h4>
+        <small>
+        • Conceptual explanations<br>
+        • Technical guidance & best practices<br>
+        • Scientific reasoning & methodology<br>
+        • Real-time Chain-of-Thought<br>
+        • Educational content
+        </small>
+    </div>
+    """, unsafe_allow_html=True)
     
-    st.divider()
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     
     # Quick examples
-    st.subheader("📋 Quick Examples")
+    st.markdown('<h3 class="sidebar-section-header">📋 Quick Examples</h3>', unsafe_allow_html=True)
     
     tool_examples = [
         "Download NDVI data for Karnataka",
-        "Flood risk analysis for Delhi",
+        "Flood risk analysis for Delhi with map",
         "Site suitability analysis for solar farms",
-        "Extract DEM for Himachal Pradesh"
+        "Create vegetation health map for Punjab",
+        "Generate DEM visualization for Himachal Pradesh",
+        "Rainfall pattern analysis with map for Kerala"
     ]
     
     reasoning_examples = [
@@ -585,40 +898,64 @@ with st.sidebar:
         "Watershed delineation principles"
     ]
     
-    with st.expander("🔧 Tool Examples"):
+    with st.expander("🔧 Tool Examples", expanded=False):
         for example in tool_examples:
             if st.button(example, key=f"tool_{hash(example)}", use_container_width=True):
                 st.session_state.example_query = example
     
-    with st.expander("🧠 Reasoning Examples"):
+    with st.expander("🧠 Reasoning Examples", expanded=False):
         for example in reasoning_examples:
             if st.button(example, key=f"reason_{hash(example)}", use_container_width=True):
                 st.session_state.example_query = example
     
-    st.divider()
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     
     # Settings
-    st.subheader("⚙ Display Settings")
+    st.markdown('<h3 class="sidebar-section-header">⚙ Display Settings</h3>', unsafe_allow_html=True)
     show_route_info = st.checkbox("Show routing information", value=True)
     show_timestamps = st.checkbox("Show timestamps", value=True)
     stream_thoughts = st.checkbox("Real-time streaming", value=True)
     auto_scroll = st.checkbox("Auto-scroll during streaming", value=True)
     
-    # Statistics
-    st.subheader("📊 Session Statistics")
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    
+    # Statistics with enhanced styling
+    st.markdown('<h3 class="sidebar-section-header">📊 Session Statistics</h3>', unsafe_allow_html=True)
     total_queries = len(st.session_state.chat_history)
     tool_queries = sum(1 for item in st.session_state.chat_history if item.get('agent_type') == 'tools')
     reasoning_queries = sum(1 for item in st.session_state.chat_history if item.get('agent_type') == 'reasoning')
     
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total", total_queries)
-    with col2:
-        st.metric("Tools", tool_queries)
-    with col3:
-        st.metric("Reasoning", reasoning_queries)
+    # Count available maps
+    outputs_dir = os.path.join(os.path.dirname(__file__), 'outputs')
+    total_maps = 0
+    if os.path.exists(outputs_dir):
+        total_maps = len([f for f in os.listdir(outputs_dir) if f.endswith('.html')])
     
-    # Clear chat
+    # Display metrics with custom styling
+    st.markdown(f"""
+    <div class="sidebar-metrics">
+        <div class="sidebar-metric">
+            <div class="sidebar-metric-value">{total_queries}</div>
+            <div class="sidebar-metric-label">Queries</div>
+        </div>
+        <div class="sidebar-metric">
+            <div class="sidebar-metric-value">{reasoning_queries}</div>
+            <div class="sidebar-metric-label">Reasoning</div>
+        </div>
+        <div class="sidebar-metric">
+            <div class="sidebar-metric-value">{tool_queries}</div>
+            <div class="sidebar-metric-label">Tools</div>
+        </div>
+        <div class="sidebar-metric">
+            <div class="sidebar-metric-value">{total_maps}</div>
+            <div class="sidebar-metric-label">Maps</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    
+    # Clear chat with enhanced styling
     if st.button("🗑 Clear History", type="secondary", use_container_width=True):
         st.session_state.chat_history = []
         st.session_state.current_thoughts = ""
@@ -664,12 +1001,86 @@ if stream_thoughts:
     """, unsafe_allow_html=True)
     
     # Thoughts section (collapsible)
-    st.markdown('<div class="section-badge">💭 REASONING</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-badge">� REASONING</div>', unsafe_allow_html=True)
     thought_container = st.empty()
     
     # Actions section (below thoughts)
     st.markdown('<div class="section-badge">⚡ ACTIONS</div>', unsafe_allow_html=True)
     action_container = st.empty()
+
+# Helper functions for map display
+def get_html_maps():
+    """Get list of HTML map files from outputs directory"""
+    outputs_dir = os.path.join(os.path.dirname(__file__), 'outputs')
+    if not os.path.exists(outputs_dir):
+        return []
+    
+    html_files = []
+    for file in os.listdir(outputs_dir):
+        if file.endswith('.html'):
+            file_path = os.path.join(outputs_dir, file)
+            # Get file modification time for sorting
+            mod_time = os.path.getmtime(file_path)
+            html_files.append({
+                'name': file,
+                'path': file_path,
+                'mod_time': mod_time,
+                'size': os.path.getsize(file_path)
+            })
+    
+    # Sort by modification time (newest first)
+    html_files.sort(key=lambda x: x['mod_time'], reverse=True)
+    return html_files
+
+def extract_map_info_from_filename(filename):
+    """Extract region and analysis type from filename"""
+    # Remove .html extension
+    name = filename.replace('.html', '')
+    
+    # Common patterns in the filenames
+    if 'flood_risk' in name.lower():
+        region = name.split('_flood_risk')[0]
+        analysis_type = 'Flood Risk Analysis'
+    elif 'suitability' in name.lower():
+        region = name.split('_suitability')[0]
+        analysis_type = 'Suitability Analysis'
+    else:
+        # Try to extract region from first part
+        parts = name.split('_')
+        region = parts[0] if parts else 'Unknown'
+        analysis_type = 'Geospatial Analysis'
+    
+    return region, analysis_type
+
+def check_for_new_maps():
+    """Check if new maps have been generated"""
+    current_maps = set(map_info['name'] for map_info in get_html_maps())
+    
+    if current_maps != st.session_state.known_maps:
+        new_maps = current_maps - st.session_state.known_maps
+        if new_maps:
+            for new_map in new_maps:
+                region, analysis_type = extract_map_info_from_filename(new_map)
+                st.success(f"🗺️ New map generated: {region} - {analysis_type}")
+        
+        st.session_state.known_maps = current_maps
+        return len(new_maps) > 0
+    
+    return False
+
+# Initialize session state for map auto-refresh
+if 'last_map_check' not in st.session_state:
+    st.session_state.last_map_check = 0
+if 'known_maps' not in st.session_state:
+    st.session_state.known_maps = set()
+
+# Auto-refresh maps every 5 seconds during processing
+if st.session_state.processing:
+    current_time = time.time()
+    if current_time - st.session_state.last_map_check > 5:
+        if check_for_new_maps():
+            st.rerun()
+        st.session_state.last_map_check = current_time
 
 # Process query
 if submit_button and query.strip():
@@ -699,14 +1110,22 @@ if submit_button and query.strip():
         start_time = time.time()
         
         def streaming_callback(event: StreamingEvent):
-            """Enhanced streaming callback with better formatting"""
+            """Enhanced streaming callback with better content accumulation"""
             if event.event_type == "status":
                 status_container.info(f"📋 {event.content}")
             
             elif event.event_type == "thought" and stream_thoughts:
-                st.session_state.current_thoughts += event.content
+                # Properly accumulate thoughts content
+                if hasattr(st.session_state, 'current_thoughts'):
+                    st.session_state.current_thoughts += event.content
+                else:
+                    st.session_state.current_thoughts = event.content
                 
-                # Create collapsible thoughts section
+                # Apply text formatting and display with better markdown handling
+                formatted_thoughts = apply_text_formatting(st.session_state.current_thoughts)
+                formatted_thoughts = formatted_thoughts.replace('\n', '<br>')
+                
+                # Create collapsible thoughts section with improved formatting
                 thought_container.markdown(f"""
                 <div class="thoughts-section">
                     <div class="thoughts-header" onclick="toggleThoughts('current')">
@@ -714,32 +1133,29 @@ if submit_button and query.strip():
                         <span class="collapse-icon" id="thoughts-icon-current">▼</span>
                     </div>
                     <div class="thoughts-content" id="thoughts-content-current">
-                        {st.session_state.current_thoughts}
+                        {formatted_thoughts}
                         <span class="streaming-indicator"></span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             
             elif event.event_type == "action" and stream_thoughts:
-                st.session_state.current_actions += event.content
-                
-                # Format actions with code highlighting
-                parsed_content = parse_structured_content(st.session_state.current_actions)
-                
-                if parsed_content["type"] == "code":
-                    action_container.markdown(f"""
-                    <div class="action-container">
-                        <pre class="code-block">{st.session_state.current_actions}</pre>
-                        <span class="streaming-indicator"></span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                # Properly accumulate actions content
+                if hasattr(st.session_state, 'current_actions'):
+                    st.session_state.current_actions += event.content
                 else:
-                    action_container.markdown(f"""
-                    <div class="action-container">
-                        {st.session_state.current_actions}
-                        <span class="streaming-indicator"></span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.session_state.current_actions = event.content
+                
+                # Apply text formatting for actions
+                formatted_actions = apply_text_formatting(st.session_state.current_actions)
+                
+                # Display actions with proper background styling and code block preservation
+                action_container.markdown(f"""
+                <div class="action-container">
+                    {formatted_actions}
+                    <br><span class="streaming-indicator"></span>
+                </div>
+                """, unsafe_allow_html=True)
         
         # Execute the query
         response = router_agent_with_streaming(query, streaming_callback)
@@ -750,9 +1166,18 @@ if submit_button and query.strip():
         # Final status
         status_container.success(f"✅ Analysis completed in {processing_time}s")
         
-        # Remove streaming indicators
+        # Check for newly generated maps
+        if check_for_new_maps():
+            st.balloons()  # Celebrate new map generation!
+            st.info("🗺️ **New interactive map generated!** Check the Maps section above to view it.")
+        
+        # Remove streaming indicators and display final content
         if stream_thoughts:
             if st.session_state.current_thoughts:
+                # Apply text formatting and clean up the final thoughts content
+                final_thoughts = apply_text_formatting(st.session_state.current_thoughts)
+                final_thoughts = final_thoughts.replace('\n', '<br>')
+                
                 thought_container.markdown(f"""
                 <div class="thoughts-section">
                     <div class="thoughts-header" onclick="toggleThoughts('current')">
@@ -760,25 +1185,19 @@ if submit_button and query.strip():
                         <span class="collapse-icon" id="thoughts-icon-current">▼</span>
                     </div>
                     <div class="thoughts-content" id="thoughts-content-current">
-                        {st.session_state.current_thoughts}
+                        {final_thoughts}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             
             if st.session_state.current_actions:
-                parsed_content = parse_structured_content(st.session_state.current_actions)
-                if parsed_content["type"] == "code":
-                    action_container.markdown(f"""
-                    <div class="action-container">
-                        <pre class="code-block">{st.session_state.current_actions}</pre>
-                    </div>
-                    """, unsafe_allow_html=True)
-                else:
-                    action_container.markdown(f"""
-                    <div class="action-container">
-                        {st.session_state.current_actions}
-                    </div>
-                    """, unsafe_allow_html=True)
+                # Apply text formatting and display final actions content with proper styling
+                final_actions = apply_text_formatting(st.session_state.current_actions)
+                action_container.markdown(f"""
+                <div class="action-container">
+                    {final_actions}
+                </div>
+                """, unsafe_allow_html=True)
         
         # Store in chat history
         chat_entry = {
@@ -826,7 +1245,109 @@ if submit_button and query.strip():
         st.session_state.processing = False
 
 
+# Map Display Section - Now positioned after analysis completion
+st.markdown('<div class="section-separator"></div>', unsafe_allow_html=True)
+st.markdown('<div class="map-section">', unsafe_allow_html=True)
+st.subheader("🗺️ Generated Maps")
+
+# Get available maps
+html_maps = get_html_maps()
+
+if html_maps:
+    # Map selector with improved layout
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        # Create options with map info
+        map_options = []
+        for map_file in html_maps:
+            region, analysis_type = extract_map_info_from_filename(map_file['name'])
+            mod_time_str = datetime.fromtimestamp(map_file['mod_time']).strftime('%Y-%m-%d %H:%M')
+            size_kb = round(map_file['size'] / 1024, 1)
+            
+            display_name = f"🗺️ {region} - {analysis_type} ({mod_time_str}, {size_kb}KB)"
+            map_options.append(display_name)
+        
+        selected_map = st.selectbox(
+            "Select a map to display:",
+            options=map_options,
+            help="Choose from recently generated maps"
+        )
+    
+    with col2:
+        # Add some spacing to align with selectbox
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("🔄 Refresh Maps", help="Scan for new map files", use_container_width=True):
+            st.rerun()
+    
+    # Display selected map
+    if selected_map:
+        selected_index = map_options.index(selected_map)
+        selected_map_info = html_maps[selected_index]
+        
+        # Map info header
+        region, analysis_type = extract_map_info_from_filename(selected_map_info['name'])
+        mod_time_str = datetime.fromtimestamp(selected_map_info['mod_time']).strftime('%Y-%m-%d %H:%M:%S')
+        
+        st.markdown(f"""
+        <div class="result-container">
+            <div class="agent-badge tool-agent">🗺️ Interactive Map</div>
+            <div style="margin-bottom: 1rem;">
+                <strong>📍 Region:</strong> {region}<br>
+                <strong>🔍 Analysis:</strong> {analysis_type}<br>
+                <strong>⏰ Generated:</strong> {mod_time_str}<br>
+                <strong>📁 File:</strong> {selected_map_info['name']}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Display the HTML map in a container with better styling
+        st.markdown('<div class="map-iframe-container">', unsafe_allow_html=True)
+        try:
+            with open(selected_map_info['path'], 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            # Display the map using Streamlit's HTML component
+            st.components.v1.html(html_content, height=600, scrolling=True)
+            
+        except Exception as e:
+            st.error(f"❌ Error loading map: {str(e)}")
+            st.info("The map file might be corrupted or still being generated.")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Download button
+        try:
+            with open(selected_map_info['path'], 'rb') as f:
+                map_data = f.read()
+            
+            st.download_button(
+                label="📥 Download Map HTML",
+                data=map_data,
+                file_name=selected_map_info['name'],
+                mime="text/html",
+                help="Download the interactive map file"
+            )
+        except Exception as e:
+            st.warning(f"Download unavailable: {str(e)}")
+
+else:
+    st.info("""
+    🗺️ **No maps available yet**
+    
+    Maps will appear here automatically after running geospatial analysis queries that generate visualizations.
+    
+    **Try queries like:**
+    - "Perform flood risk analysis for Uttarakhand"
+    - "Create suitability map for solar farms in Bihar"
+    - "Analyze vegetation health in Karnataka"
+    - "Generate DEM visualization for Himachal Pradesh"
+    """)
+
+st.markdown('</div>', unsafe_allow_html=True)  # Close map-section div
+
 # Chat history with enhanced formatting
+st.markdown('<div class="section-separator"></div>', unsafe_allow_html=True)
 if st.session_state.chat_history:
     st.subheader("📝 Analysis History")
     

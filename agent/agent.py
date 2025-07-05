@@ -24,7 +24,7 @@ except ImportError:
 from geetools import (
     ExtractBox, extract_bbox, GetData, get_srtm_dem, get_ndvi_data,
     get_rainfall, get_landcover, VisualiseMap, visualise_map,
-    Analysis, suitability_analysis
+    Analysis, suitability_analysis , get_precipitation ,   get_temperature
 )
 
 # 🌍 Load environment variables
@@ -44,7 +44,7 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         if self.callback:
             self.callback(StreamingEvent(
                 "thought",
-                "🤔 Analyzing your request and planning the approach...",
+                "🤔 **Analyzing Request & Planning Approach...**\n\n",
                 {"step": "planning", "prompts": prompts}
             ))
     
@@ -53,15 +53,15 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         if self.callback and response.generations:
             llm_output = response.generations[0][0].text
             
-            # Extract reasoning from the LLM output
-            if "Thought:" in llm_output or "I need to" in llm_output:
-                reasoning = self._extract_reasoning(llm_output)
-                if reasoning:
-                    self.callback(StreamingEvent(
-                        "thought",
-                        f"💭 **Agent Reasoning:**\n{reasoning}",
-                        {"step": "reasoning", "full_output": llm_output}
-                    ))
+            # Extract and send the complete reasoning
+            reasoning = self._extract_complete_reasoning(llm_output)
+            if reasoning:
+                formatted_reasoning = self._format_reasoning_for_display(reasoning)
+                self.callback(StreamingEvent(
+                    "thought",
+                    f"💭 **Agent Reasoning:**\n\n{formatted_reasoning}\n\n",
+                    {"step": "reasoning", "full_output": llm_output}
+                ))
     
     def on_agent_action(self, action, **kwargs):
         """Called when agent decides to take an action"""
@@ -78,15 +78,24 @@ class StreamingCallbackHandler(BaseCallbackHandler):
             
             self.step_history.append(step_info)
             
-            # Extract reasoning from the action log
-            reasoning = self._extract_reasoning_from_log(action.log)
+            # Extract only the reasoning part (not tool details) for thoughts
+            reasoning = self._extract_pure_reasoning_from_log(action.log)
             
-            # Send detailed step information
-            step_content = self._format_step_content(step_info, reasoning)
+            # Send ONLY reasoning to thoughts section (no tool details)
+            if reasoning:
+                formatted_reasoning = self._format_reasoning_for_display(reasoning)
+                self.callback(StreamingEvent(
+                    "thought",
+                    f"💭 **Step {self.current_step} - Reasoning:**\n\n{formatted_reasoning}\n\n",
+                    {"step": "reasoning", "step_number": self.current_step}
+                ))
             
+            # Send tool execution details to actions section
+            action_content = self._format_action_content(step_info)
+            formatted_action = self._apply_text_formatting(action_content)
             self.callback(StreamingEvent(
                 "action",
-                step_content,
+                formatted_action + "\n\n",
                 step_info
             ))
     
@@ -107,7 +116,7 @@ class StreamingCallbackHandler(BaseCallbackHandler):
             
             self.callback(StreamingEvent(
                 "action",
-                f"⚙️ **Executing Tool: {tool_name}**\n\n```json\n{formatted_input}\n```\n\n🔄 Processing...",
+                f"🔧 **Executing Tool: {tool_name}**\n\n```json\n{formatted_input}\n```\n\n⏳ **Processing...**\n\n",
                 {
                     "tool": tool_name, 
                     "input": input_str,
@@ -121,10 +130,11 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         if self.callback:
             # Parse and format the output
             formatted_output = self._format_tool_output(output)
+            formatted_output = self._apply_text_formatting(formatted_output)
             
             self.callback(StreamingEvent(
                 "action",
-                f"✅ **Tool Execution Complete**\n\n{formatted_output}",
+                f"✅ **Tool Execution Complete**\n\n{formatted_output}\n\n",
                 {
                     "output": output,
                     "status": "completed",
@@ -168,7 +178,7 @@ class StreamingCallbackHandler(BaseCallbackHandler):
             
             self.callback(StreamingEvent(
                 "thought",
-                f"🚀 **Starting Geospatial Analysis**\n\n**Query:** {query}\n\n🔍 Initializing workflow...",
+                f"🚀 **Starting Geospatial Analysis**\n\n**User Query:** {query}\n\n🧠 **Initializing reasoning process...**\n\n",
                 {
                     "inputs": inputs,
                     "chain": serialized.get("name", "unknown")
@@ -204,6 +214,45 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         
         return ""
     
+    def _extract_complete_reasoning(self, text: str) -> str:
+        """Extract complete reasoning from LLM output with better parsing"""
+        if not text:
+            return ""
+        
+        # Clean the text first
+        text = text.strip()
+        
+        # Try to extract the full reasoning section
+        reasoning_patterns = [
+            r"Thought:\s*(.*?)(?=\nAction:|$)",
+            r"^(.*?)(?=\nAction:|$)",  # Everything before Action
+            r"I need to\s*(.*?)(?=\nAction:|$)",
+            r"Let me\s*(.*?)(?=\nAction:|$)"
+        ]
+        
+        for pattern in reasoning_patterns:
+            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+            if match:
+                reasoning = match.group(1).strip()
+                # Clean up the reasoning with proper formatting
+                reasoning = self._format_reasoning_text(reasoning)
+                
+                if len(reasoning) > 20:  # Ensure substantial content
+                    return reasoning
+        
+        # If no pattern matches, return the first substantial part
+        lines = text.split('\n')
+        meaningful_lines = []
+        for line in lines:
+            line = line.strip()
+            if line and not line.startswith('Action:') and not line.startswith('Action Input:'):
+                meaningful_lines.append(line)
+        
+        result = '\n'.join(meaningful_lines)
+        if len(result) > 20:
+            return self._format_reasoning_text(result)
+        return ""
+    
     def _extract_reasoning_from_log(self, log: str) -> str:
         """Extract reasoning from action log"""
         if not log:
@@ -221,12 +270,74 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         
         return '\n'.join(reasoning_lines) if reasoning_lines else ""
     
+    def _extract_complete_reasoning_from_log(self, log: str) -> str:
+        """Extract complete reasoning from action log with improved parsing"""
+        if not log:
+            return ""
+        
+        # Split by lines and clean
+        lines = log.split('\n')
+        reasoning_lines = []
+        
+        skip_patterns = ['Action:', 'Action Input:', 'Observation:', 'Final Answer:']
+        
+        for line in lines:
+            line = line.strip()
+            if line and not any(pattern in line for pattern in skip_patterns):
+                # Include lines that contain reasoning indicators or substantial content
+                if (len(line) > 10 and 
+                    (any(word in line.lower() for word in ['need', 'should', 'will', 'because', 'since', 'analyze', 'extract', 'download', 'create', 'perform', 'understand']) or
+                     line.endswith('.') or line.endswith(':'))):
+                    reasoning_lines.append(line)
+        
+        # Clean up and format with proper text formatting
+        if reasoning_lines:
+            result = '\n'.join(reasoning_lines)
+            return self._format_reasoning_text(result)
+        
+        return ""
+    
+    def _extract_pure_reasoning_from_log(self, log: str) -> str:
+        """Extract ONLY reasoning text without tool selection details"""
+        if not log:
+            return ""
+        
+        # Split by lines and clean
+        lines = log.split('\n')
+        reasoning_lines = []
+        
+        # Skip patterns that indicate tool selection or action details
+        skip_patterns = [
+            'Action:', 'Action Input:', 'Observation:', 'Final Answer:',
+            'Tool Selected:', 'Using tool:', 'Executing:', 'Parameters:'
+        ]
+        
+        for line in lines:
+            line = line.strip()
+            if line and not any(pattern in line for pattern in skip_patterns):
+                # Only include lines with reasoning words, exclude tool names
+                reasoning_indicators = ['need', 'should', 'will', 'because', 'since', 'analyze', 
+                                      'understand', 'want', 'plan', 'first', 'then', 'next']
+                
+                if (len(line) > 15 and 
+                    any(word in line.lower() for word in reasoning_indicators) and
+                    not any(tool in line.lower() for tool in ['get_srtm_dem', 'extract_bbox', 'get_ndvi', 'visualise_map', 'analysis_function'])):
+                    reasoning_lines.append(line)
+        
+        # Clean up and format with proper text formatting
+        if reasoning_lines:
+            result = '\n'.join(reasoning_lines)
+            return self._format_reasoning_text(result)
+        
+        return ""
+    
     def _format_step_content(self, step_info: Dict, reasoning: str) -> str:
         """Format step content with reasoning"""
         content = f"📍 **Step {step_info['step_number']}: {step_info['tool_name']}**\n\n"
         
         if reasoning:
-            content += f"💭 **Why this step:**\n{reasoning}\n\n"
+            formatted_reasoning = self._format_reasoning_for_display(reasoning)
+            content += f"💭 **Why this step:**\n\n{formatted_reasoning}\n\n"
         
         content += f"🔧 **Tool:** {step_info['tool_name']}\n"
         
@@ -238,10 +349,47 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         
         return content
     
+    def _format_complete_step_content(self, step_info: Dict, reasoning: str) -> str:
+        """Format complete step content with enhanced reasoning display"""
+        content = f"🎯 **Step {step_info['step_number']}: {step_info['tool_name']}**\n\n"
+        
+        if reasoning:
+            formatted_reasoning = self._format_reasoning_for_display(reasoning)
+            content += f"💭 **Reasoning & Planning:**\n\n{formatted_reasoning}\n\n"
+        
+        # Add tool information
+        content += f"🔧 **Tool Selected:** `{step_info['tool_name']}`\n\n"
+        
+        # Format input parameters
+        if isinstance(step_info['tool_input'], dict):
+            content += f"📋 **Parameters:**\n```json\n{json.dumps(step_info['tool_input'], indent=2)}\n```\n"
+        else:
+            content += f"📋 **Input:** `{step_info['tool_input']}`\n"
+        
+        return content
+    
+    def _format_action_content(self, step_info: Dict) -> str:
+        """Format action content showing ONLY tool execution details with proper code blocks"""
+        content = f"🔧 **Step {step_info['step_number']}: {step_info['tool_name']}**\n\n"
+        
+        # Add tool information
+        content += f"**Tool Selected:** `{step_info['tool_name']}`\n\n"
+        
+        # Format input parameters with proper code blocks
+        if isinstance(step_info['tool_input'], dict):
+            content += f"**Parameters:**\n```json\n{json.dumps(step_info['tool_input'], indent=2)}\n```\n\n"
+        else:
+            content += f"**Input:**\n```\n{step_info['tool_input']}\n```\n\n"
+        
+        # Add execution status
+        content += f"**Status:** Executing...\n"
+        
+        return content
+    
     def _format_tool_output(self, output: str) -> str:
-        """Format tool output for better readability"""
+        """Format tool output for better readability with proper code blocks"""
         if not output:
-            return "No output received"
+            return "**Output:**\n```\nNo output received\n```"
         
         # Try to parse as JSON first
         try:
@@ -249,23 +397,23 @@ class StreamingCallbackHandler(BaseCallbackHandler):
                 parsed = json.loads(output)
                 if 'filepath' in parsed:
                     filename = os.path.basename(parsed['filepath'])
-                    return f"📁 **Generated File:** `{filename}`\n📂 **Path:** `{parsed['filepath']}`"
+                    return f"**Output:**\n```json\n{{\n  \"filepath\": \"{parsed['filepath']}\",\n  \"filename\": \"{filename}\"\n}}\n```\n\n✅ **File Generated:** `{filename}`"
                 else:
-                    return f"```json\n{json.dumps(parsed, indent=2)}\n```"
+                    return f"**Output:**\n```json\n{json.dumps(parsed, indent=2)}\n```"
         except:
             pass
         
-        # Look for common patterns
+        # Look for common patterns and format appropriately
         if 'saved' in output.lower() or 'generated' in output.lower():
-            return f"✅ **Success:** {output}"
-        elif 'error' in output.lower():
-            return f"❌ **Error:** {output}"
+            return f"**Output:**\n```\n{output}\n```\n\n✅ **Status:** Success"
+        elif 'error' in output.lower() or 'failed' in output.lower():
+            return f"**Output:**\n```\n{output}\n```\n\n❌ **Status:** Error"
         else:
-            # Truncate very long outputs
-            if len(output) > 200:
-                return f"```\n{output[:200]}...\n```"
+            # Always use code blocks for outputs
+            if len(output) > 500:
+                return f"**Output:**\n```\n{output[:500]}...\n(truncated)\n```"
             else:
-                return f"```\n{output}\n```"
+                return f"**Output:**\n```\n{output}\n```"
     
     def _create_execution_summary(self) -> str:
         """Create a summary of all execution steps"""
@@ -278,6 +426,149 @@ class StreamingCallbackHandler(BaseCallbackHandler):
             summary += f"{i}. **{step['tool_name']}** - Completed successfully\n"
         
         return summary
+
+    def _format_reasoning_text(self, text: str) -> str:
+        """Format reasoning text with proper structure and readability"""
+        if not text:
+            return ""
+        
+        # Clean the text first
+        text = text.strip()
+        text = text.replace('Thought:', '').strip()
+        
+        # Convert hash symbols to proper HTML bold headers
+        text = re.sub(r'^### (.+)$', r'<strong>\1</strong>', text, flags=re.MULTILINE)
+        text = re.sub(r'^## (.+)$', r'<strong>\1</strong>', text, flags=re.MULTILINE)
+        text = re.sub(r'^# (.+)$', r'<strong>\1</strong>', text, flags=re.MULTILINE)
+        
+        # Convert **text** to HTML bold
+        text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+        
+        # Split into lines for processing
+        lines = text.split('\n')
+        formatted_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                formatted_lines.append("")
+                continue
+            
+            # Convert lines starting with - to bullet points
+            if line.startswith('- '):
+                formatted_lines.append(f"• {line[2:]}")
+            # Convert lines starting with multiple dashes to bullet points
+            elif re.match(r'^-+\s+', line):
+                content = re.sub(r'^-+\s+', '', line)
+                formatted_lines.append(f"• {content}")
+            else:
+                formatted_lines.append(line)
+        
+        # Join lines back together
+        formatted_text = '\n'.join(formatted_lines)
+        
+        # Remove excessive whitespace and normalize
+        formatted_text = re.sub(r'\n\s*\n\s*\n+', '\n\n', formatted_text)
+        formatted_text = re.sub(r'[ \t]+', ' ', formatted_text)
+        
+        return formatted_text.strip()
+    
+
+    
+    def _format_reasoning_for_display(self, reasoning: str) -> str:
+        """Format reasoning text specifically for display in the UI"""
+        if not reasoning:
+            return ""
+        
+        # First apply the basic text formatting
+        formatted = self._format_reasoning_text(reasoning)
+        
+        # Apply HTML formatting for **bold** text (if not already converted)
+        formatted = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', formatted)
+        
+        # Split into lines and apply additional display formatting
+        lines = formatted.split('\n')
+        display_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                display_lines.append("")
+                continue
+            
+            # Convert dashes at start of line to bullet points
+            if line.startswith('- '):
+                display_lines.append(f"• {line[2:]}")
+            elif re.match(r'^-+\s+', line):
+                content = re.sub(r'^-+\s+', '', line)
+                display_lines.append(f"• {content}")
+            # Add proper indentation for bullet points
+            elif line.startswith('•'):
+                display_lines.append(f"  {line}")
+            # Add emphasis for key reasoning statements
+            elif any(keyword in line.lower() for keyword in ['because', 'therefore', 'since', 'as a result']):
+                # Only add emphasis if not already bold
+                if not '<strong>' in line and not line.startswith('**'):
+                    display_lines.append(f"<strong>{line}</strong>")
+                else:
+                    display_lines.append(line)
+            # Regular text with proper formatting
+            else:
+                display_lines.append(line)
+        
+        # Join lines and ensure proper paragraph spacing
+        result = '\n'.join(display_lines)
+        result = re.sub(r'\n\s*\n\s*\n+', '\n\n', result)  # Remove excessive blank lines
+        
+        return result.strip()
+    
+    def _apply_text_formatting(self, text: str) -> str:
+        """Apply consistent text formatting for markdown, bullets, and headers"""
+        if not text:
+            return ""
+        
+        # Split into lines and process each line
+        lines = text.split('\n')
+        formatted_lines = []
+        
+        for line in lines:
+            original_line = line
+            line = line.strip()
+            
+            if not line:
+                formatted_lines.append("")
+                continue
+            
+            # Skip lines that are already in code blocks
+            if line.startswith('```') or '```' in original_line:
+                formatted_lines.append(original_line)
+                continue
+            
+            # Convert hash symbols to HTML bold headers
+            if line.startswith('###'):
+                line = f"<strong>{line[3:].strip()}</strong>"
+            elif line.startswith('##'):
+                line = f"<strong>{line[2:].strip()}</strong>"
+            elif line.startswith('#'):
+                line = f"<strong>{line[1:].strip()}</strong>"
+            # Convert dashes to bullet points
+            elif line.startswith('- '):
+                line = f"• {line[2:]}"
+            elif re.match(r'^-+\s+', line):
+                content = re.sub(r'^-+\s+', '', line)
+                line = f"• {content}"
+            
+            # Convert **text** to HTML bold
+            line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', line)
+            
+            # Preserve original indentation
+            indent = len(original_line) - len(original_line.lstrip())
+            if indent > 0:
+                line = ' ' * indent + line
+            
+            formatted_lines.append(line)
+        
+        return '\n'.join(formatted_lines)
 
 # ✅ Wrap each function using StructuredTool
 tools = [
@@ -322,6 +613,18 @@ tools = [
         description="Perform analysis based on multiple criteria like flood risk, site suitability",
         func=suitability_analysis,
         args_schema=Analysis
+    ),
+    StructuredTool.from_function(
+        name="get_precipitation",
+        description="Fetch and download precipitation data for the bounding box",
+        func=get_precipitation,
+        args_schema=GetData
+    ),
+    StructuredTool.from_function(
+        name="get_temperature",
+        description="Fetch and download temperature data for the bounding box",
+        func=get_temperature,
+        args_schema=GetData
     )
 ]
 

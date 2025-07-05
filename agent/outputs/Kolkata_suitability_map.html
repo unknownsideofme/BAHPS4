@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_806e54af5b4756273e87315bbb9aa166 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    
+            
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_806e54af5b4756273e87315bbb9aa166" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_806e54af5b4756273e87315bbb9aa166 = L.map(
+                "map_806e54af5b4756273e87315bbb9aa166",
+                {
+                    center: [22.5342389021382, 88.34706240494464],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1397ae13d406dfc5d44861f5d337b03f = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1397ae13d406dfc5d44861f5d337b03f.addTo(map_806e54af5b4756273e87315bbb9aa166);
+        
+    
+            var image_overlay_1be972565001279bb719095e06c4c716 = L.imageOverlay(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAmCAYAAABpuqMCAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjguNCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8fJSN1AAAACXBIWXMAAA9hAAAPYQGoP6dpAAACS0lEQVR4nNVYMXLCMBBcZfKLmAdk8gBqZuzeBU3K0PIFSj6QgpaWhiK9M0MbP4AXEN6hNDlzFpItnWQ72YaxzMi32tPeSQoTQOur5s+f3x8AgDwrodSTks77GBdWGuRZCeBGSorJycQS4HhINpMnzBRLiVHJ2IhQiqXAaGSGVIQgdo5Q2Mi49ksxW4viGn3PDIlRyIyRYsCEynRZcnXZicgPTsalSpeLSR1uUDJExKZCX7GUqDNYB6D1VbsC7iMi7QoU0F6F2GYPaCuyqU4AgG2xaKWPb8AhNt0oQx9FcS9xCEGbItti0XpO2Y9xKB54Q8iAGQwHrZy5AOZcX2/vAMKIcFV9FLL+Yb5fNoF1EfEJJHYejj5CzpecUL06KhqzBbWpTq1gOZEUJDi6CHVac706KiJCzzRZyoDzrPSuLV2WLXItUshUhIPn+xCwKSQqmhRgX6D8fey5ZVOdWtnAtwFB3AG4nM8FiR3bvsFJzfdLXV12mlJP1AH4EDFVy7Myqr7Uq2NTRlzpHVXp+eTAePvDZgLFbK2iT5rSdj0Ets1eXXa6mK0V/QL/4KTpSmkiwIkmuQMYUp2QRjPZhYaNUIrCGkImSZpxI+hyulA7D72l6SdTPGtbgQJuPm+OEymzuPqowwnzGuIDb+Zm42kSpPaGP0tBC0G/vgoFyehSyCTCx2NgWm8fgg3ARagPvinGu/RQBBtAzMeGhqg3qw9nzF9f7O/YQc5nLum9sg1ia64P5/sx4yBnHu5cbYk0hjT4tWvp/iEC0xP5w/gBzDVfqsDcWmAAAAAASUVORK5CYII=",
+                [[22.448898950146845, 88.2325272062194], [22.619578854129553, 88.46159760366989]],
+                {
+  "opacity": 0.6,
+  "interactive": true,
+  "crossOrigin": false,
+  "zindex": 1,
+}
+            );
+        
+    
+            image_overlay_1be972565001279bb719095e06c4c716.addTo(map_806e54af5b4756273e87315bbb9aa166);
+        
+    
+            var layer_control_e05d598430d9eb2bc5f42148a7798d0b_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_1397ae13d406dfc5d44861f5d337b03f,
+                },
+                overlays :  {
+                    "Flood Risk (Clipped)" : image_overlay_1be972565001279bb719095e06c4c716,
+                },
+            };
+            let layer_control_e05d598430d9eb2bc5f42148a7798d0b = L.control.layers(
+                layer_control_e05d598430d9eb2bc5f42148a7798d0b_layers.base_layers,
+                layer_control_e05d598430d9eb2bc5f42148a7798d0b_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_806e54af5b4756273e87315bbb9aa166);
+
+        
+</script>
+</html>

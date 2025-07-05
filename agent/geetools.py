@@ -576,3 +576,77 @@ def visualise_map(
     m.save(output_html_path)
 
     print(f"✅ Map created: {output_html_path}")
+    
+    
+    
+def get_temperature (**kwargs):
+    input = GetData(**kwargs)
+    bbox = input.bbox
+    filepath = input.filepath
+    ee_auth() 
+    base_name = "downloads"
+    delete_drive_file(filepath)
+    bbox_geom = ee.Geometry.Rectangle(bbox)
+
+    
+    temp = ee.ImageCollection("ECMWF/ERA5_LAND/MONTHLY") \
+    .filterDate('1991-01-01', '2020-12-31') \
+    .select('temperature_2m') \
+    .mean().subtract(273.15)  
+    task = ee.batch.Export.image.toDrive(
+        image=temp.clip(bbox_geom),
+        description=f"{filepath}",
+        folder= 'EarthEngine',
+        fileNamePrefix=f"{filepath}",
+        region=bbox_geom , 
+        scale=500,
+        fileFormat='GeoTIFF',
+        maxPixels=1e9 
+    )
+    task.start()
+    if(task_status_view(task)):
+        # Wait for task to complete'
+        time.sleep(5)
+        download_from_drive(filepath+".tif", download_dir="downloads")
+        filepath = os.path.join(base_name, filepath + ".tif")
+        
+    return {"filepath": filepath}
+    
+
+
+def get_precipitation (**kwargs):
+    input = GetData(**kwargs)
+    bbox = input.bbox
+    filepath = input.filepath
+    ee_auth() 
+    base_name = "downloads"
+    delete_drive_file(filepath)
+    bbox_geom = ee.Geometry.Rectangle(bbox)
+
+    
+    precip = ee.ImageCollection("ECMWF/ERA5_LAND/MONTHLY") \
+    .filterDate('1991-01-01', '2020-12-31') \
+    .select('total_precipitation') \
+    .mean().multiply(1000)  
+    task = ee.batch.Export.image.toDrive(
+        image=precip.clip(bbox_geom),
+        description=f"{filepath}",
+        folder= 'EarthEngine',
+        fileNamePrefix=f"{filepath}",
+        region=bbox_geom , 
+        scale=500,
+        fileFormat='GeoTIFF',
+        maxPixels=1e9 
+    )
+    task.start()
+    if(task_status_view(task)):
+        # Wait for task to complete'
+        time.sleep(5)
+        download_from_drive(filepath+".tif", download_dir="downloads")
+        filepath = os.path.join(base_name, filepath + ".tif")
+        
+    return {"filepath": filepath}
+    
+
+
+
